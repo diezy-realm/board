@@ -4,6 +4,10 @@
 > Board ini adalah *single source of truth* bersama. Jangan menulis sesuka hati —
 > ikuti format di `TEMPLATES.md` dan alur di dokumen ini. Penulisan yang tidak
 > sesuai front-matter akan **ditolak validator**.
+>
+> **Landasan teknis & arah produk** (arsitektur, standar kode, ODR) ada di repo
+> `galleon-fleet` → baca `standard-docs/ONBOARDING.md` sebelum mengambil task
+> yang menyentuh kode. Board = pekerjaan berjalan; standard-docs = aturan baku.
 
 ---
 
