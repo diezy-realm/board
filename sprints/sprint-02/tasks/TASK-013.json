@@ -2,7 +2,7 @@
   "id": "TASK-013",
   "type": "task",
   "title": "T3-02 cron: api_config.rs (17 ref)",
-  "status": "blocked",
+  "status": "in-progress",
   "assignee": "agy",
   "source_spec": "",
   "source_backlog": "",
@@ -16,5 +16,6 @@
   "report": null,
   "author": "kirocrew",
   "created": "2026-10-17T08:24:00Z",
-  "updated": "2026-10-17T08:24:00Z"
+  "updated": "2026-10-17T09:19:56.331255+00:00",
+  "notes": "auto-unblock 2026-10-17T09:11: TASK-004 done+merged"
 }

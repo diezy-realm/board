@@ -114,6 +114,11 @@ def main():
         for f in sorted(BOARD.rglob("*")):
             if not f.is_file():
                 continue
+            # skip embedded git worktrees / build dirs (e.g. agy's *-wt, .git) —
+            # these are not board data and must not be validated.
+            parts = f.relative_to(BOARD).parts
+            if any(p == ".git" or p.endswith("-wt") for p in parts):
+                continue
             stage = f.parent.name
             if stage not in STAGES:
                 continue

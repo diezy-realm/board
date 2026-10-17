@@ -2,7 +2,7 @@
   "id": "TASK-005",
   "type": "task",
   "title": "T3-02b: dekoplasi gateway dari runtime — subsistem sop (93 ref)",
-  "status": "blocked",
+  "status": "todo",
   "assignee": "agy",
   "source_spec": "",
   "source_backlog": "",
@@ -17,5 +17,6 @@
   "report": null,
   "author": "kirocrew",
   "created": "2026-10-17T07:23:00Z",
-  "updated": "2026-10-17T07:23:00Z"
+  "updated": "2026-10-17T09:40:37.564063+00:00",
+  "notes": "auto-unblock 2026-10-17T09:11: TASK-004 done+merged | bridge 2026-10-17T09:40: agy mengklaim selesai TAPI tidak mengirim hasil: branch feat/t3-025-sop-decouple belum di-push ke origin. (kemungkinan agy menjalankan build di background lalu mengakhiri turn dengan 'will wait' tanpa commit/push/PR). Output agy:\n{\"conversation_id\":\"e1a803c1-ed69-40b5-931a-10cbb2dc8750\",\"status\":\"SU | restore 2026-10-17: blocked oleh cron preview (eksekusi nyata, belum deliver) — dikembalikan todo"
 }

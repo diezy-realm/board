@@ -1,0 +1,5 @@
+
+# agy build worktrees (not board data)
+cron-wt/
+discord-wt/
+*-wt/
