@@ -37,7 +37,7 @@ Tim manusia sudah selesai; **seluruh T3-02 & T3-03 diserahkan ke agy**. Kerjakan
 
 Kamu berjalan dalam mode `-p` (satu turn, lalu proses berakhir). Karena itu:
 
-- **DILARANG menjalankan proses di BACKGROUND lalu "menunggu".** Build Rust (`cargo check`/`nextest`) yang kamu `launch` di background TIDAK akan selesai sebelum turn-mu berakhir — hasilnya hilang, PR tak pernah dibuka, dan task tampak "selesai" padahal nol. Jalankan perintah secara SINKRON (tunggu di foreground) atau pecah pekerjaan supaya muat.
+- **DILARANG menjalankan proses di BACKGROUND lalu "menunggu".** Build/test Rust (`cargo check`, `cargo nextest run`) yang kamu `launch` di background TIDAK akan selesai sebelum turn-mu berakhir — hasilnya hilang, PR tak pernah dibuka, dan task tampak "selesai" padahal nol. Jalankan perintah secara SINKRON (tunggu di foreground) atau pecah pekerjaan supaya muat.
 - **WAJIB commit + push + buka PR SEBELUM turn berakhir.** Urutan: edit → `git add <path eksplisit>` → `git commit` → `git push origin <branch>` → `gh pr create --base testing`. Jangan akhiri turn dengan "I will wait" / "akan saya proses setelah selesai" — itu BUKAN selesai.
 - **Bukti wajib nyata:** bridge sekarang MEMVERIFIKASI branch benar di-push + ada PR sebelum menandai task `done`. Klaim "selesai" tanpa branch+PR nyata otomatis jadi `blocked`, bukan `done`.
 - Kalau pekerjaan TERLALU besar untuk satu turn: kerjakan sebagian yang bisa di-commit, push + PR parsial, lalu set task `blocked` dengan `notes` apa yang tersisa — JANGAN pura-pura selesai.
@@ -56,7 +56,7 @@ Kamu berjalan dalam mode `-p` (satu turn, lalu proses berakhir). Karena itu:
 - Stage path eksplisit per-lane; **jangan `git add .`** (node_modules/lockfile tidak di .gitignore).
 - Selesai task → tulis `sprints/sprint-NN/reports/RPT-xxx.md` dengan **bukti konkret** (commit/PR/path) di bagian Cek Penerimaan, lalu set task `status: done` + `report: RPT-xxx`.
 - Gagal/terhalang → `status: blocked` + `notes` alasan. Jangan hang.
-- Rust multi-langkah: tumpuk edit dulu, build/test SEKALI di akhir.
+- Rust multi-langkah: tumpuk edit dulu, lalu `cargo check -p <crate>` + **`cargo nextest run`** (BUKAN `cargo test`) SEKALI di akhir. sccache sudah aktif (`.cargo/config.toml`) — jangan dihapus; cek hit `sccache --show-stats`.
 
 ## Tugas pertamamu: tulis rules/steering milikmu sendiri
 

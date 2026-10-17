@@ -2,7 +2,7 @@
   "id": "TASK-004",
   "type": "task",
   "title": "T3-02 cron: agent_owned_state.rs (3 ref)",
-  "status": "todo",
+  "status": "done",
   "assignee": "agy",
   "source_spec": "",
   "source_backlog": "",
@@ -13,8 +13,8 @@
     "CI dicek via gh pr checks; hijau atau blocker dicatat",
     "RPT-* bukti nyata"
   ],
-  "report": null,
+  "report": "RPT-006",
   "author": "kirocrew",
   "created": "2026-10-17T08:24:00Z",
-  "updated": "2026-10-17T08:24:00Z"
+  "updated": "2026-10-17T08:54:49.774017+00:00"
 }
