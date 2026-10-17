@@ -27,9 +27,10 @@ import json, os, re, shutil, time
 from pathlib import Path
 
 HOME = Path.home()
-# State + token snapshots live PRIVATE, outside the board: the board is served
-# over a tailnet web server, and OAuth tokens must never be web-reachable.
-ACCT_DIR = HOME / ".kiro" / "crew" / "agy-accounts"
+# State + token snapshots live in ~/Apps/credentials/agy (dedicated, mode 700,
+# NOT git-tracked, NOT served by the board web server). OAuth tokens must never
+# be web-reachable, so they are kept out of the tailnet-served board tree.
+ACCT_DIR = HOME / "Apps" / "credentials" / "agy"
 LIVE_TOKEN = HOME / ".gemini" / "antigravity-cli" / "antigravity-oauth-token"
 STATE = ACCT_DIR / "state.json"
 UNMATCHED_LOG = ACCT_DIR / "unmatched-errors.log"

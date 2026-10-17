@@ -20,7 +20,7 @@ if ! [[ "$N" =~ ^[0-9]+$ ]]; then
 fi
 
 LIVE="$HOME/.gemini/antigravity-cli/antigravity-oauth-token"
-DIR="$HOME/.kiro/crew/agy-accounts"
+DIR="$HOME/Apps/credentials/agy"
 DEST="$DIR/acct${N}.json"
 
 if [[ ! -f "$LIVE" ]]; then
@@ -34,6 +34,7 @@ if ! python3 -c "import json,sys; d=json.load(open('$LIVE')); assert 'token' in 
 fi
 
 mkdir -p "$DIR"
+  chmod 700 "$DIR" 2>/dev/null || true
 cp -p "$LIVE" "$DEST"
 chmod 600 "$DEST"
 echo "✓ snapshot akun $N tersimpan: $DEST"
