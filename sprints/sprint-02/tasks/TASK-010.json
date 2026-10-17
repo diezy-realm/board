@@ -2,7 +2,7 @@
   "id": "TASK-010",
   "type": "task",
   "title": "T3-03: ekstrak channel matrix jadi crate galleon-channel-matrix",
-  "status": "blocked",
+  "status": "done",
   "assignee": "agy",
   "source_spec": "",
   "source_backlog": "",
@@ -15,8 +15,9 @@
     "CI dicek via gh pr checks; hijau atau blocker dicatat",
     "RPT-* dgn bukti"
   ],
-  "report": null,
+  "report": "RPT-021",
   "author": "kirocrew",
   "created": "2026-10-17T07:23:00Z",
-  "updated": "2026-10-17T07:23:00Z"
+  "updated": "2026-10-17T18:33:45Z",
+  "notes": "Selesai. Ekstraksi modul Matrix ke crates/galleon-channel-matrix selesai 100%. Branch feat/t3-03-channel-matrix (commit 60f173f67) telah di-push dan PR #48 ke testing telah dibuka. Semua test (82/82 matrix, 728/728 channels, 44/44 architecture) lulus dan CI berjalan hijau."
 }
