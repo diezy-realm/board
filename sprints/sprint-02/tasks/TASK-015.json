@@ -1,0 +1,23 @@
+{
+  "id": "TASK-015",
+  "type": "task",
+  "title": "agy self-healthcheck: auto-kill sub-agent hang/zombie tiap 30m (dibuat agy sendiri)",
+  "status": "done",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "META-TASK (bukan task kode galleon-fleet, TIDAK ada branch/PR). Buat healthcheck liveness untuk SUB-AGENT yang KAMU (agy) spawn sendiri, yang auto-kill proses sub-agent menggantung/zombie tiap 30 menit. WAJIB dibuat SEBAGAI environment/steering/cron milik agy sendiri (sidecar.json builtin 'schedule' di ~/.gemini/jetski/sidecars/<slug>/, dan/atau steering ~/.gemini/GEMINI.md + skill agy), BUKAN cron systemd eksternal. ALASAN OWNER: healthcheck eksternal (systemd) buta konteks dan bisa membunuh run agy yang masih sehat; agy harus kelola liveness-nya dari DALAM.\n\nPRINSIP KERAS (keputusan Owner): PARENT agy JANGAN PERNAH di-kill — parent harus terus berjalan tanpa batas waktu. Yang di-kill HANYA proses SUB-AGENT/child yang zombie/hang. Membunuh parent berdasarkan wall-clock = mengulang bug timeout yang sudah dihapus; DILARANG. Cron/loop agy hanyalah OBSERVER independen yang me-reap child mati; mematikan child yang zombie secara otomatis MENGEMBALIKAN kontrol ke parent (wait() parent pada child itu selesai) TANPA menyentuh parent.\n\nTARGET yang di-kill = HANYA proses sub-agent/background-task CHILD yang KAMU spawn (lewat SDK/agentapi/run-workflow subagent) yang zombie/hang. BUKAN proses parent agy, BUKAN proses bridge board_agy_bridge.py.\n\nATURAN KILL (A + C, keputusan Owner):\n- A (child no-progress 30m): sebuah proses SUB-AGENT (child) masih hidup TAPI tidak ada progres 30 menit (tidak return hasil, tidak ada output/commit/perubahan file baru dari child itu) -> kill proses CHILD itu saja. Parent otomatis lanjut karena wait()-nya pada child selesai. JANGAN sentuh parent. JANGAN kill child yang masih maju (ada output/commit baru) walau >30m.\n- C (zombie OS): proses CHILD <defunct>/zombie, atau orphan, atau tak punya child-nya sendiri & CPU 0% tanpa progres -> reap/kill child itu.\n\nLANGKAH:\n1. KEDEPANKAN FAKTA: cek dulu bagaimana kamu meng-spawn sub-agent (SDK antigravity_guide/references/sdk.md, agentapi, run-workflow) + bagaimana mendapatkan PID child + sinyal progres per child (return value, output stream, file/commit activity). Dokumentasikan temuan.\n2. Buat mekanisme healthcheck 30m (sidecar schedule '*/30 * * * *' atau loop milik agy) yang: enumerate CHILD sub-agent yang kamu spawn -> untuk tiap satu, evaluasi rule A + C -> kill HANYA child yang memenuhi + catat log (PID child, alasan, umur, bukti no-progress). Parent tak pernah masuk daftar kill.\n3. Pastikan AMAN: hanya menyentuh proses CHILD sub-agent (match by ppid = PID parent agy, atau tag/slug sub-agent). JANGAN parent, JANGAN proses bridge, JANGAN run sehat yang masih maju. Verifikasi target BUKAN parent sebelum kill.\n4. Tulis steering/skill agy supaya aturan ini melekat lintas sesi (termasuk prinsip 'jangan kill parent').\n5. Test: (a) spawn satu CHILD sub-agent yang sengaja hang (sleep lama tanpa output) -> buktikan healthcheck mendeteksi + kill CHILD setelah 30m (pakai ambang kecil utk tes lalu kembalikan ke 30m) + parent TETAP hidup + log benar; (b) buktikan child SEHAT (ada progres) TIDAK di-kill; (c) buktikan parent TIDAK PERNAH di-kill dalam skenario apa pun.\n\nLapor RPT-* dengan bukti: path sidecar.json/steering/skill, hasil tes (kill child vs no-kill vs parent-selamat), log. Set done.",
+  "acceptance": [
+    "Healthcheck dibuat sebagai environment/steering/cron MILIK agy (sidecar.json / GEMINI.md / skill agy), BUKAN cron systemd eksternal",
+    "PARENT agy TIDAK PERNAH di-kill dalam skenario apa pun; yang di-kill hanya proses CHILD sub-agent yang zombie/hang",
+    "Target = CHILD sub-agent agy; rule A (child no-progress 30m) + rule C (zombie/orphan OS) terimplementasi; kill child meng-unblock parent tanpa menyentuhnya",
+    "Hanya menyentuh CHILD milik agy sendiri; terbukti TIDAK membunuh parent, run sehat yang masih maju, atau proses bridge",
+    "Tes: child hang -> ter-kill + parent tetap hidup + log benar; child sehat -> tidak di-kill; parent -> tak pernah di-kill",
+    "RPT-* dengan path artefak + hasil tes + log"
+  ],
+  "report": "RPT-015",
+  "author": "kirocrew",
+  "created": "2026-10-17T18:11:00Z",
+  "updated": "2026-10-17T19:09:30Z",
+  "notes": "Keputusan Owner 2026-10-17: healthcheck liveness sub-agent harus dibuat & dijalankan OLEH agy dari dalam (self-managed), bukan systemd eksternal. PRINSIP KERAS: parent agy JANGAN PERNAH di-kill (itu = bug timeout lama); hanya CHILD sub-agent zombie/hang yang di-reap, yang otomatis meng-unblock parent. Aturan A (child no-progress 30m) + C (zombie OS). Tidak ada branch/PR (meta-task environment agy)."
+}
