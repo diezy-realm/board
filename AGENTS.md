@@ -15,6 +15,11 @@ run — protokol di bawah berlaku baik saat sesi bersih (`-p`, satu task satu ru
 tersimpan (`-c`, lanjutan). Jangan mengandalkan ingatan sesi; selalu baca ulang status tiket
 dari file sebelum bertindak.
 
+> **Keputusan Owner 2026-10-17:** bridge otomatis (`board-agy-bridge`, tiap 5m) menjalankan task
+> dengan **`-p` (sesi bersih)** — deterministik & idempoten, satu task satu run, tanpa kebocoran
+> state antar-task. Alias `agy-turbo -c` (sesi tersimpan) **hanya untuk pemakaian manual** Owner,
+> bukan untuk bridge. Jangan ubah bridge ke `-c`.
+
 ## WAJIB sebelum mengerjakan task (urutan)
 
 1. **Baca sprint aktif dulu:** `sprints/sprint-02/SPRINT.md` — goal + status 31 tiket (T3-01..T3-28) + peta dependency.
