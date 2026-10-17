@@ -19,7 +19,8 @@ Sprint ini adalah kelanjutan **Dev Task 3** yang sebelumnya hidup di
 `reference/` di sprint ini:
 
 - `reference/dev-task-3/README.md` — konsolidasi 31 tiket (T3-01..T3-28) + status implementasi per tiket + peta dependency.
-- `reference/dev-task-2/` — lapisan rekonsiliasi (9 sprint, DoD, finding, ci-infra-fix, RULES) yang **sudah diserap** dev-task-3. Dibawa utuh sebagai jejak sumber; **jangan audit ulang** sebagai sumber independen (lihat `reference/dev-task-3/README.md §Asumsi`).
+- `reference/dev-task-2-RULES.md` — 8 aturan kerja (lahir dari insiden dev-task-2) yang **masih mengikat** kerja sprint ini.
+- `../../archive/dev-task-2/` — lapisan rekonsiliasi (9 sprint, DoD, finding, ci-infra-fix) yang **sudah diserap** dev-task-3 dan sprint-nya **sudah selesai**. Diarsipkan sebagai jejak sumber; **jangan audit ulang** sebagai sumber independen (lihat `reference/dev-task-3/README.md §Asumsi`).
 
 Mulai 2026-10-17, **board/ adalah SSOT kerja aktif** untuk task-task ini. Lihat
 `reference/ONBOARDING-agy.md` untuk cara agy mengerjakannya.
