@@ -1,0 +1,20 @@
+{
+  "id": "TASK-003",
+  "type": "task",
+  "title": "Buat global steering/rules agy untuk kerja dari board",
+  "status": "todo",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "Kamu, agy, diminta MENULIS SENDIRI berkas rules/global-steering yang merekam protokol kerjamu di papan ini, supaya pengetahuan ini melekat lintas sesi (bukan hanya di AGENTS.md board). LANGKAH: (1) Baca dulu ~/Apps/board/AGENTS.md, ~/Apps/board/RULES.md, ~/Apps/board/TEMPLATES.md, dan sprints/sprint-02/SPRINT.md + sprints/sprint-02/reference/dev-task-3/README.md agar paham alur + task aktif. (2) Tulis berkas steering milikmu — pilih lokasi yang benar untuk Antigravity: global agy (mis. ~/.gemini/ sebagai GEMINI.md/rules global) ATAU GEMINI.md di root board bila itu yang di-auto-load Antigravity dari cwd. Verifikasi dulu mekanisme auto-load Antigravity yang sebenarnya (cek dokumentasi/`agy --help`/perilaku), jangan asumsi. (3) Isi steering (ringkas, actionable): WAJIB baca sprint aktif + reference dev-task-3 sebelum eksekusi; cek status/dependency tiket (blocked = jangan kerjakan); verifikasi fakta di kode bukan status dokumen; branch testing->feat/{tiket}-xxxx, PR ke testing, jangan push langsung; stage path eksplisit (jangan git add .); selesai -> tulis RPT-* dengan bukti lalu set task done; gagal -> blocked + notes. (4) JANGAN menimpa/menghapus steering galleon-fleet yang sudah ada; buat berkas agy-mu sendiri. (5) Tulis report RPT-* berisi: path berkas steering yang kamu buat, isinya ringkas, dan bukti mekanisme auto-load yang kamu verifikasi.",
+  "acceptance": [
+    "Berkas rules/steering agy dibuat di lokasi yang BENAR untuk auto-load Antigravity (dibuktikan, bukan diasumsikan) — path dicatat di report",
+    "Isi steering mencakup: baca sprint aktif + reference dulu, cek dependency/blocked, verifikasi fakta di kode, aturan branch/PR, aturan report+status",
+    "Tidak menimpa steering galleon-fleet yang sudah ada",
+    "RPT-* ditulis dengan path berkas + bukti mekanisme auto-load + ringkasan isi"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-17T07:00:00Z",
+  "updated": "2026-10-17T07:00:00Z"
+}
