@@ -1,0 +1,19 @@
+[Unit]
+Description=Board -> agy bridge (standalone, no KiroCrew gateway)
+# Needs the network up to push branches / open PRs via gh.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+# One poll of the board. The timer re-triggers this every 5 minutes.
+ExecStart=/usr/bin/env python3 %h/Apps/board/tools/agy-bridge/run_standalone.py
+# A single agy run is bounded inside the bridge (PER_TASK_TIMEOUT=1500s); give
+# the whole poll generous headroom but never let a wedged run block the timer.
+TimeoutStartSec=1700
+# agy needs HOME + PATH for ~/.local/bin/agy and gh.
+Environment=HOME=%h
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=default.target

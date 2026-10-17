@@ -1,0 +1,13 @@
+[Unit]
+Description=Run the board -> agy bridge every 5 minutes (standalone)
+
+[Timer]
+# First run ~1 min after boot/login, then every 5 minutes.
+OnBootSec=1min
+OnUnitActiveSec=5min
+# If the machine was asleep/off at a scheduled tick, run once on resume.
+Persistent=true
+Unit=agy-bridge.service
+
+[Install]
+WantedBy=timers.target
