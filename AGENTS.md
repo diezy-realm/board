@@ -41,6 +41,7 @@ Kamu berjalan dalam mode `-p` (satu turn, lalu proses berakhir). Karena itu:
 - **WAJIB commit + push + buka PR SEBELUM turn berakhir.** Urutan: edit → `git add <path eksplisit>` → `git commit` → `git push origin <branch>` → `gh pr create --base testing`. Jangan akhiri turn dengan "I will wait" / "akan saya proses setelah selesai" — itu BUKAN selesai.
 - **Bukti wajib nyata:** bridge sekarang MEMVERIFIKASI branch benar di-push + ada PR sebelum menandai task `done`. Klaim "selesai" tanpa branch+PR nyata otomatis jadi `blocked`, bukan `done`.
 - Kalau pekerjaan TERLALU besar untuk satu turn: kerjakan sebagian yang bisa di-commit, push + PR parsial, lalu set task `blocked` dengan `notes` apa yang tersisa — JANGAN pura-pura selesai.
+- **LOKASI KERJA KODE: `~/Apps/galleon-fleet` langsung.** Kamu dipanggil dengan cwd `~/Apps/board`, tapi SEMUA perubahan kode Rust/Go/web dikerjakan di `~/Apps/galleon-fleet` (checkout branch di sana: `git -C ~/Apps/galleon-fleet checkout -B feat/...`). **DILARANG `git worktree add` di dalam `~/Apps/board/`** — itu mencemari data board + validator. Satu agy per wake (serial), jadi checkout branch biasa cukup, tak perlu worktree. Kalau benar butuh worktree, taruh di `$KIROCREW_SCRATCH`, bukan di board.
 
 ## WAJIB sebelum mengerjakan task (urutan)
 
