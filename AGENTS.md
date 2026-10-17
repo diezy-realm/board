@@ -33,6 +33,15 @@ Tim manusia sudah selesai; **seluruh T3-02 & T3-03 diserahkan ke agy**. Kerjakan
 7. **Sequencing:** sub-task yang menyentuh crate/berkas yang sama (mis. semua T3-02 di `clawcrew-gateway`, atau lib.rs channel) dibuat berantai — yang berikutnya `blocked` sampai pendahulunya **MERGED**, supaya tidak konflik. Cek prasyarat di field task sebelum mulai.
 8. **Lapor:** tiap sub-task selesai → `RPT-*` dengan bukti konkret (nomor PR, hasil grep/test, status CI), set `status: done` + `report: RPT-*`.
 
+## ATURAN KERAS eksekusi (ditetapkan 2026-10-17 setelah 'done' palsu)
+
+Kamu berjalan dalam mode `-p` (satu turn, lalu proses berakhir). Karena itu:
+
+- **DILARANG menjalankan proses di BACKGROUND lalu "menunggu".** Build Rust (`cargo check`/`nextest`) yang kamu `launch` di background TIDAK akan selesai sebelum turn-mu berakhir — hasilnya hilang, PR tak pernah dibuka, dan task tampak "selesai" padahal nol. Jalankan perintah secara SINKRON (tunggu di foreground) atau pecah pekerjaan supaya muat.
+- **WAJIB commit + push + buka PR SEBELUM turn berakhir.** Urutan: edit → `git add <path eksplisit>` → `git commit` → `git push origin <branch>` → `gh pr create --base testing`. Jangan akhiri turn dengan "I will wait" / "akan saya proses setelah selesai" — itu BUKAN selesai.
+- **Bukti wajib nyata:** bridge sekarang MEMVERIFIKASI branch benar di-push + ada PR sebelum menandai task `done`. Klaim "selesai" tanpa branch+PR nyata otomatis jadi `blocked`, bukan `done`.
+- Kalau pekerjaan TERLALU besar untuk satu turn: kerjakan sebagian yang bisa di-commit, push + PR parsial, lalu set task `blocked` dengan `notes` apa yang tersisa — JANGAN pura-pura selesai.
+
 ## WAJIB sebelum mengerjakan task (urutan)
 
 1. **Baca sprint aktif dulu:** `sprints/sprint-02/SPRINT.md` — goal + status 31 tiket (T3-01..T3-28) + peta dependency.

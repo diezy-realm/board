@@ -13,8 +13,9 @@
     "Steering galleon-fleet tidak disentuh; GEMINI.md tetap auto-load (dibuktikan)",
     "RPT-* ditulis dgn ringkasan tambahan + bukti auto-load"
   ],
-  "report": "RPT-004",
+  "report": "RPT-005",
   "author": "kirocrew",
   "created": "2026-10-17T07:23:00Z",
-  "updated": "2026-10-17T08:17:15Z"
+  "updated": "2026-10-17T08:17:44.627761+00:00",
+  "notes": "verified 2026-10-17: GEMINI.md benar memuat protokol bertahap (seksi 7). Task non-PR (file edit), delivered nyata."
 }
