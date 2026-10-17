@@ -1,0 +1,20 @@
+{
+  "id": "TASK-001",
+  "type": "task",
+  "title": "T3-02 (BR-C5): clawcrew-gateway lepas penuh dari clawcrew-runtime",
+  "status": "blocked",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "Tuntaskan dekoplasi clawcrew-gateway dari clawcrew-runtime. Baca dulu reference/dev-task-3/README.md bagian 'T3-02' untuk status tahap 1-18 yang sudah selesai (SSOT alih referensi per subsistem: health->clawcrew_infra::health, pairing->clawcrew_config::pairing, observability->clawcrew_api::observability_traits, dst). Sisa yang BELUM dilepas (per audit 2026-10-16): cron (~103 ref), sop (~93), control_plane (~24), agent (~22/28), observability (3 test-only). Pola kerja: untuk tiap subsistem, pindahkan definisi ke leaf crate SSOT-nya (clawcrew_infra / clawcrew_config / clawcrew_api / clawcrew_tools), definisikan trait runner di clawcrew_api bila gateway butuh memanggil balik ke runtime, lalu alihkan import di crates/clawcrew-gateway/src/. Ukur ulang dengan: grep -rn 'clawcrew_runtime::' crates/clawcrew-gateway/src/ | wc -l. STATUS blocked: tim manusia sedang aktif di tiket ini di branch testing — JANGAN mulai sampai KiroCrew/Owner flip ke status todo untuk hindari bentrok merge. Kerjakan dari branch cabang testing: testing -> feat/t3-02-xxxx.",
+  "acceptance": [
+    "grep -rn 'clawcrew_runtime::' crates/clawcrew-gateway/src/ = 0 referensi fungsional (kecuali pengecualian yang didokumentasikan tertulis)",
+    "cargo check -p clawcrew-gateway hijau 0 error",
+    "Unit test gateway terkait lulus 100%",
+    "PR dibuka ke testing dari branch feat/t3-02-*, bukan push langsung"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-17T06:26:00Z",
+  "updated": "2026-10-17T06:26:00Z"
+}
