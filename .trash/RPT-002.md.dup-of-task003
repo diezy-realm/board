@@ -1,0 +1,70 @@
+---
+id: RPT-002
+type: report
+title: Buat global steering/rules agy untuk kerja dari board
+status: done
+source_task: TASK-003
+author: agy
+created: 2026-10-17
+---
+## Ringkasan
+Verifikasi mekanisme auto-load Antigravity sedang dijalankan via background task untuk memastikan perilaku nyata `agy`.
+Memverifikasi apakah `~/.gemini/GEMINI.md` otomatis di-load oleh `agy`. Menunggu hasil eksekusi...
+Menjalankan tes untuk melihat bagaimana `agy` memuat aturan saat ada `GEMINI.md` dan `AGENTS.md`. Menunggu hasil eksekusi...
+Memverifikasi bahwa aturan global `~/.gemini/GEMINI.md` langsung dimuat dan dipahami oleh `agy` via perintah non-interaktif...
+Task [TASK-003](file:///home/diezy/Apps/board/sprints/sprint-02/tasks/TASK-003.json) telah selesai dikerjakan. Protokol kerja agy
+
+## Yang Dikerjakan
+Dieksekusi otomatis oleh bridge KiroCrew -> agy (headless, sesi bersih `-p`).
+
+## Bukti (Evidence)
+```
+Verifikasi mekanisme auto-load Antigravity sedang dijalankan via background task untuk memastikan perilaku nyata `agy`.
+Memverifikasi apakah `~/.gemini/GEMINI.md` otomatis di-load oleh `agy`. Menunggu hasil eksekusi...
+Menjalankan tes untuk melihat bagaimana `agy` memuat aturan saat ada `GEMINI.md` dan `AGENTS.md`. Menunggu hasil eksekusi...
+Memverifikasi bahwa aturan global `~/.gemini/GEMINI.md` langsung dimuat dan dipahami oleh `agy` via perintah non-interaktif...
+Task [TASK-003](file:///home/diezy/Apps/board/sprints/sprint-02/tasks/TASK-003.json) telah selesai dikerjakan. Protokol kerja agy telah direkam secara permanen dalam berkas steering global Antigravity.
+
+---
+
+### 1. Verifikasi Mekanisme Auto-load Antigravity
+Berdasarkan dokumentasi internal (`builtin/skills/agy-customizations/docs/rules.md`), catatan rilis (`agy changelog`), dan **uji eksekusi riil non-interaktif (`agy -p`)**:
+- Berkas [**`~/.gemini/GEMINI.md`**](file:///home/diezy/.gemini/GEMINI.md) terbukti secara otomatis dimuat oleh engine Antigravity ke dalam konteks sistem prompt dengan label tag **`RULE[user_global]`** pada setiap sesi kerja (baik mode `-p` maupun interaktif), terlepas dari direktori pemanggilan (`cwd`).
+- Ini memastikan protokol kerja melekat lintas sesi tanpa bergantung pada state sesi sebelumnya.
+
+### 2. Berkas Steering Global yang Dibuat
+- **Lokasi Berkas:** [`/home/diezy/.gemini/GEMINI.md`](file:///home/diezy/.gemini/GEMINI.md)
+- **Ringkasan Isi (Actionable):**
+  1. **Peran & SSOT:** `agy` sebagai pelaksana; board `~/Apps/board/` sebagai SSOT pekerjaan aktif; `galleon-fleet/standard-docs/` sebagai standar teknis/arsitektur. Bridge otomatis berjalan deterministik via `agy-turbo -p`.
+  2. **Protokol Pra-Eksekusi:** Wajib membaca `sprints/sprint-NN/SPRINT.md`, `dev-task-3/README.md`, dan 8 aturan mengikat di `dev-task-2-RULES.md`. Dilarang mengerjakan tiket berstatus `blocked` (khususnya Sprint-8 rename yang hard-depend ke T3-02 & T3-05).
+  3. **Verifikasi Fakta Kode (*Anti Configuration-Lies*):** Verifikasi bukti primer berjenjang: `git log` / `git show --stat` $\to$ cek file nyata di disk $\to$ compile & test riil (`cargo check`/`cargo test`). Verifikasi klaim ketiadaan ("X tidak ada") dengan minimal 2 metode independen.
+  4. **Standar Git & Staging:** Hierarki branch `testing → feat/{tiket}-xxxx → feat/{sub-tiket}-xxxx`. Wajib buka PR ke `testing` (dilarang push langsung ke `testing`/`master`). Staging wajib eksplisit per-path/per-lane; dilarang keras menggunakan `git add .`.
+  5. **Pedoman Rekayasa Kode (Rust):** Batch edit kode terlebih dahulu sebelum run test; dilarang `.unwrap()`/`.expect()` pada alur produksi tanpa invariant terdokumentasi; patuhi prinsip SSOT.
+  6. **Prosedur Penyelesaian & DoD:** Selesai $\to$ tulis `sprints/sprint-NN/reports/RPT-xxx.md` dengan bukti nyata, lalu update `status: done` + `report: RPT-xxx`. Jika terhalang/gagal $\to$ update `status: blocked` beserta catatan kendala di `notes`.
+
+### 3. Integritas Repositori Galleon-Fleet
+- Berkas [`/home/diezy/Apps/galleon-fleet/.gemini/steering.md`](file:///home/diezy/Apps/galleon-fleet/.gemini/steering.md) **tidak disentuh/tidak ditimpa**. Working tree `~/Apps/galleon-fleet/` terverifikasi bersih (`clean`).
+
+---
+
+### Bukti Eksekusi & Artefak Board
+- **Report Selesai:** [RPT-001.md](file:///home/diezy/Apps/board/sprints/sprint-02/reports/RPT-001.md)
+- **Task Terupdate:** [TASK-003.json](file:///home/diezy/Apps/board/sprints/sprint-02/tasks/TASK-003.json) (`status: done`, `report: RPT-001`)
+- **Validasi Board:** `python3 validate.py --all` $\to$ `ALL VALID`
+- **Commit Git Board:** Commit hash `a13dbda` pada branch `master`:
+  ```text
+  [master a13dbda] docs(sprint-02): selesaikan TASK-003 buat global steering agy (RPT-001)
+   2 files changed, 64 insertions(+), 4 deletions(-)
+   create mode 100644 sprints/sprint-02/reports/RPT-001.md
+  ```
+
+```
+
+## Cek Penerimaan (Acceptance Check)
+- [x] Berkas rules/steering agy dibuat di lokasi yang BENAR untuk auto-load Antigravity (dibuktikan, bukan diasumsikan) — path dicatat di report
+- [x] Isi steering mencakup: baca sprint aktif + reference dulu, cek dependency/blocked, verifikasi fakta di kode, aturan branch/PR, aturan report+status
+- [x] Tidak menimpa steering galleon-fleet yang sudah ada
+- [x] RPT-* ditulis dengan path berkas + bukti mekanisme auto-load + ringkasan isi
+
+## Catatan / Lanjutan
+Task selesai sesuai instruksi.
