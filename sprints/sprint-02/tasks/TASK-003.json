@@ -2,7 +2,7 @@
   "id": "TASK-003",
   "type": "task",
   "title": "Buat global steering/rules agy untuk kerja dari board",
-  "status": "todo",
+  "status": "done",
   "assignee": "agy",
   "source_spec": "",
   "source_backlog": "",
@@ -13,8 +13,8 @@
     "Tidak menimpa steering galleon-fleet yang sudah ada",
     "RPT-* ditulis dengan path berkas + bukti mekanisme auto-load + ringkasan isi"
   ],
-  "report": null,
+  "report": "RPT-001",
   "author": "kirocrew",
   "created": "2026-10-17T07:00:00Z",
-  "updated": "2026-10-17T07:00:00Z"
+  "updated": "2026-10-17T07:09:00Z"
 }
