@@ -20,6 +20,19 @@ dari file sebelum bertindak.
 > state antar-task. Alias `agy-turbo -c` (sesi tersimpan) **hanya untuk pemakaian manual** Owner,
 > bukan untuk bridge. Jangan ubah bridge ke `-c`.
 
+## Protokol eksekusi bertahap (WAJIB — ditetapkan Owner 2026-10-17)
+
+Tim manusia sudah selesai; **seluruh T3-02 & T3-03 diserahkan ke agy**. Kerjakan BERTAHAP, menyeluruh, dengan fakta kode sebagai acuan:
+
+1. **Satu sub-task = satu concern = satu PR.** Jangan gabung banyak subsistem/channel dalam satu PR.
+2. **Kerjakan MENYELURUH** sub-task itu sampai DoD-nya (mis. subsistem `cron` sampai 0 ref, bukan separuh) — bukan berhenti di tengah.
+3. **Kedepankan fakta codebase:** ukur sebelum/sesudah dengan grep/cargo nyata; verifikasi klaim ketiadaan ("0 ref") dengan perintah, bukan asumsi.
+4. **Selesai → buka PR ke `testing`** (`gh pr create --base testing --head feat/...`).
+5. **CEK CI GitHub** setelah PR: `gh pr checks <nomor>`. Kalau **ada yang merah/gagal** → baca log, **perbaiki di branch yang sama**, push lagi, cek ulang CI **sampai hijau**. Kalau tak bisa hijau (blocker nyata) → set task `blocked` + `notes` alasan konkret, jangan paksakan merge.
+6. **Jangan merge sendiri** PR ke `testing` — biarkan untuk review/merge Owner/KiroCrew. Tugas agy: PR hijau + lapor.
+7. **Sequencing:** sub-task yang menyentuh crate/berkas yang sama (mis. semua T3-02 di `clawcrew-gateway`, atau lib.rs channel) dibuat berantai — yang berikutnya `blocked` sampai pendahulunya **MERGED**, supaya tidak konflik. Cek prasyarat di field task sebelum mulai.
+8. **Lapor:** tiap sub-task selesai → `RPT-*` dengan bukti konkret (nomor PR, hasil grep/test, status CI), set `status: done` + `report: RPT-*`.
+
 ## WAJIB sebelum mengerjakan task (urutan)
 
 1. **Baca sprint aktif dulu:** `sprints/sprint-02/SPRINT.md` — goal + status 31 tiket (T3-01..T3-28) + peta dependency.

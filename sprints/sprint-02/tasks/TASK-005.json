@@ -1,0 +1,21 @@
+{
+  "id": "TASK-005",
+  "type": "task",
+  "title": "T3-02b: dekoplasi gateway dari runtime — subsistem sop (93 ref)",
+  "status": "blocked",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "BAGIAN b dari 5 pemecahan T3-02 (BR-C5). Lepaskan clawcrew-gateway dari clawcrew_runtime::sop (93 ref). KEDEPANKAN FAKTA KODE: ukur 'grep -rn clawcrew_runtime::sop crates/clawcrew-gateway/src/ | wc -l' sebelum & sesudah. POLA sama tahap 1-18 di reference/dev-task-3/README.md T3-02: pindahkan definisi ke leaf crate SSOT (clawcrew_infra/config/api/tools sesuai domain), trait runner di clawcrew_api bila perlu callback ke runtime, alihkan import gateway. KERJAKAN MENYELURUH subsistem sop sampai 0 ref. VERIFIKASI cargo check -p clawcrew-gateway hijau + test. BRANCH: testing -> feat/t3-025-sop-decouple. PR ke testing, lalu gh pr checks <nomor> — merah? perbaiki di branch sama, push, cek ulang sampai hijau atau catat blocker. Selesai -> RPT-* (PR, grep 0 ref, CI), set done. PRASYARAT: TASK-004 harus MERGED dulu (hindari konflik di crate gateway yang sama) — kalau TASK-004 belum merged, biarkan blocked.",
+  "acceptance": [
+    "grep clawcrew_runtime::sop di gateway = 0 ref",
+    "cargo check -p clawcrew-gateway hijau + test lulus",
+    "PR ke testing dari feat/t3-025-sop-decouple",
+    "CI dicek via gh pr checks; hijau atau blocker dicatat",
+    "RPT-* dgn bukti"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-17T07:23:00Z",
+  "updated": "2026-10-17T07:23:00Z"
+}

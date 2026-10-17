@@ -1,21 +1,18 @@
 {
   "id": "TASK-002",
   "type": "task",
-  "title": "T3-03 (BR-C6): pecah clawcrew-channels monolith jadi crate galleon-channel-* per channel",
+  "title": "T3-03 (BR-C6) EPIC: pecah channels — dipecah per-channel",
   "status": "blocked",
-  "assignee": "agy",
+  "assignee": "kirocrew",
   "source_spec": "",
   "source_backlog": "",
-  "description": "Lanjutkan ekstraksi channel dari monolith clawcrew-channels (~198k LOC) menjadi satu crate galleon-channel-<nama> per channel, mengikuti pola RF-B1 yang sudah dipakai. Baca reference/dev-task-3/README.md bagian 'T3-03' untuk daftar channel yang SUDAH diekstrak (core, signal, bluesky, imessage, irc, nostr, twitch, dingtalk, mochat, clawdtalk, reddit, twitter, notion, linq, nextcloud, filesystem, amqp, wecom, webhook, email, qq, line) agar tidak dobel. Pola per channel: (1) buat crate crates/galleon-channel-<nama>, (2) pindahkan modul dari src/<nama>.rs, (3) dependency policy allowlist SSOT via galleon-channel-core, (4) re-export 'pub use galleon_channel_<nama> as <nama>' di clawcrew-channels, (5) hapus monolith src/<nama>.rs, (6) daftarkan di tests/architecture/dependency_direction.rs, (7) unit test crate baru lulus 100%. STATUS blocked: tim manusia aktif di tiket ini (5 PR channel baru-baru ini). JANGAN mulai sampai di-flip ke todo. Branch: testing -> feat/t3-03-channel-<nama>.",
+  "description": "EPIC — JANGAN dikerjakan langsung (ini payung, bukan task atomik). Dipecah jadi sub-task granular per-subsistem/channel yang dikerjakan agy bertahap, satu per PR, sequenced (yang berikutnya blocked sampai pendahulunya MERGED supaya tak konflik di crate yang sama): TASK-009 discord, TASK-010 matrix, TASK-011 slack. Epic ini ditutup (done) setelah SEMUA sub-task selesai & merged + DoD T3-02/T3-03 terpenuhi.",
   "acceptance": [
-    "Setiap channel Tier A/B punya crate galleon-channel-* sendiri; monolith hanya menyisakan channel yang belum dijadwalkan",
-    "cargo check --workspace hijau setelah tiap ekstraksi",
-    "Unit test tiap crate channel baru lulus 100%",
-    "Terdaftar di tests/architecture/dependency_direction.rs",
-    "PR per channel ke testing dari branch feat/t3-03-channel-*"
+    "Semua sub-task (TASK-009, TASK-010, TASK-011) done & PR merged",
+    "DoD tiket induk di reference/dev-task-3/README.md terpenuhi (0 ref / semua channel punya crate)"
   ],
   "report": null,
   "author": "kirocrew",
   "created": "2026-10-17T06:26:00Z",
-  "updated": "2026-10-17T06:26:00Z"
+  "updated": "2026-10-17T07:23:00Z"
 }

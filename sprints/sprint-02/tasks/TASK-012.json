@@ -1,0 +1,20 @@
+{
+  "id": "TASK-012",
+  "type": "task",
+  "title": "Update global steering agy (~/.gemini/GEMINI.md) dengan protokol PR + cek CI bertahap",
+  "status": "todo",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "Perbarui berkas steering global milikmu yang sudah kamu buat (~/.gemini/GEMINI.md) agar memuat PROTOKOL EKSEKUSI BERTAHAP yang baru ditetapkan Owner (lihat ~/Apps/board/AGENTS.md bagian 'Protokol eksekusi bertahap'). Tambahkan sebagai aturan permanen: (1) satu sub-task = satu PR; (2) kerjakan menyeluruh sampai DoD; (3) kedepankan fakta codebase (ukur grep/cargo nyata, verifikasi klaim ketiadaan dgn perintah); (4) selesai -> buka PR ke testing via gh pr create; (5) WAJIB cek CI 'gh pr checks <nomor>' setelah PR, kalau merah perbaiki di branch sama & push ulang sampai hijau atau catat blocker; (6) JANGAN merge sendiri ke testing (biarkan Owner/KiroCrew); (7) hormati sequencing prasyarat task (blocked sampai pendahulunya merged). JANGAN hapus isi GEMINI.md yang sudah ada — TAMBAHKAN bagian baru ini. Jangan sentuh steering galleon-fleet. Setelah update, verifikasi berkas masih ter-auto-load (RULE[user_global]). Tulis RPT-* berisi diff ringkas yang kamu tambahkan + bukti auto-load.",
+  "acceptance": [
+    "~/.gemini/GEMINI.md diperbarui dgn protokol bertahap (7 poin) TANPA menghapus isi lama",
+    "Protokol mencakup: 1 sub-task=1 PR, kerjakan menyeluruh, fakta codebase, PR ke testing, cek CI & perbaiki sampai hijau, jangan merge sendiri, hormati sequencing",
+    "Steering galleon-fleet tidak disentuh; GEMINI.md tetap auto-load (dibuktikan)",
+    "RPT-* ditulis dgn ringkasan tambahan + bukti auto-load"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-17T07:23:00Z",
+  "updated": "2026-10-17T07:23:00Z"
+}

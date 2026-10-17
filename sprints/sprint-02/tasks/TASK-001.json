@@ -1,20 +1,18 @@
 {
   "id": "TASK-001",
   "type": "task",
-  "title": "T3-02 (BR-C5): clawcrew-gateway lepas penuh dari clawcrew-runtime",
+  "title": "T3-02 (BR-C5) EPIC: gateway lepas runtime — dipecah per-subsistem",
   "status": "blocked",
-  "assignee": "agy",
+  "assignee": "kirocrew",
   "source_spec": "",
   "source_backlog": "",
-  "description": "Tuntaskan dekoplasi clawcrew-gateway dari clawcrew-runtime. Baca dulu reference/dev-task-3/README.md bagian 'T3-02' untuk status tahap 1-18 yang sudah selesai (SSOT alih referensi per subsistem: health->clawcrew_infra::health, pairing->clawcrew_config::pairing, observability->clawcrew_api::observability_traits, dst). Sisa yang BELUM dilepas (per audit 2026-10-16): cron (~103 ref), sop (~93), control_plane (~24), agent (~22/28), observability (3 test-only). Pola kerja: untuk tiap subsistem, pindahkan definisi ke leaf crate SSOT-nya (clawcrew_infra / clawcrew_config / clawcrew_api / clawcrew_tools), definisikan trait runner di clawcrew_api bila gateway butuh memanggil balik ke runtime, lalu alihkan import di crates/clawcrew-gateway/src/. Ukur ulang dengan: grep -rn 'clawcrew_runtime::' crates/clawcrew-gateway/src/ | wc -l. STATUS blocked: tim manusia sedang aktif di tiket ini di branch testing — JANGAN mulai sampai KiroCrew/Owner flip ke status todo untuk hindari bentrok merge. Kerjakan dari branch cabang testing: testing -> feat/t3-02-xxxx.",
+  "description": "EPIC — JANGAN dikerjakan langsung (ini payung, bukan task atomik). Dipecah jadi sub-task granular per-subsistem/channel yang dikerjakan agy bertahap, satu per PR, sequenced (yang berikutnya blocked sampai pendahulunya MERGED supaya tak konflik di crate yang sama): TASK-004 cron, TASK-005 sop, TASK-006 control_plane, TASK-007 agent, TASK-008 observability. Epic ini ditutup (done) setelah SEMUA sub-task selesai & merged + DoD T3-02/T3-03 terpenuhi.",
   "acceptance": [
-    "grep -rn 'clawcrew_runtime::' crates/clawcrew-gateway/src/ = 0 referensi fungsional (kecuali pengecualian yang didokumentasikan tertulis)",
-    "cargo check -p clawcrew-gateway hijau 0 error",
-    "Unit test gateway terkait lulus 100%",
-    "PR dibuka ke testing dari branch feat/t3-02-*, bukan push langsung"
+    "Semua sub-task (TASK-004, TASK-005, TASK-006, TASK-007, TASK-008) done & PR merged",
+    "DoD tiket induk di reference/dev-task-3/README.md terpenuhi (0 ref / semua channel punya crate)"
   ],
   "report": null,
   "author": "kirocrew",
   "created": "2026-10-17T06:26:00Z",
-  "updated": "2026-10-17T06:40:59.508201+00:00"
+  "updated": "2026-10-17T07:23:00Z"
 }

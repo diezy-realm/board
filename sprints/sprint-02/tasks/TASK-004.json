@@ -1,0 +1,21 @@
+{
+  "id": "TASK-004",
+  "type": "task",
+  "title": "T3-02a: dekoplasi gateway dari runtime — subsistem cron (103 ref)",
+  "status": "in-progress",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "BAGIAN 1 dari 5 pemecahan T3-02 (BR-C5). Lepaskan ketergantungan clawcrew-gateway ke clawcrew_runtime::cron (saat ini 103 referensi, subsistem TERBESAR — kerjakan pertama). KEDEPANKAN FAKTA KODE: ukur dulu 'grep -rn clawcrew_runtime::cron crates/clawcrew-gateway/src/ | wc -l' sebelum & sesudah. POLA (ikuti tahap 1-18 yang sudah ada di reference/dev-task-3/README.md T3-02): pindahkan definisi tipe/fungsi cron yang dipakai gateway ke leaf crate SSOT-nya (clawcrew_infra / clawcrew_config / clawcrew_api / clawcrew_tools sesuai domain), bila gateway perlu memanggil balik ke runtime definisikan trait runner di clawcrew_api + implementasi di clawcrew-runtime, lalu alihkan import di gateway. KERJAKAN MENYELURUH subsistem cron sampai 0 ref (bukan separuh). VERIFIKASI: cargo check -p clawcrew-gateway hijau + unit test terkait lulus. BRANCH: testing -> feat/t3-02a-cron-decouple. Selesai -> buka PR ke testing (gh pr create --base testing), lalu CEK CI: 'gh pr checks <nomor>' — kalau ADA yang merah/gagal, baca lognya, perbaiki di branch yang sama, push lagi, cek ulang CI sampai hijau ATAU catat blocker konkret. Setelah PR hijau & dibuka -> tulis RPT-* (bukti: nomor PR, hasil grep 0 ref, status CI), set task done. Kalau terhalang -> status blocked + notes alasan konkret.",
+  "acceptance": [
+    "grep -rn 'clawcrew_runtime::cron' crates/clawcrew-gateway/src/ = 0 ref",
+    "cargo check -p clawcrew-gateway hijau + unit test cron terkait lulus",
+    "PR dibuka ke testing dari feat/t3-02a-cron-decouple (nomor PR dicatat di report)",
+    "CI GitHub dicek via gh pr checks; semua hijau ATAU blocker CI dicatat konkret di report",
+    "RPT-* ditulis dengan bukti (PR, grep 0 ref, status CI)"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-17T07:23:00Z",
+  "updated": "2026-10-17T07:25:02.837204+00:00"
+}
