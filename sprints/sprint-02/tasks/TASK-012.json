@@ -2,7 +2,7 @@
   "id": "TASK-012",
   "type": "task",
   "title": "Update global steering agy (~/.gemini/GEMINI.md) dengan protokol PR + cek CI bertahap",
-  "status": "todo",
+  "status": "done",
   "assignee": "agy",
   "source_spec": "",
   "source_backlog": "",
@@ -13,8 +13,8 @@
     "Steering galleon-fleet tidak disentuh; GEMINI.md tetap auto-load (dibuktikan)",
     "RPT-* ditulis dgn ringkasan tambahan + bukti auto-load"
   ],
-  "report": null,
+  "report": "RPT-004",
   "author": "kirocrew",
   "created": "2026-10-17T07:23:00Z",
-  "updated": "2026-10-17T07:23:00Z"
+  "updated": "2026-10-17T08:17:15Z"
 }
