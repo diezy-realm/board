@@ -140,6 +140,7 @@ Tiga pola arsitektur ditemukan BERULANG di banyak tema independen — dicatat di
 | Dokumen | Isi Ringkas | → Backlog |
 |---|---|---|
 | `control-plane-multi-runtime-landscape-2026-10-18.md` | **status: research** (2026-10-18) — verifikasi kerangka lapisan; peta board+bridge+dev-ci ke spesifikasi Symphony; celah isolasi agy (`--dangerously-skip-permissions` + `--add-dir` ke checkout utama); uji perilaku agy memuat AGENTS.md dan SKILL.md; skema memori KiroCrew vs kebutuhan author/tujuan; lanskap MCP/A2A/ACP/Agent Skills dan orkestrator serupa; rekomendasi bertahap Fase 0-3. Bukti ditandai [V]/[S]/[I], 31 sumber eksternal dan 12 bukti internal dapat diulang | belum ada (menunggu keputusan Owner; rekomendasi bukan ODR) |
+| `adr-control-plane-interface-2026-10-18.md` | **status: draft (ADR usulan)** (2026-10-18) — antarmuka control plane mandiri: 10 tool MCP asinkron, state machine dan log event sesi, SPI Runtime (L0/L1/L2), batas isolasi (worktree + kontainer fail-closed), 10 uji penerimaan. Memuat verifikasi prasyarat: engine Go tidak punya jalur MCP; `McpCommandBoundary` terpasang di produksi (`f2af74175`, 2026-10-07) dengan efektivitas bersyarat; `bwrap` tidak bisa dipakai di host. Mengoreksi klaim chat sebelumnya (§9) | belum ada (menunggu keputusan Owner; bukan ODR) |
 
 ## Lihat Juga
 
