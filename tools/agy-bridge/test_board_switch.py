@@ -47,6 +47,25 @@ for state, want in (("success", "review"), ("pending", "review"), (None, "review
     task("TASK-2", "review"); S.review()
     assert status("TASK-2") == want, (state, status("TASK-2"))
 
+# CI trigger: only a head without a final verdict starts CI; green and red never do.
+task("TASK-2", "done")      # leftover from the loop above; keep this block self-contained
+started = []
+B._trigger_ci = lambda n, sha: started.append((n, sha))
+for state, want in (("success", 0), ("failure", 0), (None, 1), ("pending", 1), ("error", 1)):
+    started.clear(); tries.clear(); ci = (state, ["Lint"] if state == "failure" else [], tmp)
+    task("TASK-6", "review"); S.review()
+    assert len(started) == want, (state, started)
+    if want:
+        assert started[0] == (7, "a" * 40) and status("TASK-6") == "review"
+tries.clear(); started.clear(); ci = ("error", [], tmp)
+for _ in range(S.MAX_CI_ERROR_RETRY + 2):                      # error restarts stop after the cap
+    task("TASK-6", "review"); S.review()
+assert len(started) == S.MAX_CI_ERROR_RETRY, started
+B._retry_state = lambda k: (tries.get(k, 0), B._now())          # just retried: backoff holds the next one
+tries.clear(); started.clear(); task("TASK-6", "review"); S.review()
+assert started == [], started
+B._retry_state = lambda k: (tries.get(k, 0), None)
+
 pr = {"number": 8, "state": "MERGED", "headRefOid": "b" * 40}
 task("TASK-3", "review"); S.review()
 assert status("TASK-3") == "done"

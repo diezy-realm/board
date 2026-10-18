@@ -2,7 +2,8 @@
 """Board status switchers: cheap, no agy run. One mode per systemd timer.
 
   board_switch.py unblock   blocked -> todo   (prerequisite task merged, or bounded auto-retry)
-  board_switch.py review    review  -> done | todo | blocked   (decided by the task's PR + local CI)
+  board_switch.py review    review  -> done | todo | blocked   (decided by the task's PR + local CI);
+                            a `review` task whose PR head has no final CI verdict also starts CI (ci-pr<N>-<sha8>)
 
 The executor (board_agy_bridge.py) only runs `todo` tasks; it parks a finished task in `review`
 while its PR is open. Verdicts come from GitHub (PR state) and ~/Apps/dev-ci commit statuses,
@@ -19,6 +20,12 @@ import board_agy_bridge as B
 MAX_AUTO_RETRY = 3                  # blocked-without-prereq tasks: auto-retries
 RETRY_BACKOFF_MIN = [10, 30, 90]    # wait before each retry
 MAX_CI_FIX = 3                      # agy fix attempts per PR before a human is needed
+MAX_CI_ERROR_RETRY = 3              # CI infra-error restarts per PR head before leaving it to a human
+ERROR_RETRY_MIN = 10                # same wait ci-poller applies before re-running an `error` head
+
+
+def _age_min(iso):
+    return (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(iso)).total_seconds() / 60
 
 
 def _note(t, msg):
@@ -98,8 +105,18 @@ def review():
             _set(f, t, "blocked", f"PR #{n} ditutup tanpa merge", "blocked")
         else:
             state, red, _ = B._ci_state(pr)
+            if state in (None, "pending", "error"):
+                # No final verdict for this head: start CI (a duplicate start for the same head is rejected).
+                if state == "error":   # infra error: retry with backoff, then leave it to a human
+                    ekey = f"ci-err-{n}-{pr['headRefOid'][:8]}"
+                    etries, elast = B._retry_state(ekey)
+                    if etries >= MAX_CI_ERROR_RETRY or (elast and _age_min(elast) < ERROR_RETRY_MIN):
+                        continue
+                    B._retry_bump(ekey, "ci error")
+                B._trigger_ci(n, pr["headRefOid"])
+                continue
             if state != "failure":
-                continue  # green (poller merges), pending, or not reported yet
+                continue  # green: the poller merges (if enabled), else a human merges
             key = f"ci-pr-{n}"
             tries, _ = B._retry_state(key)
             if tries >= MAX_CI_FIX:

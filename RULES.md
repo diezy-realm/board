@@ -110,12 +110,13 @@ dispesifikasikan, baru dieksekusi, lalu dilaporkan.
 
 1. KiroCrew membuat `tasks/TASK-xxx.json` dengan `assignee: agy`, `status: todo`,
    `description` (instruksi lengkap, berdiri sendiri), dan `source_spec`.
-2. Empat systemd user timer (interval diubah dari halaman board, view Status):
+2. Tiga systemd user timer (interval diubah dari halaman board, view Status):
    - `agy-bridge` (eksekutor): task `assignee=agy & status=todo` -> `in-progress`, agy dipanggil headless
      (`--print-timeout 0`, tanpa batas waktu; task multi-wake memakai ulang `conversation_id`).
    - `board-unblock`: `blocked` -> `todo` saat task PRASYARAT sudah done + PR-nya merged (atau auto-retry terbatas).
    - `board-review`: task `review` -> `done` (PR merged), `todo` (CI lokal merah, maks 3x), atau `blocked`.
-   - `dev-ci-poller` (`~/Apps/dev-ci`): menjalankan CI lokal tiap PR baru/berubah, lapor sebagai commit status `local/*`.
+   - CI lokal (`~/Apps/dev-ci`) BUKAN timer: `board-review` memulainya (unit `ci-pr<N>-<sha8>`) untuk task `review`
+     yang head PR-nya belum punya verdict `local/Required Gate`; satu build pada satu waktu (antre), hasil = commit status `local/*`.
 3. agy mengerjakan, membuka PR, menulis `reports/RPT-xxx.md` (dengan `source_task`) + `report: RPT-xxx`.
    Bridge men-set `review` selama PR masih open, `done` bila tak ada PR (task non-kode) atau PR sudah merged.
 4. Kembali ke `todo`: otomatis oleh `board-review` (CI merah) atau manual (drag di UI). Task yang branch-nya sudah punya

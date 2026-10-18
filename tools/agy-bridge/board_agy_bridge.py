@@ -333,19 +333,17 @@ CI_AGG = "local/Required Gate"
 _CI_POLLER = HOME / "Apps" / "dev-ci" / "bin" / "ci-poller"
 
 
-def _trigger_ci(pr_number):
-    """Fire local CI for ONE PR in the background and return immediately. flock inside ci-poller
-    serializes overlapping runs, so this is safe to call on every push; the bridge never waits."""
-    if not pr_number or not _CI_POLLER.exists():
-        return
-    try:
-        logdir = DEVCI_LOGS
-        logdir.mkdir(parents=True, exist_ok=True)
-        lf = open(logdir / "trigger.log", "a")
-        subprocess.Popen(["python3", str(_CI_POLLER), "galleon-fleet", "--pr", str(pr_number)],
-                         stdout=lf, stderr=subprocess.STDOUT, start_new_session=True)
-    except Exception as e:
-        print(f"[ci-trigger] gagal memicu CI PR #{pr_number}: {e}")
+def _trigger_ci(pr_number, sha):
+    """Start local CI for one PR head as the transient user unit `ci-pr<N>-<sha8>`. Own cgroup, so it
+    outlives the oneshot board service that calls this; the unit name rejects a second start while one
+    is queued or running. ci-poller's blocking flock queues distinct runs. True if a unit was started."""
+    if not pr_number or not sha or not _CI_POLLER.exists():
+        return False
+    r = subprocess.run(["systemd-run", "--user", "--quiet", "--collect", f"--unit=ci-pr{pr_number}-{sha[:8]}",
+                        f"--setenv=PATH={HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin",
+                        "/usr/bin/python3", str(_CI_POLLER), "galleon-fleet", "--pr", str(pr_number)],
+                       capture_output=True, text=True, timeout=30)
+    return r.returncode == 0
 
 
 def _ci_state(pr: dict):
@@ -462,8 +460,6 @@ def run(ctx):
             t["report"] = rpt_id
             t["updated"] = _now()
             _save(f, t)
-            if new_status == "review" and pr:
-                _trigger_ci(pr.get("number"))   # non-blocking: run local CI for this PR's new head
             processed.append(f"{tid} -> {new_status} ({rpt_id}; {detail})")
             _log_event(new_status, tid, t.get("title", ""), report=rpt_id, detail=detail)
         else:
