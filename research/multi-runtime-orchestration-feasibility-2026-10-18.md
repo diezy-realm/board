@@ -203,7 +203,7 @@ Dituangkan di draf ODR `ODR-2026-10-18-multi-runtime-orchestration.md` (MR-01…
 
 ## 10. Yang Tidak Terverifikasi
 
-- **Belum terverifikasi** dan butir tindak lanjut Owner: lihat `multi-runtime-owner-verification-checklist-2026-10-18.md` (V-01…V-28, K-01…K-09). Komponen yang belum dibangun: `multi-runtime-unbuilt-components-inventory-2026-10-18.md`.
+- **Belum terverifikasi** dan butir tindak lanjut Owner: lihat `multi-runtime-owner-verification-checklist-2026-10-18.md` (V-02…V-28, K-01, K-03…K-09). Komponen yang belum dibangun: `multi-runtime-unbuilt-components-inventory-2026-10-18.md`.
 - Ketentuan Alibaba Model Studio; Kiro/AWS secara penuh; Copilot setelah GA; lisensi bobot model per checkpoint.
 - Isi Antigravity Additional Terms §6 dan Consumer Terms §3(7) (hanya lewat sub-agen).
 - Tanggal dan skala enforcement 2026 (media dan komunitas).

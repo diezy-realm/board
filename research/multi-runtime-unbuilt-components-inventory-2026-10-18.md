@@ -54,7 +54,7 @@ Kolom *Percobaan* menyebut padanan di luar produk. Kolom *Terkait* merujuk ke ke
 |---|---|---|---|---|---|
 | UC-10 | **Workspace per sesi, kurungan proses, dan penerbit** (worktree dari mirror, sandbox fail-closed, push/PR di luar sesi) | `dev-ci`: `sync_mirror`, worktree, kontainer dengan `--cap-drop=ALL` dan kawan-kawan [V riset induk E10] | `create_sandbox` dengan jalur `NoopSandbox` [V]; **backend Landlock ada beserta uji integrasi** (`crates/clawcrew-runtime/src/security/landlock.rs`; `crates/clawcrew-runtime/tests/landlock_workspace_boundary.rs`, `landlock_network_config_access.rs`, `landlock_spawn_failure.rs`, `landlock_contract.rs`) tetapi belum dijalankan di host ini [V keberadaan]; alat git Rust memahami *linked worktree* (otorisasi metadata worktree, `crates/clawcrew-tools/src/git_operations.rs:149,162,197,222`) dan `policy.rs` memperlakukan subcommand `worktree` secara khusus (tes `policy.rs:6138,6227`; efek `git worktree add` tidak dibaca) [V]; **pengelola siklus hidup worktree per sesi dan penerbit (push/PR) tidak ditemukan** [V pada pola yang dicoba] | Sebagian | MR-02, MR-05; D5 |
 | UC-11 | **Gerbang verifikasi independen** sebagai kemampuan produk (penilaian hasil tugas yang tidak mempercayai klaim agen) | `~/Apps/dev-ci`: `ci-poller`, `gates.sh`, status `local/*`, baseline ratchet [V] | `galleon-eval` (replay deterministik; R-37) bukan gerbang penerimaan; `approval` untuk persetujuan manusia [I] | Belum ada | MR-05, MR-10 |
-| UC-12 | **Governor kuota dan konkurensi**: batas sesi aktif, antrean, kuota vendor, resource gate | Antre satu build dengan kunci; batas 5 jam agy + rotasi akun (lihat §5) [V] | R-50…R-53 (resource gate sub-agent) belum dikerjakan, R-53 sengaja ditunda [V]; `treasury` hanya melaporkan biaya provider [V] | Belum ada | MR-09(c)(d); D5 sumber daya |
+| UC-12 | **Governor kuota dan konkurensi**: batas sesi aktif, antrean, kuota vendor, resource gate | Antre satu build dengan kunci [V] | R-50…R-53 (resource gate sub-agent) belum dikerjakan, R-53 sengaja ditunda [V]; `treasury` hanya melaporkan biaya provider [V] | Belum ada | MR-09(c)(d); D5 sumber daya |
 
 ### D. Data dan audit
 
@@ -67,7 +67,7 @@ Kolom *Percobaan* menyebut padanan di luar produk. Kolom *Terkait* merujuk ke ke
 
 | ID | Komponen | Percobaan | Di Galleon hari ini | Status | Terkait |
 |---|---|---|---|---|---|
-| UC-15 | **Kebijakan kredensial dan gerbang aktivasi provider** (allowlist per runtime, suntikan API key dari vault, provider berisiko default nonaktif) | Rotasi akun (lihat §5) | Vault dengan RPC `GetDecryptedSecret` [S-lama]; `openai_codex.rs` dan setup-token Anthropic aktif tidaknya default: **belum diperiksa** [?] | Sebagian | MR-03, MR-09 |
+| UC-15 | **Kebijakan kredensial dan gerbang aktivasi provider** (allowlist per runtime, suntikan API key dari vault, provider berisiko default nonaktif) | — | Vault dengan RPC `GetDecryptedSecret` [S-lama]; `openai_codex.rs` dan setup-token Anthropic aktif tidaknya default: **belum diperiksa** [?] | Sebagian | MR-03, MR-09 |
 | UC-16 | **Permukaan status dan konsol UI** (runtime, level, hasil uji, sesi, tugas, event) | UI papan lewat `artifact-server.py`, tampilan Status [V] | Lane UI roadmap tanpa tiket terkait [V] | Belum ada | — |
 | UC-17 | **Jalur model lokal** (endpoint OpenAI-compatible: Ollama, llama.cpp, vLLM) sebagai runtime tingkat 1 | — | Provider kompatibel OpenAI ada [I]; belum diverifikasi sebagai jalur lokal | Belum diketahui | tingkat 1 riset |
 | UC-18 | **Tinjau-ulang legal berkala** (daftar ketentuan vendor dengan tanggal baca, dicek tiap rilis) | — | Proses, bukan kode | Belum ada | MR-09(h) |
@@ -86,7 +86,7 @@ Satu keterkaitan penting: UC-03 (reconciler) tidak masuk akal dibangun sebelum U
 
 ## 5. Hal dari Percobaan yang Tidak Boleh Dibawa ke Produk
 
-1. **Rotasi akun agy** (`~/Apps/board/tools/agy-rotate/agy_rotate.py`, `agy-snapshot-account.sh`). Modul menyimpan salinan berkas token OAuth untuk beberapa akun Google PRO, lalu menyalin snapshot ke berkas token live saat batas 5 jam tercapai [V]. Bridge yang berjalan memanggil `rotate_to_next()` saat terdeteksi kesalahan batas, dan tetap berfungsi tanpa modul itu (`_agy_rotate = None`) [V `board_agy_bridge.py:102-109,292-306`]. Pola ini bertentangan dengan syarat yang dinyatakan staf Google ("No OAuth tokens, cookies, or credentials are extracted, read, or passed"; "not shared, pooled") dan dengan MR-09 butir (b) dan (e). Pembacaan hukumnya adalah milik Owner; di sini hanya dicatat. Lihat V-01 pada daftar verifikasi Owner.
+1. **Ekstraksi, pembacaan, penyalinan, atau pooling token OAuth vendor.** Produk tidak boleh menyentuh berkas token runtime vendor; syarat staf Google menyatakan penggunaan sah bila "No OAuth tokens, cookies, or credentials are extracted, read, or passed" dan alur "not shared, pooled" [V]. Lihat MR-09 butir (b) dan (e). Login dimiliki pengguna; adapter hanya menjalankan binary resmi tanpa modifikasi.
 2. **`--dangerously-skip-permissions` bersama `--add-dir` ke checkout utama** (celah isolasi yang sudah dicatat di riset induk).
 3. **Pemicu berbasis polling pada host dengan identitas pengguna** tanpa kurungan proses.
 
@@ -100,4 +100,4 @@ Aturan board (`RULES.md` §1): item backlog membutuhkan story induk yang ada (`s
 
 ## 7. Yang Belum Terverifikasi
 
-Cakupan penelusuran kode terbatas pada paket dan pola yang disebut. Yang belum diperiksa: apakah ada pengelola siklus hidup worktree atau penerbit di luar pola yang dicoba (`git worktree`, `worktree add`, `"worktree"`); nilai `TaskStatus` di `task/dto.go` dan hubungannya dengan `run.Task`; isi `bridge_events.db`; jumlah snapshot akun di `~/Apps/credentials/agy` (sengaja tidak kuperiksa); apakah scheduler cron Rust benar-benar matang saat ini; apakah provider kompatibel OpenAI dapat menjadi jalur lokal tanpa perubahan.
+Cakupan penelusuran kode terbatas pada paket dan pola yang disebut. Yang belum diperiksa: apakah ada pengelola siklus hidup worktree atau penerbit di luar pola yang dicoba (`git worktree`, `worktree add`, `"worktree"`); nilai `TaskStatus` di `task/dto.go` dan hubungannya dengan `run.Task`; apakah scheduler cron Rust benar-benar matang saat ini; apakah provider kompatibel OpenAI dapat menjadi jalur lokal tanpa perubahan.
