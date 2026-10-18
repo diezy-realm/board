@@ -135,6 +135,12 @@ Tiga pola arsitektur ditemukan BERULANG di banyak tema independen — dicatat di
 | `tier-enforcement-method-d-c-deep-dive.md` | **status: superseded** (2026-10-06) — 5 bug arsitektur (TETAP berlaku, dikutip ulang di dokumen baru), Q1-Q5 terbuka (sudah dijawab) | → `tier-pricing-and-entitlement-final.md` |
 | `tier-pricing-and-entitlement-final.md` | **status: final** — tangga tier (Community/Team/Dockyard/Private Dockyard dengan dimensi baru `CrewPerShip`/`ConcurrentVoyages`), harga flat ($15/$28), model entitlement D (pemisah paket) + P2 (token Ed25519 di modul tertutup REPO TERPISAH), 5 bug arsitektur diverifikasi ulang ke kode nyata (`ship`/`fleet`/`squad`/`entitlement` packages) | `tier-entitlement-pricing-backlog.md` (BL-80..82) |
 
+## Tema 17 — Control Plane Multi-Runtime (KiroCrew + agy), Memori Bersama, Standar Antar-Agen
+
+| Dokumen | Isi Ringkas | → Backlog |
+|---|---|---|
+| `control-plane-multi-runtime-landscape-2026-10-18.md` | **status: research** (2026-10-18) — verifikasi kerangka lapisan; peta board+bridge+dev-ci ke spesifikasi Symphony; celah isolasi agy (`--dangerously-skip-permissions` + `--add-dir` ke checkout utama); uji perilaku agy memuat AGENTS.md dan SKILL.md; skema memori KiroCrew vs kebutuhan author/tujuan; lanskap MCP/A2A/ACP/Agent Skills dan orkestrator serupa; rekomendasi bertahap Fase 0-3. Bukti ditandai [V]/[S]/[I], 31 sumber eksternal dan 12 bukti internal dapat diulang | belum ada (menunggu keputusan Owner; rekomendasi bukan ODR) |
+
 ## Lihat Juga
 
 - `standard-docs/backlog/README.md` — index backlog BL-01 s.d. BL-78 dengan status roadmap.
