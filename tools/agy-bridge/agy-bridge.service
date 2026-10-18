@@ -8,9 +8,10 @@ After=network-online.target
 Type=oneshot
 # One poll of the board. The timer re-triggers this every 5 minutes.
 ExecStart=/usr/bin/env python3 %h/Apps/board/tools/agy-bridge/run_standalone.py
-# A single agy run is bounded inside the bridge (PER_TASK_TIMEOUT=1500s); give
-# the whole poll generous headroom but never let a wedged run block the timer.
-TimeoutStartSec=1700
+# agy finishes on its own (`--print-timeout 0`). This is ONLY an anti-wedge net:
+# generous enough that a legitimately long task is never killed, but a truly
+# stuck run can't block the 5-minute timer forever. 4h.
+TimeoutStartSec=14400
 # agy needs HOME + PATH for ~/.local/bin/agy and gh.
 Environment=HOME=%h
 Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin

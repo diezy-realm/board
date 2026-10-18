@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the review switcher
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Persistent=true
+Unit=board-review.service
+
+[Install]
+WantedBy=timers.target

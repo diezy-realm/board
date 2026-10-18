@@ -2,7 +2,7 @@
   "id": "TASK-006",
   "type": "task",
   "title": "T3-02c: dekoplasi gateway dari runtime — subsistem control_plane (24 ref)",
-  "status": "done",
+  "status": "review",
   "assignee": "agy",
   "source_spec": "",
   "source_backlog": "",
@@ -14,10 +14,9 @@
     "CI dicek via gh pr checks; hijau atau blocker dicatat",
     "RPT-* dgn bukti"
   ],
-  "report": "RPT-025",
+  "report": "RPT-026",
   "author": "kirocrew",
   "created": "2026-10-17T07:23:00Z",
-  "updated": "2026-10-17T18:00:00Z",
-  "notes": "PRASYARAT TASK-005 terbukti merged (PR #40). Pekerjaan TASK-006 selesai: 24 ref berkurang menjadi 0 ref di gateway. Branch feat/t3-026-control_plane-decouple di-commit (8ea280779) dan di-push ke origin. PR #47 dibuka ke branch testing. Check PR Testing Gate hijau. Laporan ditulis di RPT-025.",
-  "est_minutes": 90
+  "updated": "2026-10-17T18:00:42.075306+00:00",
+  "notes": "PRASYARAT TASK-005 terbukti merged (PR #40). Pekerjaan TASK-006 selesai: 24 ref berkurang menjadi 0 ref di gateway. Branch feat/t3-026-control_plane-decouple di-commit (8ea280779) dan di-push ke origin. PR #47 dibuka ke branch testing. Check PR Testing Gate hijau. Laporan ditulis di RPT-025. | status review: PR masih open, diputuskan board_switch.py review (2026-10-18)"
 }

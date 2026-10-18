@@ -1,0 +1,11 @@
+[Unit]
+Description=Board switcher: review -> done | todo | blocked (PR state + local CI verdict)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env python3 %h/Apps/board/tools/agy-bridge/board_switch.py review
+TimeoutStartSec=600
+Environment=HOME=%h
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin

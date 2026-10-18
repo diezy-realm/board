@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the blocked -> todo switcher
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Persistent=true
+Unit=board-unblock.service
+
+[Install]
+WantedBy=timers.target
