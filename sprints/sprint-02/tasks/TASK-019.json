@@ -1,0 +1,22 @@
+{
+  "id": "TASK-019",
+  "type": "task",
+  "title": "T3-02 cron: cron_adapter.rs (44 ref) — gap TASK-004, ditemukan audit kode 2026-10-21",
+  "status": "done",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "GAP ditemukan audit kode langsung 2026-10-21 (bukan asumsi report): EPIC TASK-001 (T3-02) ditutup 'done' 2026-10-20 dengan klaim 'semua sub-task selesai, DoD 0 ref terpenuhi', tapi grep literal `grep -rn 'clawcrew_runtime::' crates/clawcrew-gateway/src/ | wc -l` = 52 ref, BUKAN 0. 44 dari 52 ref ada di SATU file ini: crates/clawcrew-gateway/src/cron_adapter.rs. TASK-004 (judul 'cron', status done) TIDAK PERNAH menyentuh file ini — scope TASK-004 nyatanya hanya agent_owned_state.rs (3 ref, file berbeda). File cron_adapter.rs sendiri punya doc comment yang mengklaim 'decouple api.rs dari clawcrew_runtime::cron' tapi faktanya hanya memindahkan titik pakai, bukan menghapus dependency.\n\nKEDEPANKAN FAKTA KODE: ukur dulu 'grep -c clawcrew_runtime:: crates/clawcrew-gateway/src/cron_adapter.rs' sebelum mulai (harus ~44, verifikasi ulang -- baris bisa shift sejak audit). POLA sama tahap-tahap T3-02 sebelumnya di reference/dev-task-3/README.md: pindahkan definisi cron yang dipakai ke leaf crate SSOT (clawcrew_infra/config/api/tools sesuai domain -- cek dulu TASK-004/TASK-013/TASK-014 (RPT-006/RPT-016/RPT-014) untuk pola leaf yang SUDAH dipakai modul cron lain, jangan reinvent), trait runner di clawcrew_api bila perlu callback ke runtime, alihkan import gateway. KERJAKAN MENYELURUH file ini sampai 0 ref clawcrew_runtime::.\n\nFile ownership: HANYA crates/clawcrew-gateway/src/cron_adapter.rs + leaf crate SSOT tujuan pemindahan (clawcrew_infra/clawcrew_config/clawcrew_api/clawcrew_tools, TIDAK clawcrew-runtime). JANGAN sentuh ws.rs, lib.rs, tests.rs (gap terpisah, akan jadi task lain) -- fokus HANYA cron_adapter.rs supaya tidak overlap task lain yang mungkin dibuat paralel.\n\nVERIFIKASI: cargo check -p clawcrew-gateway (compile) + cargo nextest run -p clawcrew-gateway (test) -- CATATAN: cargo nextest run -p clawcrew-runtime saat ini GAGAL compile total (E0433 CostTracker, E0425 terminal_completion_error_message_with_renderer, pecah sejak PR #60/TASK-007, unrelated ke task ini) -- kalau clawcrew-gateway test juga kena imbas breakage ini (bukan karena perubahanmu), catat sebagai blocker terpisah di report, JANGAN coba perbaiki breakage clawcrew-runtime itu di task ini (scope beda, akan jadi task sendiri).\n\nBRANCH: testing -> feat/t3-02e-cron-adapter-decouple. PR ke testing, lalu gh pr checks <nomor> -- merah? perbaiki di branch sama, push, cek ulang sampai hijau atau catat blocker. Selesai -> RPT-* (PR, grep count sebelum/sesudah, status CI), set done. Setelah task ini selesai & merged, EPIC TASK-001 WAJIB dicek ulang via grep literal (bukan diasumsikan) sebelum ditutup done lagi -- sisa gap ws.rs/lib.rs (4 ref agent) dan tests.rs (4 ref sop, test-only) belum tercakup task ini, perlu task terpisah.",
+  "acceptance": [
+    "grep -c clawcrew_runtime:: crates/clawcrew-gateway/src/cron_adapter.rs = 0 (diverifikasi ulang, bukan diasumsikan dari audit)",
+    "cargo check -p clawcrew-gateway hijau + cargo nextest run -p clawcrew-gateway lulus (atau breakage pre-existing unrelated dicatat jelas sebagai blocker, bukan disembunyikan)",
+    "PR ke testing dari feat/t3-02e-cron-adapter-decouple (nomor dicatat)",
+    "CI dicek via gh pr checks; hijau atau blocker dicatat",
+    "RPT-* dengan bukti grep sebelum/sesudah + PR + status CI"
+  ],
+  "report": "RPT-043",
+  "author": "kirocrew",
+  "created": "2026-10-21T05:30:00Z",
+  "updated": "2026-10-21T06:11:12.377086+00:00",
+  "notes": "Dibuat dari temuan audit kode 2026-10-21 (lihat TASK-001.notes untuk konteks lengkap closure prematur EPIC). Tidak overlap file dengan task gateway lain yang sudah done (TASK-004 selesai di agent_owned_state.rs, bukan cron_adapter.rs) -- langsung todo, tidak perlu chaining blocked."
+}
