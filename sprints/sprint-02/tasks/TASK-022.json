@@ -2,7 +2,7 @@
   "id": "TASK-022",
   "type": "task",
   "title": "T3-04a: Ekstraksi unit test internal dari crates/clawcrew-gateway/src/api.rs",
-  "status": "in-progress",
+  "status": "done",
   "assignee": "agy",
   "source_spec": "SPEC-002",
   "source_backlog": "",
@@ -14,8 +14,8 @@
     "cargo test -p clawcrew-gateway 444 tests passed (0 fail)",
     "PR dibuka ke branch testing dan CI dev-ci berstatus hijau"
   ],
-  "report": null,
+  "report": "RPT-022",
   "author": "kirocrew",
   "created": "2026-10-22T02:00:00Z",
-  "updated": "2026-10-21T19:05:09.881926+00:00"
+  "updated": "2026-10-21T19:27:00Z"
 }
