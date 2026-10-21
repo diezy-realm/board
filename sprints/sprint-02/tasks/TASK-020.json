@@ -1,7 +1,7 @@
 {
   "id": "TASK-020",
   "type": "task",
-  "title": "T3-02d sisa: ws.rs (3 ref) + lib.rs (1 ref) subsistem agent — gap TASK-007, ditemukan audit kode 2026-10-21",
+  "title": "T3-02d sisa: ws.rs (3 ref) + lib.rs (1 ref) subsistem agent \u2014 gap TASK-007, ditemukan audit kode 2026-10-21",
   "status": "done",
   "assignee": "agy",
   "source_spec": "",
@@ -14,9 +14,10 @@
     "CI dicek via gh pr checks; hijau atau blocker dicatat",
     "RPT-* dengan bukti grep sebelum/sesudah + PR + status CI"
   ],
-  "report": "RPT-045",
+  "report": "RPT-051",
   "author": "kirocrew",
   "created": "2026-10-21T05:40:00Z",
-  "updated": "2026-10-21T07:18:00Z",
-  "notes": "Dibuat dari temuan audit kode 2026-10-21 (gap TASK-007 'agent 22->0' tidak match kode nyata, lihat TASK-001.notes). Tidak overlap file dengan TASK-019 (cron_adapter.rs) -- independen, langsung todo."
+  "updated": "2026-10-21T18:15:04.998976+00:00",
+  "notes": "Dibuat dari temuan audit kode 2026-10-21 (gap TASK-007 'agent 22->0' tidak match kode nyata, lihat TASK-001.notes). Tidak overlap file dengan TASK-019 (cron_adapter.rs) -- independen, langsung todo. | CI merah PR #66 (Format), perbaikan 1/3 2026-10-21T07:25 | AUDIT 2026-10-21T09:00: status 'review' sejak >60min, tidak ada proses agy hidup, tidak ada commit baru di branch 'feat/t3-02f-agent-ws-lib-decouple' -- kemungkinan claim yatim. Cek manual (ps aux + git log) sebelum reset. | AUDIT 2026-10-21T10:15: status 'review' sejak >60min, tidak ada proses agy hidup, tidak ada commit baru di branch 'feat/t3-02f-agent-ws-lib-decouple' -- kemungkinan claim yatim. Cek manual (ps aux + git log) sebelum reset. | AUDIT 2026-10-21T11:30: status 'review' sejak >60min, tidak ada proses agy hidup, tidak ada commit baru di branch 'feat/t3-02f-agent-ws-lib-decouple' -- kemungkinan claim yatim. Cek manual (ps aux + git log) sebelum reset. | AUDIT 2026-10-21T12:45: status 'review' sejak >60min, tidak ada proses agy hidup, tidak ada commit baru di branch 'feat/t3-02f-agent-ws-lib-decouple' -- kemungkinan claim yatim. Cek manual (ps aux + git log) sebelum reset. | AUDIT 2026-10-21T14:00: status 'review' sejak >60min, tidak ada proses agy hidup, tidak ada commit baru di branch 'feat/t3-02f-agent-ws-lib-decouple' -- kemungkinan claim yatim. Cek manual (ps aux + git log) sebelum reset. | AUDIT 2026-10-21T15:15: status 'review' sejak >60min, tidak ada proses agy hidup, tidak ada commit baru di branch 'feat/t3-02f-agent-ws-lib-decouple' -- kemungkinan claim yatim. Cek manual (ps aux + git log) sebelum reset. | AUDIT 2026-10-21T16:30: status 'review' sejak >60min, tidak ada proses agy hidup, tidak ada commit baru di branch 'feat/t3-02f-agent-ws-lib-decouple' -- kemungkinan claim yatim. Cek manual (ps aux + git log) sebelum reset.",
+  "agy_conversation_id": "40ae5547-5aff-457a-9719-8f375e8642cf"
 }
