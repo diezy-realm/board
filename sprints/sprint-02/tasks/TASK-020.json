@@ -1,0 +1,22 @@
+{
+  "id": "TASK-020",
+  "type": "task",
+  "title": "T3-02d sisa: ws.rs (3 ref) + lib.rs (1 ref) subsistem agent — gap TASK-007, ditemukan audit kode 2026-10-21",
+  "status": "done",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "GAP ditemukan audit kode langsung 2026-10-21: TASK-007 (judul 'subsistem agent (22 ref)', status done, PR #60) mengklaim 'clawcrew_runtime::agent di gateway = 0 ref' tapi grep ulang SEKARANG menunjukkan 4 ref clawcrew_runtime:: tersisa, keduanya subsistem agent:\n\n1. crates/clawcrew-gateway/src/ws.rs -- 3 ref: baris 504 `clawcrew_runtime::Agent::from_pinned_live_config_with_session_cwd_and_mcp_backchannel(...)`, baris 1035 `agent: &clawcrew_runtime::Agent` (parameter tipe fungsi), baris 1407 `agent: &mut clawcrew_runtime::Agent` (parameter tipe fungsi lain).\n2. crates/clawcrew-gateway/src/lib.rs baris 1141 -- `clawcrew_runtime::process_message(...)`. INI JALUR PRODUKSI UTAMA pengiriman chat, bukan sisi minor -- verifikasi dampaknya hati-hati sebelum pindah.\n\n(Catatan: baris bisa sudah shift sejak audit -- verifikasi ulang dengan grep sebelum mulai, jangan asumsi baris di atas masih pas.)\n\nKEDEPANKAN FAKTA KODE: ukur dulu 'grep -n clawcrew_runtime:: crates/clawcrew-gateway/src/ws.rs crates/clawcrew-gateway/src/lib.rs' untuk re-konfirmasi scope persis sebelum mulai. POLA sama TASK-007 (RPT-032) dan tahap T3-02 lain di reference/dev-task-3/README.md: pindahkan definisi `Agent` dan `process_message` yang dipakai ke leaf crate SSOT (cek dulu bagaimana clawcrew-channels atau crate lain yang sudah lepas dari clawcrew_runtime::Agent memanggil tipe/fungsi ini -- kemungkinan sudah ada trait/wrapper di clawcrew_api yang bisa dipakai ulang, JANGAN duplikat), trait runner di clawcrew_api bila perlu callback ke runtime, alihkan import gateway. KERJAKAN MENYELURUH kedua file sampai 0 ref.\n\nFile ownership: HANYA crates/clawcrew-gateway/src/ws.rs + crates/clawcrew-gateway/src/lib.rs (baris terkait Agent/process_message saja, jangan ubah bagian lib.rs yang tidak terkait) + leaf crate SSOT tujuan pemindahan. JANGAN sentuh cron_adapter.rs (TASK-019, task lain) atau tests.rs (gap sop test-only, belum ada task).\n\nVERIFIKASI: cargo check -p clawcrew-gateway (compile) + cargo nextest run -p clawcrew-gateway (test) -- karena lib.rs:1141 jalur produksi chat utama, pastikan ada test regression yang exercise process_message sebelum & sesudah perubahan, bukan cuma compile hijau.\n\nBRANCH: testing -> feat/t3-02f-agent-ws-lib-decouple. PR ke testing, lalu gh pr checks <nomor> -- merah? perbaiki di branch sama, push, cek ulang sampai hijau atau catat blocker. Selesai -> RPT-* (PR, grep 0 ref, CI), set done. PRASYARAT: TASK-019 (cron_adapter.rs) TIDAK blocking task ini (file berbeda, subsistem berbeda) -- boleh dikerjakan paralel/independen.",
+  "acceptance": [
+    "grep clawcrew_runtime:: di ws.rs dan lib.rs = 0 ref",
+    "cargo check -p clawcrew-gateway hijau + cargo nextest run -p clawcrew-gateway lulus, termasuk regression test untuk process_message (lib.rs:1141, jalur produksi chat)",
+    "PR ke testing dari feat/t3-02f-agent-ws-lib-decouple (nomor dicatat)",
+    "CI dicek via gh pr checks; hijau atau blocker dicatat",
+    "RPT-* dengan bukti grep sebelum/sesudah + PR + status CI"
+  ],
+  "report": "RPT-045",
+  "author": "kirocrew",
+  "created": "2026-10-21T05:40:00Z",
+  "updated": "2026-10-21T07:18:00Z",
+  "notes": "Dibuat dari temuan audit kode 2026-10-21 (gap TASK-007 'agent 22->0' tidak match kode nyata, lihat TASK-001.notes). Tidak overlap file dengan TASK-019 (cron_adapter.rs) -- independen, langsung todo."
+}
