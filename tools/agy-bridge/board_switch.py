@@ -4,6 +4,8 @@
   board_switch.py unblock   blocked -> todo   (prerequisite task merged, or bounded auto-retry)
   board_switch.py review    review  -> done | todo | blocked   (decided by the task's PR + local CI);
                             a `review` task whose PR head has no final CI verdict also starts CI (ci-pr<N>-<sha8>)
+  board_switch.py audit     consistency + bridge-health audit (see board_audit.py) -- flags only,
+                            never changes task status except where board_audit.py says so explicitly
 
 The executor (board_agy_bridge.py) only runs `todo` tasks; it parks a finished task in `review`
 while its PR is open. Verdicts come from GitHub (PR state) and ~/Apps/dev-ci commit statuses,
@@ -16,6 +18,7 @@ import subprocess
 import sys
 
 import board_agy_bridge as B
+import board_audit as A
 
 MAX_AUTO_RETRY = 3                  # blocked-without-prereq tasks: auto-retries
 RETRY_BACKOFF_MIN = [10, 30, 90]    # wait before each retry
@@ -42,7 +45,7 @@ def _set(f, t, status, msg, event):
 
 
 def _prereq_task(task):
-    m = re.search(r"PRASYARAT:\s*(TASK-\d+)", task.get("description", "") or "")
+    m = re.search(r"PRASYARAT.*?(TASK-\d+)", task.get("description", "") or "")
     return m.group(1) if m else ""
 
 
@@ -126,7 +129,7 @@ def review():
                 _set(f, t, "todo", f"CI merah PR #{n} ({', '.join(red)}), perbaikan {tries + 1}/{MAX_CI_FIX}", "ci-fix")
 
 
-MODES = {"unblock": unblock, "review": review}
+MODES = {"unblock": unblock, "review": review, "audit": A.run}
 
 if __name__ == "__main__":
     if len(sys.argv) != 2 or sys.argv[1] not in MODES:
