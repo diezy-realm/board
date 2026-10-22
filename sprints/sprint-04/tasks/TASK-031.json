@@ -1,0 +1,31 @@
+{
+  "id": "TASK-031",
+  "type": "task",
+  "title": "E2E-02: Verifikasi Config Mutation, Atomic Disk Persistence & Live Drift Detection (Real Filesystem)",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "QA",
+    "E2E",
+    "Config",
+    "Persistence"
+  ],
+  "source_spec": "SPEC-005",
+  "source_backlog": "BL-005",
+  "description": "Gunakan skill squad-qa dan squad-backend.\n\nImplementasikan dan jalankan suite pengujian End-to-End untuk alur persistensi konfigurasi dan drift detection pada filesystem nyata tanpa mock store:\n1. Siapkan direktori fisik sementara menggunakan tempfile::tempdir() dan tulis file konfigurasi valid config.toml.\n2. Jalankan mutasi konfigurasi melalui operasi JSON Patch nyata (RFC 6902) via API /api/config.\n3. Verifikasi proses persist_and_swap menulis berkas fisik ke disk secara atomik dan isi berkas terbaca konsisten setelah swap.\n4. Lakukan modifikasi eksternal langsung pada berkas config.toml di disk, panggil fungsi try_compute_drift, dan verifikasi ringkasan drift (ConfigDriftSummary) mendeteksi pergeseran secara akurat.\n5. Verifikasi: cargo check -p clawcrew-config --tests && cargo nextest run -p clawcrew-gateway -E 'test(api_config)' --locked lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-030 selesai & PR merged ke testing.\nBRANCH: testing -> feat/e2e-02-config-persistence-drift.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Mutasi konfigurasi berhasil diterapkan secara atomik pada berkas fisik di disk",
+    "Hasil pembacaan ulang berkas dari disk sesuai persis dengan perubahan patch",
+    "Deteksi pergeseran (drift) mengenali modifikasi eksternal dan menghasilkan summary diff yang akurat",
+    "Nol mock store: semua pembacaan dan penulisan menyentuh filesystem nyata",
+    "cargo check -p clawcrew-config --tests lolos 0 error",
+    "cargo nextest run -p clawcrew-gateway -E 'test(api_config)' --locked lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-22T12:40:00Z",
+  "updated": "2026-10-22T14:39:31.371774+00:00",
+  "notes": "Unblocked: Dependensi TASK-030 telah selesai dan merged ke branch testing."
+}

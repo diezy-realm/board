@@ -1,0 +1,32 @@
+{
+  "id": "TASK-030",
+  "type": "task",
+  "title": "E2E-01: Verifikasi Gateway REST API & WebSocket Protocol Lifecycle (Real TCP Socket)",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "QA",
+    "E2E",
+    "Gateway",
+    "WebSocket"
+  ],
+  "source_spec": "SPEC-005",
+  "source_backlog": "BL-005",
+  "description": "Gunakan skill squad-qa dan squad-backend.\n\nImplementasikan dan jalankan suite pengujian End-to-End untuk menguji siklus hidup Gateway Axum dan protokol WebSocket secara nyata tanpa mockup transport:\n1. Jalankan Axum gateway binding pada ephemeral TCP socket lokal (127.0.0.1:0) menggunakan server listener nyata.\n2. Lakukan request HTTP nyata menggunakan client HTTP (reqwest) ke rute /health, /ready, dan /api/sections/* guna memvalidasi response body dan HTTP status code.\n3. Lakukan koneksi WebSocket nyata (tokio-tungstenite) ke endpoint /ws, selesaikan handshake upgrade, jalankan frame heartbeat ping/pong, dan uji penerimaan frame chat stream secara utuh.\n4. Pastikan tidak ada stub router atau mock channel yang digunakan.\n5. Verifikasi: cargo check -p clawcrew-gateway --tests && cargo nextest run -p clawcrew-gateway --locked lulus 100%.\n\nBRANCH: testing -> feat/e2e-01-gateway-websocket-lifecycle.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Gateway berhasil binding pada ephemeral port lokal tanpa error",
+    "Endpoint HTTP /health, /ready, dan /api/sections/* merespons dengan format JSON nyata dan status 200 OK",
+    "Koneksi WebSocket berhasil melakukan handshake, pertukaran frame ping/pong, dan stream message",
+    "Tidak ada data mockup atau transport stub dalam alur pengujian",
+    "cargo check -p clawcrew-gateway --tests lolos 0 error",
+    "cargo nextest run -p clawcrew-gateway --locked lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-069",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:40:00Z",
+  "updated": "2026-10-22T14:39:31.371774+00:00",
+  "agy_conversation_id": "d5848d1d-5b6d-4398-a77d-d3f7fe5f2d6d",
+  "notes": "PR #75 lolos CI Required Gates dan telah resmi MERGED ke testing."
+}
