@@ -2,7 +2,7 @@
   "id": "TASK-028",
   "type": "task",
   "title": "T3-04b: Dekomposisi file ws.rs (4.259 LOC) menjadi submodule ws/",
-  "status": "blocked",
+  "status": "review",
   "assignee": "agy",
   "role": "backend",
   "tags": [
@@ -21,9 +21,10 @@
     "cargo nextest run -p clawcrew-gateway --locked lulus 100%",
     "PR dibuka ke branch testing dan CI dev-ci hijau"
   ],
-  "report": null,
+  "report": "RPT-064",
   "author": "kirocrew",
   "created": "2026-10-22T09:58:00Z",
-  "updated": "2026-10-22T03:55:50Z",
-  "notes": "BLOCKED: prasyarat TASK-027 (PR #72) belum merged ke testing (CI dev-ci sedang berjalan). Sesuai aturan sequencing RULE 7 & PRASYARAT task, eksekusi T3-04b ditunda sampai PR #72 resmi merged ke testing."
+  "updated": "2026-10-22T06:23:55Z",
+  "notes": "Dekomposisi ws.rs selesai. PR #73 dibuka ke branch testing (commit 258e4d447). cargo check 0 error, cargo nextest 444/444 passed. Local CI dev-ci running.",
+  "agy_conversation_id": "55ce381f-0b1a-47ce-9b29-cb213a2b34cb"
 }
