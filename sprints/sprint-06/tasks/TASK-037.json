@@ -2,7 +2,7 @@
   "id": "TASK-037",
   "type": "task",
   "title": "T3-06: Retargeting clawcrew-eval Runner untuk Replay Trace Fixtures ke Interface Go",
-  "status": "done",
+  "status": "blocked",
   "assignee": "agy",
   "role": "backend",
   "tags": [
@@ -20,9 +20,10 @@
     "cargo test -p clawcrew-eval lulus 100%",
     "PR dibuka ke branch testing dan CI dev-ci hijau"
   ],
-  "report": "RPT-037",
+  "report": "RPT-071",
   "author": "kirocrew",
   "created": "2026-10-22T12:55:00Z",
-  "updated": "2026-10-22T13:48:00.000000+00:00",
-  "notes": "PR #77 created to testing; dev-ci unit ci-pr77-af3d6c61 queued; 100% test pass"
+  "updated": "2026-10-22T14:43:20.330477+00:00",
+  "notes": "Blocked: Menunggu Sprint 05 selesai 100%. PR #77 sudah dibuat di branch feat/t3-06-eval-retarget-go dan akan di-review/merge setelah Sprint 06 aktif.",
+  "agy_conversation_id": "dba6033b-e082-441b-804f-fc29421a529e"
 }
