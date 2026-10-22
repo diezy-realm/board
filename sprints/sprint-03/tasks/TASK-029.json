@@ -4,9 +4,11 @@
   "title": "T3-04c: Dekomposisi file api_sections.rs (2.413 LOC) menjadi submodule api_sections/",
   "status": "blocked",
   "assignee": "agy",
+  "role": "backend",
+  "tags": ["BE", "Rust", "Sections"],
   "source_spec": "SPEC-004",
   "source_backlog": "BL-004",
-  "description": "Eksekusi pemecahan file crates/clawcrew-gateway/src/api_sections.rs (2.413 baris) menjadi direktori modul api_sections/ sesuai pola SAFE RF-A (SPEC-004):\n1. Buat direktori crates/clawcrew-gateway/src/api_sections/\n2. Pisahkan unit test mod tests (baris 1135-2413) ke crates/clawcrew-gateway/src/api_sections/tests.rs\n3. Ekstrak per-section handler ke handlers.rs dan routing/re-export ke mod.rs\n4. Pertahankan semua public re-export agar rute Axum tidak berubah\n5. Verifikasi: cargo check -p clawcrew-gateway && cargo nextest run -p clawcrew-gateway --locked lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-028 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-04-split-gateway-api-sections.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "description": "Gunakan skill squad-backend.\n\nEksekusi pemecahan file crates/clawcrew-gateway/src/api_sections.rs (2.413 baris) menjadi direktori modul api_sections/ sesuai pola SAFE RF-A (SPEC-004):\n1. Buat direktori crates/clawcrew-gateway/src/api_sections/\n2. Pisahkan unit test mod tests (baris 1135-2413) ke crates/clawcrew-gateway/src/api_sections/tests.rs\n3. Ekstrak per-section handler ke handlers.rs dan routing/re-export ke mod.rs\n4. Pertahankan semua public re-export agar rute Axum tidak berubah\n5. Verifikasi: cargo check -p clawcrew-gateway && cargo nextest run -p clawcrew-gateway --locked lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-028 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-04-split-gateway-api-sections.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
   "acceptance": [
     "File api_sections.rs monolitik dihapus dan digantikan oleh direktori api_sections/",
     "Unit test terpisah bersih di api_sections/tests.rs",
@@ -18,6 +20,6 @@
   "report": null,
   "author": "kirocrew",
   "created": "2026-10-22T09:58:00Z",
-  "updated": "2026-10-22T09:58:00Z",
+  "updated": "2026-10-22T10:07:00Z",
   "notes": "BLOCKED: menunggu TASK-028 selesai dan PR merged ke testing."
 }

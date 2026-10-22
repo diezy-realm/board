@@ -2,11 +2,13 @@
   "id": "TASK-027",
   "type": "task",
   "title": "T3-04a: Dekomposisi file api_config.rs (4.940 LOC) menjadi submodule api_config/",
-  "status": "todo",
+  "status": "in-progress",
   "assignee": "agy",
+  "role": "backend",
+  "tags": ["BE", "Rust", "Gateway"],
   "source_spec": "SPEC-004",
   "source_backlog": "BL-004",
-  "description": "Eksekusi pemecahan file crates/clawcrew-gateway/src/api_config.rs (4.940 baris) menjadi direktori modul api_config/ sesuai pola SAFE RF-A (SPEC-004):\n1. Buat direktori crates/clawcrew-gateway/src/api_config/\n2. Pisahkan unit test mod tests (baris 2626-4940) ke crates/clawcrew-gateway/src/api_config/tests.rs\n3. Ekstrak logika patch & persist_and_swap ke patch.rs, drift detection ke drift.rs, dan DTO/route entry ke mod.rs\n4. Pertahankan semua public re-export agar caller eksternal (src/main.rs, handlers, test_state) tidak terpengaruh\n5. Verifikasi: cargo check -p clawcrew-gateway && cargo nextest run -p clawcrew-gateway --locked lulus 100%.\n\nBRANCH: testing -> feat/t3-04-split-gateway-api-config.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "description": "Gunakan skill squad-backend.\n\nEksekusi pemecahan file crates/clawcrew-gateway/src/api_config.rs (4.940 baris) menjadi direktori modul api_config/ sesuai pola SAFE RF-A (SPEC-004):\n1. Buat direktori crates/clawcrew-gateway/src/api_config/\n2. Pisahkan unit test mod tests (baris 2626-4940) ke crates/clawcrew-gateway/src/api_config/tests.rs\n3. Ekstrak logika patch & persist_and_swap ke patch.rs, drift detection ke drift.rs, dan DTO/route entry ke mod.rs\n4. Pertahankan semua public re-export agar caller eksternal (src/main.rs, handlers, test_state) tidak terpengaruh\n5. Verifikasi: cargo check -p clawcrew-gateway && cargo nextest run -p clawcrew-gateway --locked lulus 100%.\n\nBRANCH: testing -> feat/t3-04-split-gateway-api-config.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
   "acceptance": [
     "File api_config.rs monolitik dihapus dan digantikan oleh direktori api_config/",
     "Unit test terpisah bersih di api_config/tests.rs",
@@ -18,5 +20,5 @@
   "report": null,
   "author": "kirocrew",
   "created": "2026-10-22T09:58:00Z",
-  "updated": "2026-10-22T09:58:00Z"
+  "updated": "2026-10-22T10:05:00Z"
 }
