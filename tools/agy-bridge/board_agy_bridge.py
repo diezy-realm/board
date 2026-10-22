@@ -34,6 +34,7 @@ import subprocess
 import datetime
 from pathlib import Path
 import sqlite3
+import fcntl
 
 HOME = Path.home()
 BOARD = HOME / "Apps" / "board"
@@ -119,8 +120,39 @@ def _now():
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
+def _is_sprint_active(sprint_dir: Path) -> bool:
+    """Returns True ONLY if SPRINT.md explicitly declares status: active."""
+    sp = sprint_dir / "SPRINT.md"
+    if not sp.is_file():
+        return False
+    try:
+        text = sp.read_text(encoding="utf-8", errors="replace")
+        for line in text.splitlines():
+            line = line.strip()
+            if line.startswith("status:"):
+                val = line.split(":", 1)[1].strip().lower()
+                return val == "active"
+    except Exception:
+        return False
+    return False
+
+
 def _active_task_files():
-    """Task JSONs in a live (non-archived) sprint tasks/ folder."""
+    """Task JSONs in an ACTIVE sprint tasks/ folder only."""
+    out = []
+    if not BOARD.is_dir():
+        return out
+    for f in sorted(BOARD.rglob("*.json")):
+        rel = f.relative_to(BOARD).parts
+        if f.parent.name == "tasks" and "archive" not in rel:
+            sprint_dir = f.parent.parent
+            if _is_sprint_active(sprint_dir):
+                out.append(f)
+    return out
+
+
+def _live_task_files():
+    """All task JSONs in any non-archived sprint folder (active or planning)."""
     out = []
     if not BOARD.is_dir():
         return out
@@ -143,13 +175,21 @@ def _save(f, obj):
 
 
 def _next_report_id(sprint_dir):
-    """RPT-NNN unique across the whole board (ids never reused)."""
-    nums = [0]
-    for f in BOARD.rglob("RPT-*.md"):
-        m = re.match(r"RPT-(\d+)", f.stem)
-        if m:
-            nums.append(int(m.group(1)))
-    return f"RPT-{max(nums) + 1:03d}"
+    """RPT-NNN unique across the whole board (ids never reused).
+    Uses file lock to prevent race condition when multiple processes scan simultaneously."""
+    lock_file = BOARD / ".rpt_id_lock"
+    # Acquire exclusive lock (blocks if another process holds it)
+    with open(str(lock_file), "a") as lf:
+        fcntl.flock(lf.fileno(), fcntl.LOCK_EX)
+        try:
+            nums = [0]
+            for f in BOARD.rglob("RPT-*.md"):
+                m = re.match(r"RPT-(\d+)", f.stem)
+                if m:
+                    nums.append(int(m.group(1)))
+            return f"RPT-{max(nums) + 1:03d}"
+        finally:
+            fcntl.flock(lf.fileno(), fcntl.LOCK_UN)
 
 
 def _write_report(sprint_dir, rpt_id, task, status, summary, evidence):
@@ -248,6 +288,9 @@ def _expected_branch(task: dict) -> str:
     """Pull the branch name agy is told to use from the task (feat/... token)."""
     import re as _re
     blob = (task.get("description", "") or "") + " " + " ".join(task.get("acceptance") or [])
+    m = _re.search(r"[Bb]ranch:\s*(feat/[A-Za-z0-9._/-]+)", blob)
+    if m:
+        return m.group(1).rstrip(".,);")
     m = _re.search(r"feat/[A-Za-z0-9._/-]+", blob)
     return m.group(0).rstrip(".,);") if m else ""
 

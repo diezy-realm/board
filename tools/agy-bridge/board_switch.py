@@ -49,6 +49,11 @@ def _prereq_task(task):
     return m.group(1) if m else ""
 
 
+def _has_sprint_prereq(task):
+    """Detect if task is gated on an entire sprint completion."""
+    return bool(re.search(r"PRASYARAT.*?(Sprint\s+\d+|sprint-\d+)", task.get("description", "") or "", re.IGNORECASE))
+
+
 def _branch_pr_merged(branch):
     if not branch:
         return False
@@ -69,6 +74,9 @@ def unblock():
             files[t.get("id")] = (f, t)
     for tid, (f, t) in files.items():
         if t.get("assignee") != "agy" or t.get("status") != "blocked":
+            continue
+        if _has_sprint_prereq(t):
+            # Gated on a previous sprint completion — NOT an orphan failure, do not auto-retry
             continue
         prereq = _prereq_task(t)
         if not prereq or prereq not in files:
