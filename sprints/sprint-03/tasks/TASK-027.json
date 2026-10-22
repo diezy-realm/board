@@ -2,7 +2,7 @@
   "id": "TASK-027",
   "type": "task",
   "title": "T3-04a: Dekomposisi file api_config.rs (4.940 LOC) menjadi submodule api_config/",
-  "status": "in-progress",
+  "status": "done",
   "assignee": "agy",
   "role": "backend",
   "tags": ["BE", "Rust", "Gateway"],
@@ -17,8 +17,8 @@
     "cargo nextest run -p clawcrew-gateway --locked lulus 100%",
     "PR dibuka ke branch testing dan CI dev-ci hijau"
   ],
-  "report": null,
+  "report": "RPT-027",
   "author": "kirocrew",
   "created": "2026-10-22T09:58:00Z",
-  "updated": "2026-10-22T10:05:00Z"
+  "updated": "2026-10-22T03:22:00Z"
 }
