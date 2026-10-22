@@ -1,0 +1,23 @@
+{
+  "id": "TASK-009",
+  "type": "task",
+  "title": "T3-03: ekstrak channel discord jadi crate galleon-channel-discord",
+  "status": "done",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "T3-03 (BR-C6): ekstrak channel 'discord' dari monolith clawcrew-channels jadi crate galleon-channel-discord. KEDEPANKAN FAKTA KODE: cek dulu crates/clawcrew-channels/src/discord/ (atau discord.rs) + bagaimana channel SUDAH-diekstrak lain dibuat (mis. galleon-channel-telegram) sebagai pola. LANGKAH: (1) buat crate crates/galleon-channel-discord, (2) pindahkan modul discord, (3) dependency policy allowlist SSOT via galleon-channel-core, (4) re-export 'pub use galleon_channel_discord as discord' di clawcrew-channels/src/lib.rs, (5) hapus modul monolith lama, (6) daftarkan di tests/architecture/dependency_direction.rs, (7) cargo nextest run crate baru lulus 100%, (8) cargo check --workspace (compile) + cargo nextest run -p galleon-channel-<nama> (test). BRANCH: testing -> feat/t3-03-channel-discord. PR ke testing, lalu gh pr checks <nomor> — merah? perbaiki di branch sama, push, cek ulang sampai hijau atau catat blocker. Selesai -> RPT-* (PR, test, CI), set done. PRASYARAT: (none — boleh paralel dgn T3-02 krn beda crate) MERGED dulu (lib.rs & architecture gate diubah tiap channel — hindari konflik) — kalau belum, biarkan blocked.",
+  "acceptance": [
+    "crate galleon-channel-discord dibuat, modul discord dipindah, monolith lama dihapus",
+    "re-export di lib.rs + terdaftar di dependency_direction.rs",
+    "cargo check --workspace hijau + cargo nextest run -p galleon-channel-<nama> lulus",
+    "PR ke testing dari feat/t3-03-channel-discord",
+    "CI dicek via gh pr checks; hijau atau blocker dicatat",
+    "RPT-* dgn bukti"
+  ],
+  "report": "RPT-017",
+  "author": "kirocrew",
+  "created": "2026-10-17T07:23:00Z",
+  "updated": "2026-10-17T16:02:59.520940+00:00",
+  "notes": "reset 2026-10-17: 'done' palsu — agy exit 0 tapi tak push/PR (background 'will wait'). Bridge kini verifikasi PR nyata. | bridge 2026-10-17T09:19: agy mengklaim selesai TAPI tidak mengirim hasil: branch feat/t3-03-channel-discord belum di-push ke origin. (kemungkinan agy menjalankan build di background lalu mengakhiri turn dengan 'will wait' tanpa commit/push/PR). Output agy:\nI have launched `cargo check -p galleon-channel-discord` and am wait | auto-retry 1/3 2026-10-17T15:37"
+}

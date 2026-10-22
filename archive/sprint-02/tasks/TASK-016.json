@@ -1,0 +1,26 @@
+{
+  "id": "TASK-016",
+  "type": "task",
+  "title": "BL-001: Tambah field agent_alias di ExecuteTurnRequest proto + Rust resolve fallback",
+  "status": "done",
+  "assignee": "agy",
+  "source_spec": "SPEC-001",
+  "source_backlog": "BL-001",
+  "description": "WAJIB BACA DULU, URUT: (1) board/sprints/sprint-02/specs/SPEC-001.md SELURUHNYA termasuk bagian ADDENDUM di akhir file -- addendum itu MEREVISI asumsi awal, jangan skip. (2) engine/src/crew/services.go baris 40-100 (fungsi StartTurn) untuk lihat fakta nyata: TurnRequest.AgentID (dto.go:6) SUDAH ADA dan di-resolve di services.go:75, TAPI saat membangun pb.ExecuteTurnRequest di baris ~91, field Model di-HARDCODE \"gpt-4o\" -- agentID yang sudah di-resolve TIDAK dipakai sama sekali. Ini bug konkret, bukan 'proto tidak punya field apa-apa' seperti asumsi SPEC versi awal.\n\nFile ownership: proto/agent_service.proto (JIKA memang perlu field baru di ExecuteTurnRequest -- verifikasi dulu sebelum menambah) + crates/clawcrew-gateway/src/grpc_system_gateway.rs (titik implementasi RPC ExecuteTurn) + engine/src/crew/services.go (titik StartTurn yang membangun ExecuteTurnRequest). JANGAN sentuh engine/src/crew/dto.go CrewMember atau titik lain (itu BL-002/TASK-017, BLOCKED sampai task ini merged).\n\nLangkah: (1) Verifikasi ULANG: apakah agentID di services.go:75 cukup diteruskan sebagai field BARU di pb.ExecuteTurnRequest (misal agent_alias), atau ada mekanisme lain yang lebih tepat -- putuskan berdasar kode nyata, bukan rencana lama. (2) Kalau perlu field baru di proto, tambah `optional string agent_alias = N;` (N = slot kosong berikutnya, JANGAN reuse nomor terpakai), regenerate kode via build script yang sudah ada (grep 'protoc'/'buf generate'), JANGAN edit generated code manual. (3) Di services.go, GANTI hardcode `Model: \"gpt-4o\"` -- isi agent_alias dari agentID yang sudah di-resolve. (4) Di grpc_system_gateway.rs (titik ExecuteTurn handler Rust), tambah logic: kalau request.agent_alias terisi DAN config.agents.get(agent_alias) ketemu, pakai AliasedAgentConfig itu (model_provider, dst). Kalau kosong/tidak ketemu, fallback ke default yang masuk akal -- JANGAN fail hard/panic.\n\nBranch: feat/t-identity-bridge-001-proto-agent-alias. PR ke testing.",
+  "acceptance": [
+    "Hardcode Model: \"gpt-4o\" di services.go DIHAPUS/diganti logic nyata -- agentID yang sudah di-resolve StartTurn benar-benar dipakai menentukan agent/model untuk ExecuteTurnRequest",
+    "ExecuteTurnRequest (proto) punya cara membawa identitas agent ke Rust (field baru agent_alias ATAU mekanisme lain yang diverifikasi lebih tepat -- dijelaskan di report kenapa pilih itu)",
+    "Request dengan identitas agent valid -> ExecuteTurn (Rust) resolve config.agents.get() dan pakai config itu",
+    "Request dengan identitas agent kosong/tidak ditemukan -> fallback jelas, TIDAK crash",
+    "Test baru: skenario valid/invalid/kosong ditambahkan dan lulus",
+    "Regression: test StartTurn/ExecuteTurn existing tetap lulus",
+    "cargo check --workspace, cargo nextest run -p clawcrew-gateway, go build ./..., go test ./engine/... hijau",
+    "PR dibuka ke testing dari branch feat/t-identity-bridge-001-proto-agent-alias"
+  ],
+  "report": "RPT-037",
+  "author": "kirocrew",
+  "created": "2026-10-18T21:15:00Z",
+  "updated": "2026-10-21T00:35:00.956052+00:00",
+  "notes": "reset: claim in-progress yatim sejak reboot 18 Okt (bridge mati, branch tanpa commit agent_alias, no PR) -- re-dispatch 2026-10-20T18:30 | koreksi: status todo tadi SALAH -- agy terbukti aktif sejak 17:09 (6 file uncommitted: proto+grpc_system_gateway.rs+services.go+pb.go+2 test), bukan yatim. Dikembalikan ke in-progress, TIDAK diganggu. 2026-10-20T18:46 | CI merah PR #59 (Format), perbaikan 1/3 2026-10-20T20:20 | PR #59 merged 2026-10-21T00:35",
+  "agy_conversation_id": "741f0f3c-4b00-45d0-9538-8968fded1cb5"
+}

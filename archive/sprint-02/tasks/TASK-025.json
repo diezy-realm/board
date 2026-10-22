@@ -1,0 +1,20 @@
+{
+  "id": "TASK-025",
+  "type": "task",
+  "title": "T3-08a: Pembuatan & push Git Tag Archive archive/pre-galleon-rpc untuk modul runtime/src/rpc",
+  "status": "done",
+  "assignee": "agy",
+  "source_spec": "SPEC-003",
+  "source_backlog": "",
+  "description": "Prasyarat wajib sebelum penghapusan modul legacy RPC runtime (34.6k LOC) pada T3-08 / BR-D4 (mengikuti pola sukses T3-07 verifiable_intent). Buat git tag anotasi permanen `archive/pre-galleon-rpc` dari commit branch `testing` saat ini untuk mengabadikan state historis modul RPC sebelum dihapus dari codebase aktif.\n\nLANGKAH:\n1. Pastikan branch testing lokal up-to-date (`git pull origin testing`).\n2. Buat tag anotasi: `git tag -a archive/pre-galleon-rpc -m 'archive(runtime): preserve legacy rpc subsystem (34.6k LOC) prior to T3-08 removal'`.\n3. Push tag ke origin: `git push origin archive/pre-galleon-rpc`.\n4. Verifikasi tag muncul di remote (`git ls-remote --tags origin archive/pre-galleon-rpc`).",
+  "acceptance": [
+    "Tag git archive/pre-galleon-rpc terbuat di commit testing yang valid",
+    "Tag berhasil di-push ke remote origin",
+    "git ls-remote mengonfirmasi keberadaan tag di remote"
+  ],
+  "report": "RPT-058",
+  "author": "kirocrew",
+  "created": "2026-10-22T02:00:00Z",
+  "updated": "2026-10-21T20:20:05.141366+00:00",
+  "agy_conversation_id": "6f669d11-d81a-4d77-9e04-27993ff825d4"
+}

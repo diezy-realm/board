@@ -1,0 +1,19 @@
+{
+  "id": "TASK-002",
+  "type": "task",
+  "title": "T3-03 (BR-C6) EPIC: pecah channels — dipecah per-channel",
+  "status": "done",
+  "assignee": "kirocrew",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "EPIC — JANGAN dikerjakan langsung (ini payung, bukan task atomik). Dipecah jadi sub-task granular per-subsistem/channel yang dikerjakan agy bertahap, satu per PR, sequenced (yang berikutnya blocked sampai pendahulunya MERGED supaya tak konflik di crate yang sama): TASK-009 discord, TASK-010 matrix, TASK-011 slack. Epic ini ditutup (done) setelah SEMUA sub-task selesai & merged + DoD T3-02/T3-03 terpenuhi.",
+  "acceptance": [
+    "Semua sub-task (TASK-009, TASK-010, TASK-011) done & PR merged",
+    "DoD tiket induk di reference/dev-task-3/README.md terpenuhi (0 ref / semua channel punya crate)"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-17T06:26:00Z",
+  "updated": "2026-10-21T04:53:39.333394+00:00",
+  "notes": "Semua sub-task (TASK-009,010,011) done & PR merged -- EPIC ditutup. 2026-10-21T04:53"
+}

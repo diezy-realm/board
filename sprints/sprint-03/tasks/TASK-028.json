@@ -1,0 +1,23 @@
+{
+  "id": "TASK-028",
+  "type": "task",
+  "title": "T3-04b: Dekomposisi file ws.rs (4.259 LOC) menjadi submodule ws/",
+  "status": "blocked",
+  "assignee": "agy",
+  "source_spec": "SPEC-004",
+  "source_backlog": "BL-004",
+  "description": "Eksekusi pemecahan file crates/clawcrew-gateway/src/ws.rs (4.259 baris) menjadi direktori modul ws/ sesuai pola SAFE RF-A (SPEC-004):\n1. Buat direktori crates/clawcrew-gateway/src/ws/\n2. Pisahkan unit test mod tests (baris 2106-4259) ke crates/clawcrew-gateway/src/ws/tests.rs\n3. Ekstrak session management ke session.rs, message dispatch ke dispatch.rs, dan handshake/route entry ke mod.rs\n4. Pertahankan semua public re-export agar caller gateway/lib.rs dan main.rs tetap bekerja tanpa perubahan\n5. Verifikasi: cargo check -p clawcrew-gateway && cargo nextest run -p clawcrew-gateway --locked lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-027 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-04-split-gateway-ws.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "File ws.rs monolitik dihapus dan digantikan oleh direktori ws/",
+    "Unit test terpisah bersih di ws/tests.rs",
+    "Tidak ada berkas hasil dekomposisi ws/ yang melebihi 2.000 baris",
+    "cargo check -p clawcrew-gateway lolos 0 error",
+    "cargo nextest run -p clawcrew-gateway --locked lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-22T09:58:00Z",
+  "updated": "2026-10-22T09:58:00Z",
+  "notes": "BLOCKED: menunggu TASK-027 selesai dan PR merged ke testing."
+}

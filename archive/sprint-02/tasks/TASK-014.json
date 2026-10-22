@@ -1,0 +1,21 @@
+{
+  "id": "TASK-014",
+  "type": "task",
+  "title": "T3-02 cron: api.rs (83 ref, INKREMENTAL)",
+  "status": "done",
+  "assignee": "agy",
+  "source_spec": "",
+  "source_backlog": "",
+  "description": "Bagian pemecahan T3-02 cron. Lepaskan clawcrew_runtime::cron HANYA dari crates/clawcrew-gateway/src/api.rs (83 ref). KERJA SINKRON, JANGAN background-wait. Ukur: grep -c clawcrew_runtime::cron crates/clawcrew-gateway/src/api.rs. Pindahkan definisi cron yang dipakai ke leaf SSOT (clawcrew_infra/config/api/tools) + trait runner di clawcrew_api bila perlu callback runtime, alihkan import. File ini BESAR (83 ref) — kerjakan INKREMENTAL: pindahkan per-grup fungsi, commit tiap grup kecil ke branch yang sama (bukan satu commit raksasa di akhir), supaya progres tersimpan walau turn habis. WAJIB SEBELUM TURN BERAKHIR: git add crates/clawcrew-gateway/src/api.rs (+file leaf yang diubah) -> git commit -> git push origin feat/t3-02a-cron-api -> gh pr create --base testing. Lalu gh pr checks <nomor>; merah -> perbaiki di branch sama -> push -> cek ulang. JANGAN akhiri dengan 'will wait'. Selesai -> RPT-* (nomor PR, grep count sesudah, status CI), set done. Terlalu besar utk satu turn? commit+push+PR parsial, set blocked + notes sisa. PRASYARAT: TASK-013 harus MERGED dulu (file gateway sama, hindari konflik).",
+  "acceptance": [
+    "grep clawcrew_runtime::cron di api.rs berkurang signifikan menuju 0",
+    "PR dibuka ke testing dari feat/t3-02a-cron-api (nomor dicatat)",
+    "CI dicek via gh pr checks; hijau atau blocker dicatat",
+    "RPT-* bukti nyata"
+  ],
+  "report": "RPT-016",
+  "author": "kirocrew",
+  "created": "2026-10-17T08:24:00Z",
+  "updated": "2026-10-17T14:07:12.014148+00:00",
+  "notes": "auto-unblock 2026-10-17T12:59: TASK-013 done+merged | bridge 2026-10-17T13:16: agy exit 3\nSTDERR:\nerror: There was a network issue connecting to the server, please try again.\nAGY_ERROR: {\"short_error\":\"agent executor error: generating and executing: stream reading error: read tcp [2606:4700:cf1:1000::2]:51164-\\u003e[2001:4860:4844:400::]:443: read: connection timed out\",\"statu | auto-unblock 2026-10-17T13:16: TASK-013 done+merged | bridge 2026-10-17T13:42: agy mengklaim selesai TAPI tidak mengirim hasil: branch feat/t3-02a-cron-api belum di-push ke origin. (kemungkinan agy menjalankan build di background lalu mengakhiri turn dengan 'will wait' tanpa commit/push/PR). Output agy:\n{\"conversation_id\":\"a5564b1f-7b2b-4dcb-8476-78c8378aa039\",\"status\":\"SUCCES | auto-unblock 2026-10-17T13:42: TASK-013 done+merged"
+}

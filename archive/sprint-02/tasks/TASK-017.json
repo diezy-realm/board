@@ -1,0 +1,24 @@
+{
+  "id": "TASK-017",
+  "type": "task",
+  "title": "BL-002: Tambah CrewMember.AgentAlias (Go) + kirim di ExecuteTurn call -- BLOCKED sampai TASK-016 merged",
+  "status": "done",
+  "assignee": "agy",
+  "source_spec": "SPEC-001",
+  "source_backlog": "BL-002",
+  "description": "PRASYARAT: TASK-016 (BL-001) MERGED. JANGAN mulai sebelum branch feat/t-identity-bridge-001-proto-agent-alias merged ke testing.\n\nWAJIB BACA DULU: board/sprints/sprint-02/specs/SPEC-001.md SELURUHNYA termasuk ADDENDUM di akhir file. Fakta terkoreksi: TurnRequest.AgentID (engine/src/crew/dto.go:6) SUDAH ADA sejak awal -- yang BELUM ada adalah CrewMember (identitas organisasi Squad/Ship) tidak punya field yang mengisi AgentID itu secara terstruktur. Titik panggil StartTurn mengisi AgentID dari berbagai tempat ad-hoc (grep 'TurnRequest{' dan 'AgentID:' di seluruh engine/src untuk daftar LENGKAP titik panggil saat ini, jangan asumsi hanya dari contoh yang disebut riset -- verifikasi ulang sendiri).\n\nFile ownership: HANYA engine/src/crew/dto.go (CrewMember struct) + titik-titik panggil StartTurn yang ditemukan grep di atas. JANGAN sentuh proto atau kode Rust (itu TASK-016).\n\nLangkah: (1) Grep ulang semua pemanggil StartTurn/TurnRequest{AgentID: ...} di engine/src -- catat di report SEMUA titik yang ditemukan (jangan cuma 1-2 contoh). (2) Tambah `AgentAlias string` ke CrewMember (default kosong, json omitempty). (3) Cek engine/pkg/store/sqlite/schema.go apakah CrewMember diserialisasi ke kolom individual (perlu migrasi) atau JSON blob (tidak perlu) -- dokumentasikan temuan dengan bukti path+baris. (4) Selaraskan titik panggil StartTurn yang relevan agar AgentID diisi dari CrewMember.AgentAlias ketika CrewMember tersedia di konteks itu -- JANGAN ubah titik yang tidak punya konteks CrewMember (misal test sintetis), biarkan seperti semula.\n\nBranch: feat/t-identity-bridge-002-go-agent-alias. PR ke testing.",
+  "acceptance": [
+    "CrewMember.AgentAlias string ditambahkan, default kosong, backward compatible",
+    "Temuan migrasi DB (perlu ALTER TABLE atau tidak) didokumentasikan di report dengan bukti (path schema.go, baris)",
+    "Titik panggil ExecuteTurn menyertakan AgentAlias saat tidak kosong, tidak mengirim field saat kosong",
+    "Test: CrewMember dengan AgentAlias terisi -> field proto terkirim; AgentAlias kosong -> field proto tidak terkirim, perilaku lama tidak berubah",
+    "go build ./... dan go test ./engine/... hijau",
+    "PR dibuka ke testing dari branch feat/t-identity-bridge-002-go-agent-alias"
+  ],
+  "report": "RPT-042",
+  "author": "kirocrew",
+  "created": "2026-10-18T21:15:00Z",
+  "updated": "2026-10-21T05:10:02.778523+00:00",
+  "notes": "PR #64 dibuka ke testing (head feat/t-identity-bridge-002-go-agent-alias). CI ci-pr64-9be49bdd aktif berjalan. | PR #64 merged 2026-10-21T05:10",
+  "agy_conversation_id": "0b03aab2-a135-45d7-a447-8c11399b8bd3"
+}
