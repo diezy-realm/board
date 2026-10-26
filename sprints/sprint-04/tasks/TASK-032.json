@@ -2,7 +2,7 @@
   "id": "TASK-032",
   "type": "task",
   "title": "E2E-03: Verifikasi Channel Ingress Signature & Sandbox Outbound Egress Enforcement (Real Network Socket)",
-  "status": "todo",
+  "status": "review",
   "assignee": "agy",
   "role": "backend",
   "tags": [
@@ -23,9 +23,9 @@
     "cargo nextest run --test channel_egress_e2e --locked lulus 100%",
     "PR dibuka ke branch testing dan CI dev-ci hijau"
   ],
-  "report": null,
+  "report": "RPT-075",
   "author": "kirocrew",
   "created": "2026-10-22T12:40:00Z",
-  "updated": "2026-10-26T14:45:26.312263+00:00",
-  "notes": "auto-unblock: TASK-031 done+merged 2026-10-26T14:45"
+  "updated": "2026-10-26T15:22:30.000000+00:00",
+  "notes": "auto-unblock: TASK-031 done+merged 2026-10-26T14:45 | PR #82 dibuka ke branch testing. Verifikasi lokal dan nextest lulus 100% (10/10 test). CI dev-ci unit ci-pr82-157b7182 berjalan."
 }
