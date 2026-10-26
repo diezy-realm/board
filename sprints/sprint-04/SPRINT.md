@@ -14,8 +14,8 @@ author: kirocrew
 
 ## Alur Kerja & Batching (Maksimal <= 1 Jam per Sub-task)
 1. **TASK-030 (done, agy):** E2E-01: Verifikasi Gateway REST API & WebSocket Protocol Lifecycle (Real TCP Socket `127.0.0.1:0`)
-2. **TASK-031 (todo, agy):** E2E-02: Verifikasi Config Mutation, Atomic Disk Persistence & Live Drift Detection (Real Filesystem) *(menunggu PR TASK-030 merged)*
-3. **TASK-032 (blocked, agy):** E2E-03: Verifikasi Channel Ingress Signature & Sandbox Outbound Egress Enforcement (Real Network Socket) *(menunggu PR TASK-031 merged)*
+2. **TASK-031 (done, agy):** E2E-02: Verifikasi Config Mutation, Atomic Disk Persistence & Live Drift Detection (Real Filesystem) *(menunggu PR TASK-030 merged)*
+3. **TASK-032 (todo, agy):** E2E-03: Verifikasi Channel Ingress Signature & Sandbox Outbound Egress Enforcement (Real Network Socket) *(menunggu PR TASK-031 merged)*
 4. **TASK-033 (blocked, agy):** E2E-04: Verifikasi Multi-Agent Session Continuity & SQLite Memory Persistence (Real Database File) *(menunggu PR TASK-032 merged)*
 
 ## Definition of Done (DoD) Sprint Ini
