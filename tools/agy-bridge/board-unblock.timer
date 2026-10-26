@@ -1,9 +1,10 @@
 [Unit]
-Description=Run the blocked -> todo switcher
+Description=Run the blocked -> todo switcher (hourly safety net / event driven)
 
 [Timer]
-OnBootSec=1min
-OnUnitActiveSec=5min
+# Hourly passive watchdog safety net (reboot-safe). Active unblocking is driven
+# directly on-time by events (task completion / auto-merge), eliminating the 5-minute polling tax.
+OnCalendar=*:00
 Persistent=true
 Unit=board-unblock.service
 

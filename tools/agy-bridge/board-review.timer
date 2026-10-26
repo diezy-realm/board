@@ -1,9 +1,10 @@
 [Unit]
-Description=Run the review switcher
+Description=Run the review switcher (hourly safety net / event driven)
 
 [Timer]
-OnBootSec=1min
-OnUnitActiveSec=5min
+# Hourly passive watchdog safety net (reboot-safe). Active review is driven
+# directly on-time by events (CI completion / auto-merge), eliminating the 5-minute polling tax.
+OnCalendar=*:00
 Persistent=true
 Unit=board-review.service
 

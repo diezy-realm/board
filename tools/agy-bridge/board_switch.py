@@ -66,12 +66,22 @@ def _branch_pr_merged(branch):
         return False
 
 
+def _trigger_agy_bridge():
+    """Trigger agy bridge service immediately via systemd without blocking."""
+    try:
+        subprocess.run(["systemctl", "--user", "start", "--no-block", "agy-bridge.service"],
+                       capture_output=True, timeout=5)
+    except Exception:
+        pass
+
+
 def unblock():
     files = {}
     for f in B._active_task_files():
         t = B._load(f)
         if t:
             files[t.get("id")] = (f, t)
+    unblocked_count = 0
     for tid, (f, t) in files.items():
         if t.get("assignee") != "agy" or t.get("status") != "blocked":
             continue
@@ -94,24 +104,32 @@ def unblock():
                     continue
             B._retry_bump(tid, "auto-retry (blocked tanpa prereq)")
             _set(f, t, "todo", f"auto-retry {n + 1}/{MAX_AUTO_RETRY}", "retry")
+            unblocked_count += 1
             continue
         _, pt = files[prereq]
         # the prerequisite's PR must be merged (same crate = avoid conflicts)
         if pt.get("status") in ("done", "review") and _branch_pr_merged(B._expected_branch(pt)):
             _set(f, t, "todo", f"auto-unblock: {prereq} done+merged", "unblock")
+            unblocked_count += 1
+    if unblocked_count > 0:
+        _trigger_agy_bridge()
+    return unblocked_count
 
 
 def review():
+    done_count = 0
     for f in B._active_task_files():
         t = B._load(f)
         if not t or t.get("assignee") != "agy" or t.get("status") != "review":
             continue
-        pr = B._branch_pr(B._expected_branch(t))
+        branch = B._expected_branch(t)
+        pr = B._branch_pr(branch)
         if not pr:
             continue
         n = pr["number"]
         if pr["state"] == "MERGED":
             _set(f, t, "done", f"PR #{n} merged", "done")
+            done_count += 1
         elif pr["state"] == "CLOSED":
             _set(f, t, "blocked", f"PR #{n} ditutup tanpa merge", "blocked")
         else:
@@ -145,6 +163,7 @@ def review():
                                 m_res = subprocess.run(m_cmd, cwd=str(B.GALLEON), capture_output=True, text=True, timeout=60)
                                 if m_res.returncode == 0:
                                     _set(f, t, "done", f"PR #{n} merged (auto-merge)", "done")
+                                    done_count += 1
                                     continue
                     except Exception:
                         pass
@@ -156,6 +175,9 @@ def review():
             else:
                 B._retry_bump(key, f"ci red: {','.join(red)}")
                 _set(f, t, "todo", f"CI merah PR #{n} ({', '.join(red)}), perbaikan {tries + 1}/{MAX_CI_FIX}", "ci-fix")
+                _trigger_agy_bridge()
+    if done_count > 0:
+        unblock()
 
 
 MODES = {"unblock": unblock, "review": review, "audit": A.run}

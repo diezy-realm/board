@@ -383,7 +383,9 @@ def _trigger_ci(pr_number, sha):
     if not pr_number or not sha or not _CI_POLLER.exists():
         return False
     r = subprocess.run(["systemd-run", "--user", "--quiet", "--collect", f"--unit=ci-pr{pr_number}-{sha[:8]}",
+                        "--property=CPUWeight=30", "--property=IOWeight=30",
                         f"--setenv=PATH={HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin",
+                        "/usr/bin/nice", "-n", "19",
                         "/usr/bin/python3", str(_CI_POLLER), "galleon-fleet", "--pr", str(pr_number)],
                        capture_output=True, text=True, timeout=30)
     return r.returncode == 0
