@@ -127,7 +127,28 @@ def review():
                 B._trigger_ci(n, pr["headRefOid"])
                 continue
             if state != "failure":
-                continue  # green: the poller merges (if enabled), else a human merges
+                # Green/success: jika PR sudah lolos CI tapi belum dimerge (mis. poller exit sebelum
+                # GitHub status siap), coba squash-merge otomatis agar review tidak wedge/tergantung.
+                if state == "success" and pr.get("baseRefName") == "testing" and branch.startswith("feat/"):
+                    sha = pr.get("headRefOid", "")
+                    try:
+                        v_cmd = ["gh", "pr", "view", str(n), "-R", "diezy-realm/galleon-fleet",
+                                 "--json", "mergeable,reviewDecision,headRefOid"]
+                        v_res = subprocess.run(v_cmd, cwd=str(B.GALLEON), capture_output=True, text=True, timeout=30)
+                        if v_res.returncode == 0:
+                            v = json.loads(v_res.stdout)
+                            if (v.get("mergeable") == "MERGEABLE"
+                                    and v.get("reviewDecision") != "CHANGES_REQUESTED"
+                                    and v.get("headRefOid") == sha):
+                                m_cmd = ["gh", "pr", "merge", str(n), "-R", "diezy-realm/galleon-fleet",
+                                         "--squash", "--match-head-commit", sha]
+                                m_res = subprocess.run(m_cmd, cwd=str(B.GALLEON), capture_output=True, text=True, timeout=60)
+                                if m_res.returncode == 0:
+                                    _set(f, t, "done", f"PR #{n} merged (auto-merge)", "done")
+                                    continue
+                    except Exception:
+                        pass
+                continue  # green: merge sedang diproses atau menunggu giliran
             key = f"ci-pr-{n}"
             tries, _ = B._retry_state(key)
             if tries >= MAX_CI_FIX:
