@@ -1,0 +1,32 @@
+{
+  "id": "TASK-048",
+  "type": "task",
+  "title": "Tentukan owner history & propagasikan context_window strangler_runner.rs (atau dokumentasikan kosong by design)",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "BE",
+    "Rust",
+    "Go",
+    "Reliability",
+    "Investigation"
+  ],
+  "source_spec": "SPEC-010",
+  "source_backlog": "BL-085",
+  "description": "Gunakan skill squad-backend.\n\nPRASYARAT (DEPENDENCY): TASK-047 selesai & PR merged ke testing (file yang sama, strangler_runner.rs, harus diserialkan agar tidak bertabrakan -- lihat SPEC-010 Rollout).\n\nFile: crates/clawcrew-gateway/src/strangler_runner.rs -- tiga titik pembentukan request mengisi context_window: Vec::new() (dikonfirmasi 2026-10-27 di sekitar baris 90, 249, 715 -- baris dapat shift, cari semua literal `context_window: Vec::new()`). self.history sudah menyimpan ConversationMessage (user+assistant) setelah setiap turn sukses tapi tidak pernah dibaca saat membentuk request berikutnya.\n\nLANGKAH WAJIB SEBELUM MENULIS KODE RUST (investigasi dulu, baca SPEC-010 Bagian B lengkap):\n1. Baca engine/app/wire_gen.go, engine/src/crew/services.go, dan listing engine/pkg/store/sqlite/ untuk memastikan APAKAH AgentEngine Go sudah punya durable session/run store yang menangani history turn-level secara independen dari context_window yang dikirim gateway.\n2. JIKA Go BELUM punya session store aktif untuk ini: isi context_window dari self.history pada ketiga titik, dengan batas wajar (misal N pesan terakhir, dokumentasikan nilainya di PR description dan kenapa). TurnRequest.context_window: Vec<u8> sudah ada sebagai field, serialisasikan ConversationMessage ke representasi yang Go bisa deserialize (cek proto/dto Go untuk format yang diharapkan -- JANGAN membuat format baru jika proto sudah mendefinisikan sesuatu).\n3. JIKA Go SUDAH punya session store aktif yang menangani ini: JANGAN isi context_window dari self.history (akan membuat dua riwayat kanonikal bersaing, melanggar Single Source of Truth di AGENTS.md). Sebagai gantinya: tambahkan komentar kode di ketiga titik menjelaskan ini sengaja kosong by design + alasan singkat, lalu tulis report yang mendokumentasikan temuan investigasi ini sebagai bukti (tidak perlu test tambahan dalam kasus ini, task selesai di level dokumentasi).\n\nTest WAJIB jika jalur (2) yang diambil:\n- Integration test dua-turn pada sesi yang sama melalui jalur nyata (bukan mock yang menyembunyikan kontrak) -- turn kedua membuktikan fakta turn pertama tersedia bagi AgentEngine.\n- Tidak ada duplikasi history (jangan kirim riwayat dobel lewat dua kanal berbeda).\n\n4. Baca SPEC-010 (sprints/sprint-05/specs/SPEC-010.md) Bagian B lengkap sebelum mulai. (T3-05b, context resolver & token counting di Go, sudah merged) sudah mengisi sebagian gap ini dari sisi Go sebelum mengasumsikan gap masih 100% terbuka -- baca diff PR #84 yang sudah merged ke testing.\n\nVerifikasi: cargo check --workspace lulus 0 error; jika Go ikut disentuh, go test ./... relevan juga lulus.\n\nBRANCH: testing -> feat/t3-05e-strangler-context-propagation.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 2 jam (termasuk investigasi).",
+  "acceptance": [
+    "Investigasi engine/ (wire_gen.go, services.go, store/sqlite) terdokumentasi di report dengan bukti path/baris konkret",
+    "Keputusan owner history (inline vs Go-owned) diambil dan didokumentasikan, bukan diam-diam dipilih tanpa justifikasi",
+    "Jika inline: context_window terisi dari self.history pada ketiga titik, dengan batas truncation yang didokumentasikan, test dua-turn lulus membuktikan kontinuitas",
+    "Jika Go-owned: komentar kode + report investigasi menjelaskan kosong by design, tanpa perubahan logic lebih jauh",
+    "Tidak ada riwayat/prompt duplikat",
+    "cargo check --workspace lolos 0 error",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-087",
+  "author": "kirocrew",
+  "created": "2026-10-27T11:30:00Z",
+  "updated": "2026-10-27T10:35:00.000000+00:00",
+  "notes": "auto-unblock: TASK-047 done+merged 2026-10-27T09:00 -- siap dieksekusi agy (todo)."
+}
