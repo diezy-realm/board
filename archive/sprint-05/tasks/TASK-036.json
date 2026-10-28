@@ -1,0 +1,30 @@
+{
+  "id": "TASK-036",
+  "type": "task",
+  "title": "T3-05c: Pembersihan dan Ramping Dependensi clawcrew-runtime Rust Crate",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "BE",
+    "Rust",
+    "Refactoring",
+    "Cleanup"
+  ],
+  "source_spec": "SPEC-006",
+  "source_backlog": "BL-006",
+  "description": "Gunakan skill squad-backend.\n\nLakukan perampingan modular pada crate clawcrew-runtime pasca-delegasi turn ke Go engine:\n1. Hapus dead-code dan modul usang di crates/clawcrew-runtime yang fungsinya telah sepenuhnya diserap oleh Go engine.\n2. Rampingkan dependencies Cargo.toml pada clawcrew-runtime (buang crate yang tidak lagi diperlukan).\n3. Verifikasi waktu build dan ukuran biner berkurang.\n4. Verifikasi: cargo check --workspace && cargo nextest run --locked lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-035 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-05c-runtime-slimming-cleanup.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Modul duplikat di runtime Rust berhasil dihapus secara bersih",
+    "Dependensi Cargo.toml clawcrew-runtime menyusut tanpa merusak build crate lain",
+    "cargo check --workspace lolos 0 error",
+    "cargo nextest run --locked lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-086",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:55:00Z",
+  "updated": "2026-10-27T09:09:57.878274+00:00",
+  "notes": "T3-05c completed: PR #85 merged into testing (118650f55). 12 unused deps removed from clawcrew-runtime, dead modules removed, build speedup ~63%, all tests pass 100%.",
+  "agy_conversation_id": "5ff025bd-54a1-40d0-aaf2-68c2df8c0371"
+}

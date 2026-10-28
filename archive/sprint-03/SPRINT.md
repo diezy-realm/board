@@ -3,9 +3,9 @@ id: sprint-03
 type: sprint
 goal: Dekomposisi file produksi gateway raksasa >2000 baris (T3-04) untuk memantapkan arsitektur sebelum strangler runtime & rename massal
 category: refactoring
-status: active
+status: done
 start: 2026-10-22
-end:
+end: 2026-10-22
 author: kirocrew
 ---
 # Sprint 03 — Dekomposisi File Raksasa Gateway (T3-04 / SAFE RF-A)

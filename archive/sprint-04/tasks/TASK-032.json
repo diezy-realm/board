@@ -1,0 +1,32 @@
+{
+  "id": "TASK-032",
+  "type": "task",
+  "title": "E2E-03: Verifikasi Channel Ingress Signature & Sandbox Outbound Egress Enforcement (Real Network Socket)",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "QA",
+    "E2E",
+    "Channels",
+    "Security"
+  ],
+  "source_spec": "SPEC-005",
+  "source_backlog": "BL-005",
+  "description": "Gunakan skill squad-qa dan squad-backend.\n\nImplementasikan dan jalankan suite pengujian End-to-End untuk autentikasi ingress channel dan enforcement sandbox egress jaringan riil tanpa stub:\n1. Kirim payload webhook HTTP nyata dengan signature HMAC SHA-256 yang valid ke endpoint channel ingress, pastikan payload diterima dan diproses.\n2. Kirim request dengan signature tidak valid atau kadaluarsa, pastikan request ditolak dengan status 401/403.\n3. Bangun listener TCP nyata pada loopback lokal, jalankan egress outbound dari plugin channel, dan verifikasi bahwa koneksi keluar diizinkan hanya jika destination grant diberikan (seperti pola channel_egress_e2e.rs).\n4. Verifikasi bahwa koneksi ke port/host yang tidak diizinkan diblokir secara mutlak oleh sandbox host.\n5. Verifikasi: cargo check -p clawcrew-channels --tests && cargo nextest run --test channel_egress_e2e --locked lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-031 selesai & PR merged ke testing.\nBRANCH: testing -> feat/e2e-03-channel-ingress-egress-sandbox.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Signature HMAC SHA-256 diverifikasi menggunakan implementasi kriptografi asli (bukan stub bypass)",
+    "Penolakan akses bekerja dengan benar pada request dengan header signature cacat",
+    "Outbound egress hanya mencapai TCP listener lokal bila permission grant aktif",
+    "Koneksi keluar tanpa grant ditolak tegas di boundary sandbox",
+    "cargo check -p clawcrew-channels --tests lolos 0 error",
+    "cargo nextest run --test channel_egress_e2e --locked lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-076",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:40:00Z",
+  "updated": "2026-10-26T16:09:19.797333+00:00",
+  "notes": "auto-unblock: TASK-031 done+merged 2026-10-26T14:45 | PR #82 dibuka ke branch testing. Verifikasi lokal dan nextest lulus 100% (10/10 test). CI dev-ci unit ci-pr82-157b7182 berjalan. | PR #82 merged 2026-10-26T16:09",
+  "agy_conversation_id": "2995c7c4-b05e-4bc0-b27b-3a67e7211065"
+}

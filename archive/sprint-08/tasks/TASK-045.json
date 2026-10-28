@@ -1,0 +1,30 @@
+{
+  "id": "TASK-045",
+  "type": "task",
+  "title": "T3-18: Migrasi String Identifiers, Env CLAWCREW_* -> GALLEON_*, dan Path ~/.clawcrew -> ~/.config/galleon",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Rebranding",
+    "Environment",
+    "Config",
+    "Migration"
+  ],
+  "source_spec": "SPEC-009",
+  "source_backlog": "BL-009",
+  "description": "Gunakan skill squad-backend.\n\nMigrasikan string identifiers, variabel lingkungan, dan direktori konfigurasi user tanpa dual-read alias (SPEC-009):\n1. Ubah variabel lingkungan CLAWCREW_* menjadi GALLEON_* di seluruh codebase (tanpa fallback dual-read).\n2. Bangun skrip migrasi data boot pertama: salin atomik ~/.clawcrew/* ke ~/.config/galleon/* dan beri tanda .migrated.\n3. Ganti prefix IPC socket dari CLAWCREW_SOCKET ke GALLEON_SOCKET.\n4. Verifikasi 0 sisa string clawcrew / zero claw pada konstanta operasional.\n5. Verifikasi: cargo test --workspace -E 'test(config_migration)' lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-044 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-18-env-config-migration.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Seluruh variabel lingkungan menggunakan prefix GALLEON_*",
+    "Jalur direktori konfigurasi terpusat di ~/.config/galleon/ tanpa dual-read",
+    "Data user lama termigrasi secara otomatis pada boot pertama",
+    "cargo test --workspace lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-105",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:55:00Z",
+  "updated": "2026-10-28T10:00:04.752665+00:00",
+  "notes": "PR #94 opened to testing branch: https://github.com/diezy-realm/galleon-fleet/pull/94 | CI merah PR #94 (Format), perbaikan 1/3 2026-10-28T08:01 | CI merah PR #94 (Principle), perbaikan 2/3 2026-10-28T08:29 | AUDIT 2026-10-28T09:45: status 'review' sejak >60min, tidak ada commit baru di branch 'feat/t3-18-env-config-migration' milik task ini (agy proses lain mungkin hidup, tapi itu bukan bukti task INI yang dikerjakan) -- kemungkinan claim yatim. Cek manual (ps aux + git log + agy_conversation_id) sebelum reset. | PR #94 merged 2026-10-28T10:00",
+  "agy_conversation_id": "2a70f95e-a02f-4173-8e9e-91566bd80d8b"
+}

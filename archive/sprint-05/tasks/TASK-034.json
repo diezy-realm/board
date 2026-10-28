@@ -1,0 +1,30 @@
+{
+  "id": "TASK-034",
+  "type": "task",
+  "title": "T3-05a: Perancangan Boundary IPC/FFI Gateway ke Engine Go dan Strangler Façade di Rust",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "BE",
+    "Rust",
+    "Go",
+    "Architecture"
+  ],
+  "source_spec": "SPEC-006",
+  "source_backlog": "BL-006",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nImplementasikan lapisan boundary IPC/gRPC antara gateway Axum dan engine Go sesuai pola strangler pattern (SPEC-006):\n1. Buat client gRPC/IPC di gateway Rust yang mengimplementasikan trait AgentRunner.\n2. Hubungkan ke service AgentEngine pada engine Go (proto/agent_service.proto).\n3. Pastikan gateway dapat melakukan delegasi pemanggilan turn tanpa mengubah rute publik /ws atau /api/turn.\n4. Verifikasi: cargo check -p clawcrew-gateway && go test ./engine/... lulus 100%.\n\nPRASYARAT (DEPENDENCY): Sprint 04 selesai 100%.\nBRANCH: testing -> feat/t3-05a-strangler-boundary.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Façade AgentRunner di gateway Rust berhasil memanggil turn service di Go engine",
+    "Translasi protokol streaming request/response bekerja mulus",
+    "cargo check -p clawcrew-gateway lolos 0 error",
+    "go test ./engine/... lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-080",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:55:00Z",
+  "updated": "2026-10-27T03:30:56.282326+00:00",
+  "notes": "Selesai. PR #76 (feat/t3-05a-strangler-boundary) hijau pada CI dev-ci. Principle gate PASSED (0 unwrap/expect in production code paths, D-2 verified). Siap di-review dan di-merge oleh Owner/KiroCrew. | PR #76 merged 2026-10-27T03:30",
+  "agy_conversation_id": "365131b8-ab67-4896-ab68-3c9c0c33a337"
+}

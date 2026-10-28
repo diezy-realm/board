@@ -135,7 +135,13 @@ Tiga pola arsitektur ditemukan BERULANG di banyak tema independen — dicatat di
 | `tier-enforcement-method-d-c-deep-dive.md` | **status: superseded** (2026-10-06) — 5 bug arsitektur (TETAP berlaku, dikutip ulang di dokumen baru), Q1-Q5 terbuka (sudah dijawab) | → `tier-pricing-and-entitlement-final.md` |
 | `tier-pricing-and-entitlement-final.md` | **status: final** — tangga tier (Community/Team/Dockyard/Private Dockyard dengan dimensi baru `CrewPerShip`/`ConcurrentVoyages`), harga flat ($15/$28), model entitlement D (pemisah paket) + P2 (token Ed25519 di modul tertutup REPO TERPISAH), 5 bug arsitektur diverifikasi ulang ke kode nyata (`ship`/`fleet`/`squad`/`entitlement` packages) | `tier-entitlement-pricing-backlog.md` (BL-80..82) |
 
-## Tema 17 — Control Plane Multi-Runtime (KiroCrew + agy), Memori Bersama, Standar Antar-Agen
+## Tema 17 — CI/CD Performance (Dev-CI Python vs Go)
+
+| Dokumen | Isi Ringkas | → Backlog |
+|---|---|---|
+| `dev-ci-python-vs-go-benchmark-2026-10-19.md` | **status: research** (2026-10-19) — evaluasi teknis ganti `dev-ci/bin/ci-poller` Python→Go: startup overhead Python (~25ms) vs total PR time (60-200s = 0.01-0.04%), bottleneck riil (Docker container startup 5-10s, Rust compile 30-120s, git fetch 30-60s), single global flock (1 build at a time), studi eksternal act/Buildkite/Drone (Go untuk concurrency, bukan subprocess speed). **Kesimpulan**: Go tidak lebih optimal — bottleneck bukan Python. Rekomendasi: enable parallel builds (multi flock per repo), bukan ganti ke Go. Bukti [V]/[S]/[I]/[?], 12 sumber eksternal dan 5 bukti internal | — |
+
+## Tema 18 — Control Plane Multi-Runtime (KiroCrew + agy), Memori Bersama, Standar Antar-Agen
 
 | Dokumen | Isi Ringkas | → Backlog |
 |---|---|---|

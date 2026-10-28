@@ -1,0 +1,32 @@
+{
+  "id": "TASK-047",
+  "type": "task",
+  "title": "Perbaiki terminal outcome strangler_runner.rs -- EOF prematur jangan jadi success palsu",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "BE",
+    "Rust",
+    "Bugfix",
+    "Reliability"
+  ],
+  "source_spec": "SPEC-010",
+  "source_backlog": "BL-084",
+  "description": "Gunakan skill squad-backend.\n\nFile: crates/clawcrew-gateway/src/strangler_runner.rs (fungsi penerima stream ExecuteTurn, sekitar baris 270-360 saat ditulis -- baris dapat shift, cari percabangan match pada hasil stream.message()).\n\nRoot cause terkonfirmasi (dibaca langsung dari kode 2026-10-27): kondisi `Ok(None)` (stream gRPC ditutup tanpa event terminal) dan `TurnCompleted` (event sukses eksplisit) keduanya melakukan `break` ke kode SETELAH loop yang selalu membangun `Ok(AgentTurnSuccess{..})`. Tidak ada pembedaan antara 'turn benar-benar selesai' dan 'stream putus prematur'.\n\nLangkah:\n1. Tambahkan flag lokal `terminal_event_received: bool = false` sebelum loop dimulai. Set `true` HANYA pada cabang `resp.r#type == EventType::TurnCompleted as i32` (sebelum `break`).\n2. Pada cabang `Ok(None) => { break; }`: JANGAN ubah menjadi langsung break tanpa catatan -- bedakan dari TurnCompleted. Setelah loop berakhir, SEBELUM membangun `Ok(AgentTurnSuccess{..})` (baris ~351), periksa flag: jika `false`, return `Err(AgentTurnError { error: anyhow::anyhow!(\"AgentEngine stream closed before TurnCompleted\"), committed_response: accumulated_response, new_messages: Vec::new() })` -- PERTAHANKAN accumulated_response (partial output), jangan dibuang.\n3. JANGAN mengubah perilaku cabang `Error` event atau `Err(status)` (gRPC transport error) -- keduanya sudah benar, hanya `Ok(None)` yang berubah.\n4. Baca SPEC-010 (sprints/sprint-05/specs/SPEC-010.md) Bagian A untuk detail lengkap sebelum mulai.\n\nTest WAJIB (baru):\n- Simulasikan/mock stream yang berhenti (Ok(None)) sebelum TurnCompleted -> assert hasil adalah Err, bukan AgentTurnSuccess.\n- Pastikan test existing yang mengasumsikan jalur TurnCompleted -> AgentTurnSuccess tetap lulus (no regression) -- jalankan test suite clawcrew-gateway yang menyentuh strangler_runner.rs secara spesifik untuk konfirmasi.\n\nVerifikasi: cargo check --workspace && cargo nextest run -p clawcrew-gateway --locked lulus 100%.\n\nNON-GOALS: jangan rewrite seluruh runner, jangan ubah kontrak publik AgentTurnSuccess/AgentTurnError, jangan sentuh BL-085 (context_window) -- itu task terpisah (TASK-048) yang BARU BOLEH MULAI setelah PR task ini merged (serialisasi file-ownership, lihat SPEC-010 Rollout).\n\nTidak overlap file dengan TASK-036 (T3-05c, scope Cargo.toml dependency cleanup) yang sedang in-progress -- boleh dikerjakan paralel.\n\nBRANCH: testing -> feat/t3-05d-strangler-terminal-outcome.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1.5 jam.",
+  "acceptance": [
+    "Flag terminal_event_received ditambahkan dan hanya TurnCompleted yang men-set true",
+    "Ok(None) sebelum TurnCompleted menghasilkan AgentTurnError dengan committed_response terisi (partial output tidak hilang)",
+    "Jalur Error event dan Err(status) gRPC tidak berubah perilaku",
+    "Test baru: simulasi EOF prematur -> assert Err; test existing TurnCompleted -> AgentTurnSuccess tetap lulus",
+    "cargo check --workspace lolos 0 error",
+    "cargo nextest run -p clawcrew-gateway --locked lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau (local/Required Gate pass)"
+  ],
+  "report": "RPT-085",
+  "author": "kirocrew",
+  "created": "2026-10-27T11:30:00Z",
+  "updated": "2026-10-27T08:34:57.551912+00:00",
+  "notes": "Masuk sprint aktif (sprint-05) atas permintaan Owner 2026-10-27. Tidak overlap file dengan TASK-036 (in-progress), independen -- status todo. | bridge 2026-10-27T06:04: limit akun tercapai & semua 5 akun masih cooldown; reset terdekat ~96 menit\nagy exit 3\nSTDERR:\nerror: Individual quota reached. Please upgrade your subscription to increase your limits. Resets in 25h26m20s.\nAGY_ERROR: {\"short_error\":\"RESOURCE_EXHAUSTED (code 429): Individual quota reached. Please up | auto-retry 1/3 2026-10-27T07:00",
+  "agy_conversation_id": "b18861b0-da66-4a88-a060-f5ff03fabeb4"
+}
