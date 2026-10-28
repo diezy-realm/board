@@ -3,7 +3,7 @@ id: SPEC-011
 type: spec
 spec_kind: tech
 title: Governance Rust-only, steering agent, kontainmen Go, guard no-new-Go
-status: draft
+status: approved
 source_prd: PRD-002
 author: kirocrew
 created: 2026-10-29

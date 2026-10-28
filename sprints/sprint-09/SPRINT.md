@@ -3,16 +3,16 @@ id: sprint-09
 type: sprint
 goal: Keputusan Rust-only tertulis di repo, steering agent berhenti mengarahkan ke Go, celah terminal Go ditutup sementara, dan guard CI melarang file Go baru
 category: Governance
-status: planning
-start:
-end:
+status: active
+start: 2026-10-29
+end: 2026-10-31
 author: kirocrew
 ---
 # Sprint 09 — Governance Rust-only & Kontainmen Go
 
 > **Sprint Goal:** Keputusan Rust-only tertulis di repo, steering agent berhenti mengarahkan ke Go, celah terminal Go ditutup sementara, dan guard CI melarang file Go baru.
 
-> **Status `planning`:** sprint ini disiapkan lebih awal dan **tidak dijalankan bridge** sampai Owner mengubahnya menjadi `active` (prosedur aktivasi: `RULES-amendment-2026-10-29.md` §A3).
+> **Diaktifkan 2026-10-29 oleh Owner.** Checklist `RULES-amendment-2026-10-29.md` §A3: (1) sprint-08 `closed` dan 48 dari 48 task `done`; (2) PRD-002 `approved` (Owner), SPEC-011 `approved` (Lead); (3) default Q1–Q9 diterima Owner, Q7 (`target_release`) belum diisi dan tidak memblokir sprint ini; (4) `python3 validate.py --all` = ALL VALID sebelum dan sesudah aktivasi; (5) `start`/`end` terisi.
 
 ## Alur Kerja & Batching (Maksimal <= 1 Jam per Sub-task)
 0. **Hotfix build (disisipkan 2026-10-29, jalur terpisah dari rantai governance):**
