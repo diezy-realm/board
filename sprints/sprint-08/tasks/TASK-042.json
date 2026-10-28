@@ -2,7 +2,7 @@
   "id": "TASK-042",
   "type": "task",
   "title": "T3-14/15: Update Identitas Repositori, Slug Paket Root, dan Registri GHCR",
-  "status": "blocked",
+  "status": "done",
   "assignee": "agy",
   "role": "backend",
   "tags": [
@@ -20,9 +20,9 @@
     "cargo check --package galleon-fleet lolos 0 error",
     "PR dibuka ke branch testing dan CI dev-ci hijau"
   ],
-  "report": null,
+  "report": "RPT-042",
   "author": "kirocrew",
   "created": "2026-10-22T12:55:00Z",
-  "updated": "2026-10-22T13:52:00.000000+00:00",
-  "notes": "Blocked: Menunggu penyelesaian seluruh sprint pendahulu (Sprint 04 s/d Sprint 07)."
+  "updated": "2026-10-28T01:46:00.000000+00:00",
+  "notes": "Selesai: Seluruh kriteria penerimaan T3-14/15 terpenuhi. PR #91 telah lolos review CI dev-ci dan di-merge ke branch testing."
 }
