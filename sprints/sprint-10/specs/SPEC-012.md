@@ -3,7 +3,7 @@ id: SPEC-012
 type: spec
 spec_kind: api
 title: Pemulihan router gateway Rust, inventaris konsumen, fixture kontrak Go
-status: draft
+status: approved
 source_prd: PRD-002
 author: kirocrew
 created: 2026-10-29
@@ -25,7 +25,7 @@ Prinsip: **pulihkan, jangan rancang ulang**. Setiap handler yang dipulihkan diam
 3. **TASK-060 — Pairing**: pulihkan `handle_pair` (`POST /pair`, header `X-Pairing-Code`), `handle_pair_code` (`GET /pair/code`, hanya mengembalikan kode sebelum pairing pertama, perilaku OLD), dan pasang handler yang masih ada di `api_pairing.rs`: `POST /api/pairing/initiate`, `POST /api/pair`, `GET /api/devices`, `PATCH /api/devices/me/capabilities`, `DELETE /api/devices/{id}`, `POST /api/devices/{id}/token/rotate` (OLD:2200–2210).
 4. **TASK-061 — Admin**: pulihkan `require_localhost`, `/admin/shutdown`, `/admin/reload`, `/admin/paircode`, `/admin/paircode/new`; pasang `/admin/sop/pending`, `/admin/sop/approve`, `/admin/sop/deny` dari `api_sop.rs` (path persis mengikuti konsumen CLI `src/main.rs:8328,8390,8394`).
 5. **TASK-062 — Channel**: `.merge(optional_channel_routes())` + `/sop/{*rest}` webhook (`api_sop_webhook.rs`) bila tercantum di inventaris.
-6. **TASK-063 — Test yatim**: tambahkan `#[cfg(test)] mod tests;` di `lib.rs`, lalu perbaiki kompilasi. Test yang menguji rute **yang sengaja tidak dipulihkan** dihapus (dicatat daftar nama test di RPT); test yang menguji rute yang dipulihkan harus hijau. Bila perbaikan > 1 jam, berhenti, laporkan `partial` dengan daftar sisa, dan KiroCrew memecah task.
+6. **TASK-063 — Test yatim**: tambahkan `#[cfg(test)] mod tests;` di `lib.rs`, lalu perbaiki kompilasi. Test yang menguji rute **yang sengaja tidak dipulihkan** dihapus (dicatat daftar nama test di RPT); test yang menguji rute yang dipulihkan harus hijau. Bila perbaikan > 1 jam: push bagian yang sudah hijau, buka PR, tandai test yang belum beres `#[ignore = "TASK-063 sisa"]` dan daftarkan di deskripsi PR; Lead membuat task lanjutan (RULES §9 A2).
 7. **TASK-064 — Test tabel rute**: fungsi `pub fn route_inventory() -> &'static [(Method, &'static str, Access)]` **tidak** dibuat (YAGNI). Sebagai gantinya test integrasi `crates/galleon-gateway/tests/route_table.rs` yang menjalankan router di `127.0.0.1:0` dan, untuk setiap baris inventaris berstatus Rust: (a) tanpa token → 401 kecuali `Access::Public`, (b) `insta::assert_yaml_snapshot!` daftar `(method,path,status)`.
 8. **TASK-065 — Fixture Go**: `scripts/contract/record_go_fixtures.sh` (bash + `curl` + `jq`, **tanpa file Go baru**) menjalankan `go run ./cmd/agent-engine` (dari `engine/`) terhadap direktori data sementara berisi salinan `engine/data`, memanggil setiap endpoint Go di inventaris berstatus `port`, dan menyimpan respons ke `tests/fixtures/go-fleet/<method>_<path_slug>.json` (dinormalisasi `jq -S`). Nilai volatil (timestamp, uptime, pid) dicatat sebagai daftar kunci volatil di `tests/fixtures/go-fleet/VOLATILE.md`.
 
@@ -73,4 +73,4 @@ Kode error: 401 `{"error":"Unauthorized — pair first via POST /pair, then send
 - TASK-065: script dijalankan dua kali menghasilkan fixture identik setelah normalisasi (kecuali kunci di `VOLATILE.md`).
 
 ## Rollout / Migrasi
-Urutan 050 → 051 → 052 → 053 → 054 → 055 → 056 → 057. Tidak mengubah perilaku web (web masih ke Go sampai Sprint 12). Rollback = revert PR per task.
+Urutan 058 → 059 → 060 → 061 → 062 → 063 → 064 → 065. Tidak mengubah perilaku web (web masih ke Go sampai Sprint 12). Rollback = revert PR per task.

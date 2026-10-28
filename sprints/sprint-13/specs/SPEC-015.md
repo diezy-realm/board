@@ -3,7 +3,7 @@ id: SPEC-015
 type: spec
 spec_kind: tech
 title: Dekomisioning Go, proto, strangler, gRPC SystemGateway
-status: draft
+status: approved
 source_prd: PRD-002
 author: kirocrew
 created: 2026-10-29
@@ -49,4 +49,4 @@ Endpoint dihapus: `POST /api/turn` (Rust, tidak berkonsumen), server gRPC `:5005
 - Ulangi `scripts/e2e/smoke_dashboard.sh` (TASK-087) setelah TASK-090.
 
 ## Rollout / Migrasi
-080 → 081 → 082 → 083 → 084. Rollback per PR. Setelah TASK-090 Go tidak bisa dijalankan lagi dari `testing`; versi terakhir yang memuat Go dicatat (SHA) di RPT TASK-090.
+088 → 089 → 090 → 091 → 092. Rollback per PR. Setelah TASK-090 Go tidak bisa dijalankan lagi dari `testing`; versi terakhir yang memuat Go dicatat (SHA) di RPT TASK-090.

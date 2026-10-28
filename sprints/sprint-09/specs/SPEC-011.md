@@ -17,7 +17,7 @@ created: 2026-10-29
 4. Tidak ada mekanisme yang mencegah PR baru menambah Go.
 
 ## Solusi yang Diusulkan (Proposed Solution)
-- **Dokumen (TASK-052):** salin paket ini ke `galleon-fleet/standard-docs/` apa adanya: ODR-2026-10-29, ADR-0018, `01-boundary-policy.md` v2 (ganti v1), `SUPERSESSION-INDEX-2026-10-29.md`, `rust-conventions-amendment-2026-10-29.md`, serta `templates/template-odr.md` dan `templates/template-adr.md` (Tier Go dihapus → 3 tier). Tambah banner `> Superseded by ODR-2026-10-29 / ADR-0018` di baris pertama setiap dokumen yang tercantum di index (tanpa mengubah isi lain).
+- **Dokumen (TASK-052):** salin paket ini ke `galleon-fleet/standard-docs/` apa adanya: ODR-2026-10-29, ADR-0018, `01-boundary-policy.md` v2 (ganti v1), `SUPERSESSION-INDEX-2026-10-29.md`, `rust-conventions-amendment-2026-10-29.md`, serta `templates/template-odr.md` dan `templates/template-adr.md` (Tier Go dihapus → 3 tier). Banner `> [!WARNING] Superseded oleh ODR-2026-10-29 / ADR-0018` hanya pada dokumen berstatus Superseded di index §2 (ADR-005); ADR-0002 (Diamandemen) mendapat satu catatan amandemen; ODR lama (§1) immutable dan tidak diedit; ADR berstatus Tetap tidak diubah; dokumen normatif Go (§3) dibanner TASK-092 (Sprint 13).
 - **Steering (TASK-053, TASK-054):** hapus instruksi Go; ganti dengan satu kalimat rujukan ke ADR-0018 + boundary policy v2. Tidak menulis ulang aturan Rust yang sudah ada.
 - **Kontainmen Go (TASK-055), minimal:**
   - `engine/core/metrics/metrics.go:108` dan `engine/app/app.go:110` → `fmt.Sprintf("127.0.0.1:%d", …)`; env `GALLEON_ENGINE_BIND` **tidak** ditambahkan (YAGNI; Go akan dihapus).
@@ -49,7 +49,7 @@ Tidak ada endpoint baru. Perubahan perilaku Go sementara:
 ## Rencana Pengujian (Testing Plan)
 - TASK-055: `go test ./src/fleet/... ./src/server/...` + test baru: tanpa header → 401; header salah → 401; env kosong + header apa pun → 401; benar → handler jalan. `ss -ltnp | grep -E '9090|50051'` menunjukkan alamat `127.0.0.1`.
 - TASK-056: jalankan script pada branch berisi file `x.go` baru (harus gagal) dan branch tanpa (harus lolos); salin output ke RPT.
-- TASK-052–054, 049: `rg` sebelum/sesudah disalin ke RPT; `python3 validate.py --all` untuk board.
+- TASK-049, 050, 052–054: `rg` sebelum/sesudah disalin ke RPT; TASK-057: `python3 validate.py --all` untuk board.
 
 ## H. Hotfix: selektor build setelah rename (TASK-049, TASK-050)
 **Fakta (testing@3f3a729):** package kini `galleoncode` dan `galleonrelay`; tidak ada package `zerocode`/`zerorelay`. Referensi lama masih ada di Dockerfile (150-207), Dockerfile.debian (86-171), Containerfile (204, 291), dist/aur/PKGBUILD:38, release-stable-manual.yml:343-344, cross-platform-build-manual.yml:278,289, setup.bat:245,282,283, scripts/dev/mtls-relay-testbed.sh:123, dan assert test di xtask/src/generate/spec.rs:1696,1699. Dockerfile.alpine:141-148 sudah benar dan menjadi pola acuan.
@@ -61,4 +61,4 @@ Tidak ada endpoint baru. Perubahan perilaku Go sementara:
 **Di luar scope:** selektor `clawcrew-*` dan `--bin clawcrew` (lihat SPEC-016 'Temuan tambahan').
 
 ## Rollout / Migrasi
-Urutan task 044 → 045 → 046 → 047 → 048 → 049, masing-masing satu PR ke `testing`. Tidak ada flag. Rollback = revert PR.
+Rantai governance 052 → 053 → 054 → 055 → 056, masing-masing satu PR ke `testing`; TASK-057 (KiroCrew) mengubah board. Jalur hotfix 049 → 050 berjalan terpisah (tidak bergantung pada rantai governance). Tidak ada flag. Rollback = revert PR.

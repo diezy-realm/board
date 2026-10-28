@@ -3,7 +3,7 @@ id: SPEC-016
 type: spec
 spec_kind: tech
 title: Higiene Rust — pewarisan lint workspace, doctest, sccache, drift tooling, Sonar kondisional
-status: draft
+status: approved
 source_prd: PRD-002
 author: kirocrew
 created: 2026-10-29
@@ -59,7 +59,7 @@ Tidak ada.
 - TASK-099: `rg -n 'clawcrew-desktop' . --hidden --glob '!standard-docs/**' --glob '!CHANGELOG*'` kosong.
 
 ## Rollout / Migrasi
-085 → 086 → 087 → 088 → 089 → 090 → 091 → 092 → 093. Tiap task PR terpisah. Rollback: revert.
+093 → 094 → 095 → 096 → 097 → 098 → 099 → 100 → 101. Tiap task PR terpisah. Rollback: revert.
 
 ## Temuan tambahan (diverifikasi 2026-10-29 pada testing@3f3a729, statis)
-Selektor cargo yang masih memakai nama sebelum rename #93, di luar hotfix TASK-049/050: `-p clawcrew-plugins|clawcrew-runtime|clawcrew-gateway|clawcrew-eval` dan `--bin clawcrew` di `.github/workflows/windows-tests.yml` (212-249) dan `sop-eval-advisory.yml:46`; `--bin clawcrew` di `scripts/desktop/prepare-kernel.sh:81-85`, `dev/test-quickstart.sh:18-19`, `demo/run-agent-host.sh:49`, `demo/Dockerfile:44`, `scripts/ci/windows_test_scope.test.sh:397-443`; `-p clawcrew-desktop` di `dev/run-tauri-dev.sh:28`; `install ... target/dist/clawcrew` di `dist/aur/PKGBUILD`. Binary root kini `galleon` (Cargo.toml:117). Bila TASK-099 melebihi 1 jam, tulis RPT `partial` dan KiroCrew memecahnya.
+Selektor cargo yang masih memakai nama sebelum rename #93, di luar hotfix TASK-049/050: `-p clawcrew-plugins|clawcrew-runtime|clawcrew-gateway|clawcrew-eval` dan `--bin clawcrew` di `.github/workflows/windows-tests.yml` (212-249) dan `sop-eval-advisory.yml:46`; `--bin clawcrew` di `scripts/desktop/prepare-kernel.sh:81-85`, `dev/test-quickstart.sh:18-19`, `demo/run-agent-host.sh:49`, `demo/Dockerfile:44`, `scripts/ci/windows_test_scope.test.sh:397-443`; `-p clawcrew-desktop` di `dev/run-tauri-dev.sh:28`; `install ... target/dist/clawcrew` di `dist/aur/PKGBUILD`. Binary root kini `galleon` (Cargo.toml:117). Bila TASK-099 melebihi 1 jam: push bagian yang selesai, buka PR, daftarkan sisa di deskripsi PR; Lead membuat task lanjutan (RULES §9 A2).

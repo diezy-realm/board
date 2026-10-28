@@ -3,7 +3,7 @@ id: SPEC-013
 type: spec
 spec_kind: api
 title: Port fleet API ke crate galleon-fleet-core dan adapter gateway
-status: draft
+status: approved
 source_prd: PRD-002
 author: kirocrew
 created: 2026-10-29
@@ -106,4 +106,4 @@ PUT /api/collections/ships   (file > 1 MiB) → 413 {"error":"collection exceeds
 - Per task: `cargo nextest run -p galleon-fleet-core -p galleon-gateway --locked`, `cargo clippy ... -- -D warnings`.
 
 ## Rollout / Migrasi
-058 scaffold → 059 store/impor → 060 koleksi → 061 snapshot → 062 seed → 063 metrik fleet → 064 policies → 065 system → 066 QR/briefing → 067 git-status → 068 harbor → 069 diagnostics → 070 terminal → 071 intent → 072 agent → 073 mount + kontrak. Rute dipasang di gateway hanya di TASK-081 (sebelumnya handler diuji lewat router lokal per modul), sehingga tidak ada rute setengah jadi yang terekspos. Web masih ke Go sampai Sprint 12.
+066 scaffold → 067 store/impor → 068 koleksi → 069 snapshot → 070 seed → 071 metrik fleet → 072 policies → 073 system → 074 QR/briefing → 075 git-status → 076 harbor → 077 diagnostics → 078 terminal → 079 intent → 080 agent → 081 mount + kontrak. Rute dipasang di gateway hanya di TASK-081 (sebelumnya handler diuji lewat router lokal per modul), sehingga tidak ada rute setengah jadi yang terekspos. Web masih ke Go sampai Sprint 12.

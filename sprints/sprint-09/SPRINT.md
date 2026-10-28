@@ -33,6 +33,10 @@ author: kirocrew
 - [ ] Tidak ada file Go baru (`scripts/ci/check_no_go.sh diff`, mulai Sprint 09).
 - [ ] Seluruh PR dibuka ke branch `testing` dengan CI `dev-ci` Required Gate hijau.
 
+## Langkah Lead
+- TASK-057 berassignee `kirocrew`; bridge tidak mengambilnya. Sprint ini baru tertutup otomatis bila TASK-057 `done` (RULES amandemen A7).
+- TASK-052 dikerjakan Lead lewat PR `feat/docs-rust-only-governance-docs` (instruksi banner dikoreksi); statusnya `review` dan ditutup oleh `board_switch.py review` saat PR merged.
+
 ## Langkah Owner
 - Tambahkan `bash scripts/ci/check_no_go.sh diff` ke `~/Apps/dev-ci/repos/galleon-fleet/gates.sh` setelah TASK-056 merged.
 - Sebelum mengaktifkan sprint ini: tandai `done`/tutup sprint-04..08 yang masih terbuka (lihat RPT-108 §Masalah Terbuka); `sprint-manager.py close NN` meng-carry-over task belum selesai ke sprint berikutnya.

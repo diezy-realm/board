@@ -4,3 +4,9 @@ cron-wt/
 discord-wt/
 *-wt/
 tools/agy-bridge/__pycache__/
+
+# runtime artifacts (written by the bridge/timers, not board data)
+tools/agy-bridge/bridge.log
+tools/agy-bridge/bridge_events.db
+.rpt_id_lock
+__pycache__/
