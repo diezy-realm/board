@@ -1,0 +1,23 @@
+{
+  "id": "TASK-103",
+  "type": "task",
+  "title": "Gateway: pulihkan path_prefix",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Gateway"
+  ],
+  "source_spec": "SPEC-017",
+  "source_backlog": "BL-092",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-017 · Backlog: BL-092.\n\n1. Pulihkan Router::new().nest(prefix, inner) + redirect trailing slash (OLD:2336-2347).\n2. Test: path_prefix = '/galleon' -> GET /galleon/health 200, GET /health 404, GET /galleon/ 308.\n3. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/fix-gateway-restore-path-prefix.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-102 (PR merged ke testing).",
+  "acceptance": [
+    "Test 200/404/308 hijau",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

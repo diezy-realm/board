@@ -1,0 +1,24 @@
+{
+  "id": "TASK-076",
+  "type": "task",
+  "title": "Harbor providers",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. GET /api/providers/harbor dari Config provider terkonfigurasi; status configured/missing_credentials; latencyMs null; tanpa daftar hard-coded dan tanpa membocorkan API key.\n2. Verifikasi: cargo clippy -p galleon-fleet-core --all-targets --locked -- -D warnings && cargo nextest run -p galleon-fleet-core --locked\n\nBRANCH: testing -> feat/fleet-core-harbor.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-075 (PR merged ke testing).",
+  "acceptance": [
+    "Respons tidak memuat secret (test)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

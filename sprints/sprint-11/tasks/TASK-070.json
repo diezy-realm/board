@@ -1,0 +1,24 @@
+{
+  "id": "TASK-070",
+  "type": "task",
+  "title": "Seed dari engine/data (default Q6) + hapus extract-seed.mjs",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. Salin engine/data/*.json ke crates/galleon-fleet-core/seed/ dengan nama camelCase (treasury_ledger.json -> treasuryLedger.json, dst.), include_str!.\n2. GET /api/fleet/seed sesuai SPEC-013; hapus scripts/migrations/extract-seed.mjs bila tidak dipakai lagi (rg dulu).\n3. Verifikasi: cargo clippy -p galleon-fleet-core --all-targets --locked -- -D warnings && cargo nextest run -p galleon-fleet-core --locked\n\nBRANCH: testing -> feat/fleet-core-seed.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-069 (PR merged ke testing).",
+  "acceptance": [
+    "hydrateFleet web dapat mengisi 15/15 koleksi dari seed (test kunci)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

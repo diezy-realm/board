@@ -1,0 +1,25 @@
+{
+  "id": "TASK-085",
+  "type": "task",
+  "title": "Tauri: satu command api_request + CSP",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Desktop",
+    "Security"
+  ],
+  "source_spec": "SPEC-014",
+  "source_backlog": "BL-089",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-014 · Backlog: BL-089.\n\n1. apps/tauri/src/main.rs: ganti 14 command proxy dengan api_request(method,path,body,token); path wajib diawali /api/ atau sama dengan /pair atau /pair/code, tidak boleh memuat :// atau .. (cegah SSRF); base GALLEON_GATEWAY_URL default http://127.0.0.1:42617; timeout 30 s; kembalikan {status, body}.\n2. CSP connect-src 'self' ipc: http://ipc.localhost (hapus :9090). Perbarui apps/tauri/AGENTS.md dan komentar Cargo.toml:20.\n3. Unit test validasi path: /api/x ok; http://evil, /../, /admin/shutdown ditolak.\n4. Verifikasi: cd apps/tauri && cargo clippy --all-targets --locked -- -D warnings && cargo test --locked\n\nBRANCH: testing -> feat/tauri-api-request.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-084 (PR merged ke testing).",
+  "acceptance": [
+    "Path di luar allowlist ditolak (test)",
+    "Tidak ada rujukan :9090 di apps/tauri",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

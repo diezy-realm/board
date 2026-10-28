@@ -1,0 +1,25 @@
+{
+  "id": "TASK-060",
+  "type": "task",
+  "title": "Gateway: pulihkan rute pairing",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Gateway",
+    "Pairing"
+  ],
+  "source_spec": "SPEC-012",
+  "source_backlog": "BL-087",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-012 · Backlog: BL-087.\n\n1. Pulihkan handle_pair (POST /pair, header X-Pairing-Code) dan handle_pair_code (GET /pair/code) dari OLD:2621 dan OLD:4954.\n2. Pasang handler api_pairing.rs (362/388/533/568/623/674): POST /api/pairing/initiate, POST /api/pair, GET /api/devices, PATCH /api/devices/me/capabilities, DELETE /api/devices/{id}, POST /api/devices/{id}/token/rotate.\n3. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/gateway-pairing-routes.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-059 (PR merged ke testing).",
+  "acceptance": [
+    "ACP bridge path /pair dan /pair/code merespons sesuai OLD",
+    "Rute /api/devices* butuh Bearer (401 tanpa token)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

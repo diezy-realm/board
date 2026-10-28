@@ -1,0 +1,24 @@
+{
+  "id": "TASK-100",
+  "type": "task",
+  "title": "Sonar Rust kondisional (default Q4)",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "CI",
+    "Security"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. sonar-project.properties: sonar.rust.cargo.manifestPaths=Cargo.toml, sonar.rust.clippy.enabled=true, sonar.rust.lcov.reportPaths=lcov.info. Job sonar hanya bila secret SONAR_TOKEN ada; LCOV dari cargo llvm-cov nextest --lcov hanya di job ini.\n2. Verifikasi: actionlint .github/workflows/ci.yml (bila tersedia) dan dry-run tanpa SONAR_TOKEN = job dilewati\n\nBRANCH: testing -> feat/ci-sonar-rust-conditional.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-099 (PR merged ke testing).",
+  "acceptance": [
+    "Tanpa SONAR_TOKEN pipeline tidak gagal",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

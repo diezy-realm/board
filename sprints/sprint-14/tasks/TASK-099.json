@@ -1,0 +1,25 @@
+{
+  "id": "TASK-099",
+  "type": "task",
+  "title": "Drift nama: --exclude clawcrew-desktop, homepage, brand gate",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Hygiene",
+    "Brand"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. Hapus --exclude clawcrew-desktop di 25 lokasi (11 di .github/, 14 di Containerfile, dev/ci.sh, scripts/ci/*; apps/tauri di luar workspace). homepage Cargo.toml:11 -> URL dikonfirmasi Owner (default = repository).\n2. Pasang scripts/ci/brand_gate.sh di job repo-structure. Nama kompatibilitas runtime tidak disentuh.\n3. Verifikasi: rg -n 'clawcrew-desktop' . --hidden --glob '!standard-docs/**' --glob '!CHANGELOG*' kosong; bash scripts/ci/run_clippy.test.sh; bash scripts/ci/windows_test_scope.test.sh\n4. Selektor cargo usang (`-p clawcrew-*`, `--bin clawcrew`, `-p clawcrew-desktop`): daftar lengkap di SPEC-016 'Temuan tambahan'. Bila total > 1 jam, tulis RPT `partial` dan KiroCrew memecah task.\n\nBRANCH: testing -> feat/chore-brand-drift-cleanup.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-098 (PR merged ke testing).",
+  "acceptance": [
+    "rg clawcrew-desktop kosong",
+    "Test script CI hijau",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

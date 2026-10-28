@@ -1,0 +1,25 @@
+{
+  "id": "TASK-068",
+  "type": "task",
+  "title": "Koleksi: allowlist 15 nama camelCase + policies/riskTiers",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. GET/PUT /api/collections/{name} hanya untuk allowlist SPEC-013 §Koleksi; nama lain -> 404. Body wajib JSON array; batas FLEET_MAX_BODY = 1 MiB (Go tidak membatasi; 64 KB global akan meregresi koleksi besar).\n2. Verifikasi: cargo clippy -p galleon-fleet-core --all-targets --locked -- -D warnings && cargo nextest run -p galleon-fleet-core --locked\n\nBRANCH: testing -> feat/fleet-core-collections.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-067 (PR merged ke testing).",
+  "acceptance": [
+    "Nama di luar allowlist -> 404 (test)",
+    "Path traversal tidak mungkin (nama dari allowlist, bukan input)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

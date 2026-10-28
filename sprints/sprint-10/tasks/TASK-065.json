@@ -1,0 +1,26 @@
+{
+  "id": "TASK-065",
+  "type": "task",
+  "title": "Rekam fixture kontrak dari Go (tanpa file Go baru)",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "QA",
+    "Contract"
+  ],
+  "source_spec": "SPEC-012",
+  "source_backlog": "BL-087",
+  "description": "Gunakan skill squad-qa.\n\nSpec: SPEC-012 · Backlog: BL-087.\n\n1. Buat scripts/contract/record_go_fixtures.sh (bash + curl + jq): salin engine/data ke direktori sementara, jalankan 'go run ./cmd/agent-engine' dari engine/, panggil setiap endpoint Go berstatus port di consumer-inventory.md, simpan respons ke tests/fixtures/go-fleet/<method>_<path_slug>.json (jq -S).\n2. Catat kunci volatil (timestamp, uptime, pid) di tests/fixtures/go-fleet/VOLATILE.md.\n3. Bila toolchain Go tidak tersedia di mesin agent, Owner menjalankan script di mesin lokal; RPT mencatat siapa yang menjalankan.\n\nBRANCH: testing -> feat/test-record-go-fleet-fixtures.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-064 (PR merged ke testing).",
+  "acceptance": [
+    "Fixture JSON ada untuk setiap endpoint berstatus port",
+    "VOLATILE.md ada",
+    "Tidak ada file .go baru (check_no_go.sh diff hijau)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

@@ -1,0 +1,25 @@
+{
+  "id": "TASK-104",
+  "type": "task",
+  "title": "Gateway: pulihkan start tunnel",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Gateway",
+    "Tunnel"
+  ],
+  "source_spec": "SPEC-017",
+  "source_backlog": "BL-092",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-017 · Backlog: BL-092.\n\n1. Pulihkan create_tunnel + start(host, port) setelah listener.local_addr() (OLD:1574-1605); gagal -> WARN via galleon_log::record!, gateway tetap jalan; tun.stop().await setelah serve selesai.\n2. Test: tunnel_provider custom dengan start_command 'echo https://example.test' -> URL tercatat; provider tidak valid -> gateway tetap jalan.\n3. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/fix-gateway-restore-tunnel.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-103 (PR merged ke testing).",
+  "acceptance": [
+    "Tunnel berjalan bila dikonfigurasi",
+    "Kegagalan tunnel tidak menjatuhkan gateway",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

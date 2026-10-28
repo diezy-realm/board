@@ -1,0 +1,25 @@
+{
+  "id": "TASK-083",
+  "type": "task",
+  "title": "Web: layar pairing (PairingGate)",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "frontend",
+  "tags": [
+    "Frontend",
+    "Auth"
+  ],
+  "source_spec": "SPEC-014",
+  "source_backlog": "BL-089",
+  "description": "Gunakan skill squad-frontend.\n\nSpec: SPEC-014 · Backlog: BL-089.\n\n1. Komponen PairingGate membungkus App: tanpa token atau event galleon:unauthorized -> form kode pairing; saat mount coba GET /pair/code; submit POST /pair header X-Pairing-Code; simpan token. Tanpa auto-pair localhost (Q5).\n2. Verifikasi: cd web && npm run typecheck && npm run build\n\nBRANCH: testing -> feat/web-pairing-gate.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-082 (PR merged ke testing).",
+  "acceptance": [
+    "Alur pairing berhasil terhadap gateway lokal (dicatat di RPT)",
+    "401 mengembalikan pengguna ke layar pairing",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

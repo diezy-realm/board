@@ -1,0 +1,25 @@
+{
+  "id": "TASK-054",
+  "type": "task",
+  "title": "Steering .gemini/.kiro/AGENTS.md: hapus instruksi Go",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Docs",
+    "Steering"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. Hapus/ubah steering Go di .gemini/, .kiro/ (termasuk galleon-engine-go.md), apps/tauri/AGENTS.md, AGENTS.md root bila memuat Go. File steering khusus Go dihapus; rujukan diganti ke ADR-0018.\n2. Verifikasi: rg -n -i 'golang|engine-go|go engine' .gemini .kiro AGENTS.md apps/tauri/AGENTS.md.\n\nBRANCH: testing -> feat/docs-rust-only-agent-steering.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-053 (PR merged ke testing).",
+  "acceptance": [
+    "Tidak ada steering yang menyuruh agent menulis Go",
+    "galleon-engine-go.md dihapus",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

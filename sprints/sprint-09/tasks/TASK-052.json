@@ -1,0 +1,26 @@
+{
+  "id": "TASK-052",
+  "type": "task",
+  "title": "Commit dokumen keputusan Rust-only + banner Superseded",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Docs",
+    "Governance"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. Salin dari paket (sumber: /home/diezy/Apps/board/research/rust-single-language/package/galleon-fleet/standard-docs/, tujuan: standard-docs/ di repo galleon-fleet): standard-docs/decisions/owner-decisions/ODR-2026-10-29-rust-single-language.md, decisions/0018-rust-single-language-architecture.md, decisions/SUPERSESSION-INDEX-2026-10-29.md, tech-standart/architecture/01-boundary-policy.md (ganti v1), tech-standart/tech-stack/rust-conventions-amendment-2026-10-29.md, templates/template-odr.md dan templates/template-adr.md (ganti; Tier Go dihapus -> 3 tier).\n2. Tambahkan banner '> Superseded by ODR-2026-10-29 / ADR-0018' di baris pertama setiap dokumen yang terdaftar di SUPERSESSION-INDEX §1–§2, tanpa mengubah isi lain.\n3. Verifikasi: rg -n 'Superseded by ODR-2026-10-29' standard-docs | wc -l sama dengan jumlah baris index; git diff --stat hanya standard-docs/.\n\nBRANCH: testing -> feat/docs-rust-only-governance-docs.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Tujuh dokumen paket ada di standard-docs/ apa adanya",
+    "Setiap dokumen di SUPERSESSION-INDEX §1–§2 berbanner",
+    "Tidak ada perubahan kode",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

@@ -1,0 +1,25 @@
+{
+  "id": "TASK-097",
+  "type": "task",
+  "title": "Lane doctest + komentar nextest",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "CI",
+    "Testing"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. Tambahkan job doctest di ci.yml: cargo test --doc --workspace --locked (nextest tidak menjalankan doctest). Perbaiki contoh rusak atau tandai ignore dengan alasan; daftar di RPT.\n2. Samakan komentar .config/nextest.toml profil default dengan nilai retries = 0.\n3. Verifikasi: cargo test --doc --workspace --locked\n\nBRANCH: testing -> feat/ci-doctest-lane.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-096 (PR merged ke testing).",
+  "acceptance": [
+    "Doctest hijau",
+    "Komentar nextest sesuai nilai",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

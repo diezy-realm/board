@@ -1,0 +1,24 @@
+{
+  "id": "TASK-071",
+  "type": "task",
+  "title": "Metrik fleet + deck-bell",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. GET /api/fleet/metrics dan POST /api/fleet/deck-bell sesuai tabel SPEC-013; nilai yang tidak terukur -> null.\n2. Verifikasi: cargo clippy -p galleon-fleet-core --all-targets --locked -- -D warnings && cargo nextest run -p galleon-fleet-core --locked && cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/fleet-core-fleet-metrics.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-070 (PR merged ke testing).",
+  "acceptance": [
+    "Test bentuk vs fixture Go (kunci non-volatil)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

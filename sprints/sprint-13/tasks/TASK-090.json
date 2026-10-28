@@ -1,0 +1,25 @@
+{
+  "id": "TASK-090",
+  "type": "task",
+  "title": "git rm engine/, go.work, web/data",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Decommission",
+    "Go"
+  ],
+  "source_spec": "SPEC-015",
+  "source_backlog": "BL-090",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nSpec: SPEC-015 · Backlog: BL-090.\n\n1. git rm -r engine go.work web/data (+ scripts/migrations/extract-seed.mjs bila masih ada); perbarui .gitignore, .dockerignore, Makefile/script yang merujuk engine/.\n2. Catat SHA terakhir yang masih memuat Go di RPT.\n3. Verifikasi: scripts/ci/check_no_go.sh full && bash scripts/e2e/smoke_dashboard.sh\n\nBRANCH: testing -> feat/chore-remove-go-engine.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-089 (PR merged ke testing).",
+  "acceptance": [
+    "check_no_go.sh full lolos",
+    "Smoke E2E hijau",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

@@ -1,0 +1,25 @@
+{
+  "id": "TASK-093",
+  "type": "task",
+  "title": "Fondasi lint: clippy.toml + pasang check_production_unwrap",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Lint",
+    "Hygiene"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. clippy.toml: tambahkan allow-unwrap-in-tests = true dan allow-expect-in-tests = true; ganti reason ::clawcrew_log::record! -> ::galleon_log::record!; header 'ClawCrew' -> 'Galleon'.\n2. Pasang scripts/ci/check_production_unwrap.py di job lint .github/workflows/ci.yml; catat untuk gates.sh Owner.\n3. Verifikasi: cargo clippy --workspace --all-targets --locked -- -D warnings (tidak boleh lebih merah dari sebelum task)\n\nBRANCH: testing -> feat/chore-lint-foundation.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-092 (PR merged ke testing).",
+  "acceptance": [
+    "Reason clippy.toml menyebut galleon_log",
+    "check_production_unwrap.py terpanggil di ci.yml",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

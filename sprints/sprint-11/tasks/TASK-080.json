@@ -1,0 +1,24 @@
+{
+  "id": "TASK-080",
+  "type": "task",
+  "title": "Quartermaster: jalur agent Rust (default Q3)",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. POST /api/chat/quartermaster: intent selain engine_room/report diteruskan ke galleon_api::agent::create_agent_session + turn_streamed_with_steering_state (galleon-api/src/agent.rs:434); 'objective' diperlakukan chat biasa tanpa klaim draft.\n2. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/fleet-core-quartermaster-agent.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-079 (PR merged ke testing).",
+  "acceptance": [
+    "Tidak ada balasan 'I will draft a Fleet Order' tanpa artefak",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

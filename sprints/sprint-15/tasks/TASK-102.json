@@ -1,0 +1,27 @@
+{
+  "id": "TASK-102",
+  "type": "task",
+  "title": "Gateway: pulihkan TLS/mTLS listener + peringatan public bind",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Gateway",
+    "Security",
+    "TLS"
+  ],
+  "source_spec": "SPEC-017",
+  "source_backlog": "BL-092",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-017 · Backlog: BL-092.\n\n1. Pulihkan dari OLD: ACCEPT_ERROR_BACKOFF_MS (OLD:122), is_recoverable_accept_error (OLD:131), pembuatan tls_acceptor (OLD:2360-2380), loop accept TLS (OLD:2386-2440) di gateway.rs; expect('infallible make_service') diganti match pada Result<_, Infallible>.\n2. Pulihkan peringatan public bind (OLD:891-905) memakai galleon_config::pairing::is_public_bind (pairing.rs:767).\n3. Test integrasi dengan sertifikat rcgen (dev-dep gateway): GET /health via TLS 200; HTTP polos gagal handshake.\n4. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/fix-gateway-restore-tls.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-059 (PR merged ke testing).",
+  "acceptance": [
+    "tls.enabled = true -> TLS aktif (test)",
+    "mTLS mengikuti client_auth",
+    "Tidak ada dependensi baru",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

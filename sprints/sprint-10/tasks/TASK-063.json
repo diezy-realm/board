@@ -1,0 +1,25 @@
+{
+  "id": "TASK-063",
+  "type": "task",
+  "title": "Gateway: aktifkan kembali test yatim src/tests.rs",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "QA",
+    "Gateway"
+  ],
+  "source_spec": "SPEC-012",
+  "source_backlog": "BL-087",
+  "description": "Gunakan skill squad-qa dan squad-backend.\n\nSpec: SPEC-012 · Backlog: BL-087.\n\n1. Tambahkan #[cfg(test)] mod tests; di crates/galleon-gateway/src/lib.rs, lalu perbaiki kompilasi (plugin_webhook/tests.rs:13 mengimpor crate::tests::admin_paircode_state).\n2. Test untuk rute yang sengaja tidak dipulihkan dihapus; daftar nama test yang dihapus dicatat di RPT.\n3. Bila perbaikan > 1 jam: berhenti, RPT status partial dengan daftar sisa; KiroCrew memecah task.\n4. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/fix-gateway-orphan-tests.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-062 (PR merged ke testing).",
+  "acceptance": [
+    "src/tests.rs terkompilasi dan dijalankan nextest",
+    "Daftar test yang dihapus beserta alasan ada di RPT",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

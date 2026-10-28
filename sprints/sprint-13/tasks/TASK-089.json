@@ -1,0 +1,23 @@
+{
+  "id": "TASK-089",
+  "type": "task",
+  "title": "Hapus proto/ + [engine] galleoncode + rename GoTurnRequest",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Decommission"
+  ],
+  "source_spec": "SPEC-015",
+  "source_backlog": "BL-090",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-015 · Backlog: BL-090.\n\n1. Hapus proto/ setelah rg -n 'agent_service|proto/' --glob '!standard-docs/**' kosong; hapus EngineSection/[engine] di apps/galleoncode/src/config/mod.rs:276 dan contract_test.rs; rename GoTurnRequest -> EvalTurnRequest.\n2. Tambahkan test: config pengguna lama yang masih memuat [engine] tetap terbaca (struct tidak memakai deny_unknown_fields).\n3. Verifikasi: cargo clippy -p galleoncode --all-targets --locked -- -D warnings && cargo nextest run -p galleoncode --locked\n\nBRANCH: testing -> feat/refactor-remove-proto-engine-config.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-088 (PR merged ke testing).",
+  "acceptance": [
+    "Config lama dengan [engine] tetap terbaca (test)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

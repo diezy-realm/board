@@ -1,0 +1,25 @@
+{
+  "id": "TASK-087",
+  "type": "task",
+  "title": "Smoke E2E dashboard tanpa Go",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "QA",
+    "E2E"
+  ],
+  "source_spec": "SPEC-014",
+  "source_backlog": "BL-089",
+  "description": "Gunakan skill squad-qa.\n\nSpec: SPEC-014 · Backlog: BL-089.\n\n1. scripts/e2e/smoke_dashboard.sh: start galleon daemon dengan GALLEON_CONFIG_DIR sementara, ambil kode via galleon gateway get-paircode, POST /pair, panggil setiap rute port/restore di consumer-inventory.md dengan token (2xx) dan tanpa token (401). pgrep -f agent-engine harus kosong.\n2. Verifikasi: bash scripts/e2e/smoke_dashboard.sh (output lengkap di RPT)\n\nBRANCH: testing -> feat/test-e2e-smoke-dashboard.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-086 (PR merged ke testing).",
+  "acceptance": [
+    "Semua rute lulus",
+    "Tidak ada proses Go berjalan",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

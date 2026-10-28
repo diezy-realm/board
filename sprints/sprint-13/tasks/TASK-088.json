@@ -1,0 +1,25 @@
+{
+  "id": "TASK-088",
+  "type": "task",
+  "title": "Hapus strangler, gRPC SystemGateway, build.rs, tonic/prost gateway",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Decommission",
+    "gRPC"
+  ],
+  "source_spec": "SPEC-015",
+  "source_backlog": "BL-090",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-015 · Backlog: BL-090.\n\n1. Hapus strangler_runner.rs, grpc_system_gateway.rs, start_grpc_server, TurnApiHandler + registrasi, re-export terkait, tests/system_gateway_integration_test.rs, build.rs; hapus tonic/prost/tonic-build dari galleon-gateway dan root Cargo.toml (:33-39, :101). prost 0.14 milik lark/channels tetap.\n2. Verifikasi: cargo build --workspace --locked && cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked; cargo deny check bila dikonfigurasi.\n\nBRANCH: testing -> feat/refactor-remove-grpc-strangler.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-087 (PR merged ke testing).",
+  "acceptance": [
+    "rg -n 'tonic|strangler|SystemGateway' crates src --type rust kosong",
+    "Cargo.lock tidak lagi memuat tonic-build",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

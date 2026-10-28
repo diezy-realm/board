@@ -1,0 +1,26 @@
+{
+  "id": "TASK-059",
+  "type": "task",
+  "title": "Gateway: body limit, timeout, security headers, ConnectInfo",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Gateway",
+    "Security"
+  ],
+  "source_spec": "SPEC-012",
+  "source_backlog": "BL-087",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-012 · Backlog: BL-087.\n\n1. Di crates/galleon-gateway/src/gateway.rs pasang layer seperti OLD:2290-2357 (OLD = git show db18a3745^:crates/clawcrew-gateway/src/lib.rs): TimeoutLayer(REQUEST_TIMEOUT_SECS) dan security_headers::apply (apply_with_hsts bila tls.enabled) sebagai lapisan global; RequestBodyLimitLayer(MAX_BODY_SIZE) dipasang pada router inti sebelum merge router lain (router fleet TASK-081 memakai batas 1 MiB sendiri). Konstanta di lib.rs:72-75.\n2. Serve dengan app.into_make_service_with_connect_info::<SocketAddr>().\n3. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/gateway-layers-connectinfo.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-058 (PR merged ke testing).",
+  "acceptance": [
+    "Body > 64 KB -> 413",
+    "Header keamanan ada di respons /health",
+    "ConnectInfo tersedia untuk handler",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

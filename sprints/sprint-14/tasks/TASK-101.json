@@ -1,0 +1,23 @@
+{
+  "id": "TASK-101",
+  "type": "task",
+  "title": "Terapkan rust-conventions amendment",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Docs"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. Terapkan standard-docs/tech-standart/tech-stack/rust-conventions-amendment-2026-10-29.md ke rust-conventions.md (hapus gRPC/tonic, perbarui logging, aturan crate baru); file amendment diberi banner 'Applied'.\n\nBRANCH: testing -> feat/docs-rust-conventions-amendment.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-100 (PR merged ke testing).",
+  "acceptance": [
+    "rust-conventions.md tidak lagi menyebut tonic/gRPC sebagai pola aktif",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

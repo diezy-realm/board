@@ -1,0 +1,25 @@
+{
+  "id": "TASK-091",
+  "type": "task",
+  "title": "CI: hapus engine-ci, deteksi Go, guard full, test tier 3-lapis",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "CI",
+    "Decommission"
+  ],
+  "source_spec": "SPEC-015",
+  "source_backlog": "BL-090",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nSpec: SPEC-015 · Backlog: BL-090.\n\n1. Hapus .github/workflows/engine-ci.yml; hapus deteksi Go di pr-testing-gate.yml (:45,:129,:157); ci.yml memanggil check_no_go.sh full; tulis ulang tests/architecture/tier_boundaries.rs ke 3 tier (Desktop shell / Rust core / Web UI).\n2. Catat untuk Owner: ganti mode diff -> full di gates.sh.\n3. Verifikasi: cargo test --test architecture --locked\n\nBRANCH: testing -> feat/ci-remove-go-lanes.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-090 (PR merged ke testing).",
+  "acceptance": [
+    "Tidak ada job/step Go di .github/workflows",
+    "tier_boundaries.rs tanpa Tier Go",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

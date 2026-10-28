@@ -1,0 +1,26 @@
+{
+  "id": "TASK-078",
+  "type": "task",
+  "title": "Terminal exec: auth -> SecurityPolicy -> approval -> audit",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. POST /api/terminal/exec: require_auth -> SecurityPolicy::validate_command_execution(command, approved=false) (galleon-config/src/policy.rs:3250); field approved/approved_by dari klien diabaikan; hasil High atau butuh approval -> respons requiresApproval: true dan TIDAK dieksekusi; Low/Medium via tokio::process::Command tanpa shell, timeout 30 s, output dipotong 64 KB; audit ke ::galleon_log::record! dan ring buffer 500 entri untuk GET /api/v1/audit/trail.\n2. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/fleet-core-terminal-exec.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-077 (PR merged ke testing).",
+  "acceptance": [
+    "Klien tidak bisa memalsukan persetujuan (test: approved=true dari klien tetap requiresApproval)",
+    "Tanpa token -> 401",
+    "Audit trail mencatat command, hasil, waktu",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

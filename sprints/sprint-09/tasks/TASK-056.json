@@ -1,0 +1,26 @@
+{
+  "id": "TASK-056",
+  "type": "task",
+  "title": "Guard CI scripts/ci/check_no_go.sh (mode diff/full)",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "CI",
+    "Guard"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. Buat scripts/ci/check_no_go.sh (bash, set -euo pipefail): mode diff -> gagal bila git diff --name-only --diff-filter=A origin/testing...HEAD memuat *.go, go.mod, go.sum, go.work; mode full -> gagal bila git ls-files '*.go' 'go.mod' 'go.sum' 'go.work' tidak kosong.\n2. Tambahkan step 'check_no_go.sh diff' di job repo-structure .github/workflows/ci.yml (selaras dengan komentar ci.yml:3-5).\n3. Tambahkan test kecil scripts/ci/check_no_go.test.sh mengikuti pola run_clippy.test.sh (repo git sementara).\n4. Catat di RPT bahwa Owner harus menambahkan pemanggilan ke ~/Apps/dev-ci gates.sh (di luar repo).\n\nBRANCH: testing -> feat/ci-check-no-go-guard.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-055 (PR merged ke testing).",
+  "acceptance": [
+    "Mode diff gagal saat file .go baru ditambahkan, lolos saat file .go lama diubah",
+    "Mode full gagal di testing saat ini (Go masih ada) — diharapkan",
+    "check_no_go.test.sh hijau",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

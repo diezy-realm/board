@@ -1,0 +1,27 @@
+{
+  "id": "TASK-050",
+  "type": "task",
+  "title": "Hotfix build: selektor -p zerocode/zerorelay di workflow rilis, test xtask, setup.bat, script dev",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Hotfix",
+    "Build",
+    "CI"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-011 §H · Backlog: BL-086.\n\nLATAR: lanjutan TASK-049 (keputusan D-HF1 berlaku: nama asset/artifact publik tidak diubah). Workflow rilis dan test xtask masih memakai package lama.\n\nLANGKAH:\n1. `.github/workflows/release-stable-manual.yml`: baris 343-344 `-p zerocode`->`-p galleoncode`, `-p zerorelay`->`-p galleonrelay`; loop packaging `for b in zerocode zerorelay` (359) dan `zerocode.exe zerorelay.exe` (376) membaca binary hasil build, jadi sumbernya `galleoncode`/`galleonrelay`; nama asset di archive tetap `zerocode`/`zerorelay` (rename saat staging). Komentar 339 diselaraskan.\n2. `.github/workflows/cross-platform-build-manual.yml`: baris 278 dan 289 sama; `path:` artifact (283, 294) menunjuk file hasil build (`galleoncode`/`galleonrelay`, `.exe` di Windows); `name:` artifact (282, 293) tetap.\n3. `xtask/src/generate/spec.rs`: test yang membaca kedua workflow di atas (sekitar baris 1627 dan 1660) meng-assert string lama di 1696 dan 1699; ubah ke `-p galleoncode` / `-p galleonrelay`. Komentar `xtask/src/generate/mod.rs:110` diselaraskan.\n4. `setup.bat` (245, 282, 283) `-p zerocode`->`-p galleoncode`. Bila baris itu berada di zona `generated:` ubah generator (`xtask/src/generate/setup_bat.rs` / `spec.rs`) lalu `cargo generate`; bila bukan, edit langsung. Pesan 'installed: zerocode' tetap.\n5. `scripts/dev/mtls-relay-testbed.sh:123` `-p clawcrew -p zerocode -p zerorelay` -> `-p galleon-fleet -p galleoncode -p galleonrelay`; periksa path binary di script yang sama dan sesuaikan.\n6. Komentar dokumentasi `apps/galleoncode/src/zerocode_pane.rs:2347` dan `apps/galleoncode/src/doctor.rs:989`: `-p zerocode`->`-p galleoncode` (hanya komentar; tidak mengubah kode).\n\nVERIFIKASI (salin output asli ke RPT):\n- `rg -n -e '-p zerocode' -e '-p zerorelay' . --glob '!standard-docs/**' --glob '!docs/**' --glob '!CHANGELOG*' --glob '!node_modules/**'` -> kosong.\n- `cargo nextest run -p xtask --locked` -> hijau (sertakan ringkasan jumlah test).\n- mode check `cargo generate` -> bersih.\n\nBRANCH: testing -> feat/fix-build-selectors-galleoncode-workflows.\n\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-049 (PR merged ke testing).",
+  "acceptance": [
+    "`rg -n -e '-p zerocode' -e '-p zerorelay'` (di luar standard-docs, docs, CHANGELOG, node_modules) kosong",
+    "Nama asset/artifact publik di workflow tidak berubah; hanya selektor build dan path binary hasil build",
+    "`cargo nextest run -p xtask --locked` hijau dan mode check `cargo generate` bersih",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

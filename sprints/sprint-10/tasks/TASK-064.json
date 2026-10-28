@@ -1,0 +1,26 @@
+{
+  "id": "TASK-064",
+  "type": "task",
+  "title": "Gateway: test tabel rute (insta + matriks 401)",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "QA",
+    "Gateway",
+    "Security"
+  ],
+  "source_spec": "SPEC-012",
+  "source_backlog": "BL-087",
+  "description": "Gunakan skill squad-qa.\n\nSpec: SPEC-012 · Backlog: BL-087.\n\n1. Buat crates/galleon-gateway/tests/route_table.rs: jalankan router di 127.0.0.1:0; untuk setiap baris consumer-inventory.md berstatus Rust: tanpa token -> 401 kecuali publik; insta::assert_yaml_snapshot! daftar (method,path,status).\n2. Tidak membuat fungsi route_inventory() di kode produksi (YAGNI).\n3. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/test-gateway-route-table.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-063 (PR merged ke testing).",
+  "acceptance": [
+    "Snapshot insta ter-commit",
+    "Setiap rute non-publik terbukti 401 tanpa token",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

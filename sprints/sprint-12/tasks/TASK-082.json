@@ -1,0 +1,25 @@
+{
+  "id": "TASK-082",
+  "type": "task",
+  "title": "Web: satu pintu request() ber-Bearer + proxy Vite ke gateway Rust",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "frontend",
+  "tags": [
+    "Frontend",
+    "Auth"
+  ],
+  "source_spec": "SPEC-014",
+  "source_backlog": "BL-089",
+  "description": "Gunakan skill squad-frontend.\n\nSpec: SPEC-014 · Backlog: BL-089.\n\n1. web/src/utils/apiClient.ts: TOKEN_KEY galleon_auth_token, getToken/setToken/clearToken, request<T>(method,path,body?) (Tauri -> invokeTauri('api_request'), selain itu fetch relatif dengan Authorization: Bearer); 401 -> clearToken + event galleon:unauthorized. Semua method memakai request; getHealth dihapus.\n2. web/vite.config.ts: target process.env.GALLEON_GATEWAY_URL || 'http://127.0.0.1:42617'; proxy juga /pair.\n3. Verifikasi: cd web && npm ci && npm run typecheck && npm run build; jalankan npm test dan salin output apa adanya (script test = node --test, web/package.json:14; test TSX kemungkinan tidak tereksekusi — jangan menambah framework test).\n4. Selama TASK-083 belum merged, developer mengisi galleon_auth_token di localStorage manual; catat di RPT.\n\nBRANCH: testing -> feat/web-api-request-wrapper.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-081 (PR merged ke testing).",
+  "acceptance": [
+    "rg -n 'fetch\\(' web/src/utils/apiClient.ts hanya di dalam request()",
+    "rg -n 'invokeTauri\\(' web/src hanya 'api_request'",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

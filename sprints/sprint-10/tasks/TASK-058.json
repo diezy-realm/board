@@ -1,0 +1,25 @@
+{
+  "id": "TASK-058",
+  "type": "task",
+  "title": "Inventaris konsumen API (consumer-inventory.md)",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Docs",
+    "Contract"
+  ],
+  "source_spec": "SPEC-012",
+  "source_backlog": "BL-087",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nSpec: SPEC-012 · Backlog: BL-087.\n\n1. Buat standard-docs/tech-standart/api-contracts/consumer-inventory.md: tabel method | path | konsumen (file:line) | implementasi sekarang (Go/Rust/none) | keputusan (port/restore/drop) | auth.\n2. Sumber: rg di web/src, apps/tauri/src, apps/galleoncode, src/main.rs, src/bin/*, nginx/, scripts/. Konfirmasi rute 'tanpa konsumen' di PRD-002 §5 juga tanpa konsumen di Tauri/CLI.\n3. Sertakan mDNS (Q9) dan rute /admin/* dari CLI.\n\nBRANCH: testing -> feat/docs-api-consumer-inventory.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-056 (PR merged ke testing).",
+  "acceptance": [
+    "Setiap baris punya file:line konsumen atau 'none'",
+    "Keputusan port/restore/drop untuk semua rute Go dan rute OLD berkonsumen",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

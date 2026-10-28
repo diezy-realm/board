@@ -1,0 +1,27 @@
+{
+  "id": "TASK-049",
+  "type": "task",
+  "title": "Hotfix build: selektor -p zerocode -> galleoncode di Dockerfile*, Containerfile, PKGBUILD",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Hotfix",
+    "Build",
+    "Docker"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-011 §H · Backlog: BL-086.\n\nLATAR (fakta di testing@3f3a729): setelah rename T3-16/T3-17 (#92, #93) tidak ada lagi package `zerocode`/`zerorelay`; package kini `galleoncode` (apps/galleoncode/Cargo.toml:2) dan `galleonrelay` (apps/galleonrelay/Cargo.toml:2). `cargo build -p zerocode` gagal ('package ID specification ... did not match any packages'). Pola yang BENAR sudah ada di Dockerfile.alpine:141-148 (`-p galleoncode`, lalu `cp .../release/galleoncode /app/galleoncode && cp /app/galleoncode /app/zerocode`). Tiru persis pola itu.\n\nKEPUTUSAN DEFAULT D-HF1: nama artefak PUBLIK tidak diubah (binary terpasang `zerocode`, tag image `-zerorelay`, nama asset rilis). Hanya selektor build, glob artefak build, dan path sumber yang diganti. Mengganti nama artefak publik = keputusan rebrand terpisah (bukan task ini).\n\nLANGKAH:\n1. Dockerfile: `-p zerocode`->`-p galleoncode` (baris 150,152,205,207); glob `zerocode-*`->`galleoncode-*` (198-203); baris 211 -> `cp target/\"$RUST_TARGET\"/release/galleoncode /app/galleoncode && cp /app/galleoncode /app/zerocode`; `strip` dan loop `for b in galleon zerocode` tetap valid. Komentar 57/171 disesuaikan.\n2. Dockerfile.debian: path stub `apps/zerocode`->`apps/galleoncode` dan `apps/zerorelay`->`apps/galleonrelay` (baris 86-113, 140-148; COPY manifest saat ini menunjuk direktori yang tidak ada), `-p zerocode`->`-p galleoncode` (128,130,165,167), glob 161-163, `cp` 171 dengan pola langkah 1.\n3. Containerfile: `-p zerocode`->`-p galleoncode` (204,291); `cp .../release/zerocode` (209,296) -> sumber `galleoncode`, tujuan `/rootfs/usr/bin/zerocode` tetap; `--exclude zerocode`->`--exclude galleoncode` (126,132,151).\n4. dist/aur/PKGBUILD:38 `-p zerocode`->`-p galleoncode`; baris install `target/dist/zerocode` -> `install -Dm0755 target/dist/galleoncode \"${pkgdir}/usr/bin/zerocode\"`.\n5. File yang memuat zona `# >>> generated:... do not edit <<<` JANGAN diedit tangan di zona itu. Bila baris yang diubah berada di zona generated, ubah sumber di xtask/src/generate/* lalu jalankan `cargo generate <target>`; di akhir jalankan mode check `cargo generate` (lihat xtask/src/generate/mod.rs:142 `run(targets, check)`) dan pastikan bersih.\n6. DI LUAR TASK INI: `.github/workflows/*`, `xtask/src/generate/spec.rs` asserts, `setup.bat`, `scripts/dev/*` (TASK-050); selektor `clawcrew-*` / `--bin clawcrew` (TASK-099, lihat SPEC-016 'Temuan tambahan').\n\nVERIFIKASI (salin output asli ke RPT):\n- `rg -n -e '-p zerocode' -e '-p zerorelay' -e 'apps/zerocode' -e 'apps/zerorelay' Dockerfile Dockerfile.debian Dockerfile.alpine Containerfile dist/aur` -> kosong.\n- `cargo metadata --no-deps --format-version 1 | jq -r '.packages[].name' | rg -x 'galleoncode|galleonrelay'` -> dua baris.\n- `cargo check --locked -p galleoncode -p galleonrelay` -> sukses.\n- `docker build` TIDAK wajib (melebihi 1 jam); tulis di RPT bahwa build image belum dijalankan.\n\nBRANCH: testing -> feat/fix-build-selectors-galleoncode-docker.\n\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Tidak ada `-p zerocode`, `-p zerorelay`, `apps/zerocode`, `apps/zerorelay` tersisa di Dockerfile, Dockerfile.debian, Dockerfile.alpine, Containerfile, dist/aur",
+    "Nama artefak publik tidak berubah (binary terpasang zerocode, tag image zerorelay)",
+    "`cargo check --locked -p galleoncode -p galleonrelay` sukses; zona generated tidak diedit tangan dan mode check generator bersih",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

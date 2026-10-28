@@ -1,0 +1,25 @@
+{
+  "id": "TASK-094",
+  "type": "task",
+  "title": "Lint batch A: crate kecil mewarisi [lints] workspace",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Lint",
+    "Hygiene"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. Tambahkan [lints] workspace = true ke 31 crate batch A (daftar eksplisit di SPEC-016 §Solusi; hitungan grep unwrap/expect <= 60). Bila gagal di jalur produksi, tambahkan #![allow(...)] // RATCHET(BL-091): <N> per 2026-10-29; jangan menambah. Tidak memperbaiki unwrap.\n2. Bila > 1 jam: berhenti, RPT partial, KiroCrew memecah.\n3. Verifikasi: satu invokasi cargo clippy -p <a> -p <b> ... --all-targets --locked -- -D warnings && cargo nextest run -p <a> -p <b> ... --locked untuk seluruh crate batch\n\nBRANCH: testing -> feat/chore-lint-inherit-batch-a.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-093 (PR merged ke testing).",
+  "acceptance": [
+    "Setiap crate batch A punya [lints] workspace = true",
+    "Tabel N ratchet per crate di RPT",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

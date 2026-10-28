@@ -1,0 +1,25 @@
+{
+  "id": "TASK-053",
+  "type": "task",
+  "title": "Steering .github: hapus instruksi Go",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Docs",
+    "Steering"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. Di .github/ (copilot-instructions, instruksi agent, PR template bila ada) hapus instruksi yang mengarahkan menulis Go/engine Go; ganti dengan satu kalimat rujukan ke ADR-0018 dan 01-boundary-policy v2. Daftar awal: rg -n -i 'golang|\\bgo\\b|engine/' .github --glob '!workflows/**'.\n2. Workflow CI tidak disentuh di task ini (TASK-056, TASK-091).\n\nBRANCH: testing -> feat/docs-rust-only-github-steering.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-052 (PR merged ke testing).",
+  "acceptance": [
+    "rg -n -i 'golang|go engine|engine go' .github --glob '!workflows/**' kosong atau hanya rujukan larangan",
+    "Tidak menulis ulang aturan Rust yang sudah ada",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

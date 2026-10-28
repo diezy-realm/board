@@ -1,0 +1,25 @@
+{
+  "id": "TASK-096",
+  "type": "task",
+  "title": "Lint batch C: crate besar + root",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Lint",
+    "Hygiene"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. Sama dengan TASK-094 untuk galleon-infra, galleon-channels, galleon-gateway, galleoncode, galleon-memory, galleon-providers, galleon-config, galleon-tools, galleon-runtime, root package.\n2. Verifikasi: satu invokasi cargo clippy -p <a> -p <b> ... --all-targets --locked -- -D warnings && cargo nextest run -p <a> -p <b> ... --locked untuk seluruh crate batch; lalu cek global: for f in $(cargo metadata --no-deps --format-version 1 | jq -r '.packages[].manifest_path'); do grep -q '^\\[lints\\]' $f || echo $f; done (kosong, kecuali fixture test yang dijustifikasi)\n\nBRANCH: testing -> feat/chore-lint-inherit-batch-c.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-095 (PR merged ke testing).",
+  "acceptance": [
+    "Cek global kosong",
+    "Tabel N ratchet per crate di RPT",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

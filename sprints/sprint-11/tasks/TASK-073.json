@@ -1,0 +1,24 @@
+{
+  "id": "TASK-073",
+  "type": "task",
+  "title": "System metrics, network, processes",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. Di adapter crates/galleon-gateway/src/api_fleet/system.rs: GET /api/system/metrics, /api/system/network, /api/engine/processes memakai sysinfo 0.36 (sudah di workspace); goVersion dihapus, version = CARGO_PKG_VERSION, uptime dari galleon_infra::health::snapshot(); engine_port dihapus; proses hanya galleon*.\n2. Verifikasi: cargo clippy -p galleon-fleet-core --all-targets --locked -- -D warnings && cargo nextest run -p galleon-fleet-core --locked && cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/fleet-core-system.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-072 (PR merged ke testing).",
+  "acceptance": [
+    "Tidak ada konstanta karangan; nilai tak terukur -> null",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

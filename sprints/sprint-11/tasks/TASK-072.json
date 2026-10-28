@@ -1,0 +1,24 @@
+{
+  "id": "TASK-072",
+  "type": "task",
+  "title": "Policies + perbaiki scan root no_duplicate_risk_tier",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. GET /api/fleet/policies sesuai SPEC-013 (CommandRiskLevel galleon-config/src/policy.rs:13 sebagai sumber).\n2. tests/architecture/no_duplicate_risk_tier.rs: SCAN_ROOTS dari web-2/src ke web/src dan crates/galleon-fleet-core/src; scan_dir harus panic bila root tidak ada.\n3. Verifikasi: cargo test --test architecture && cargo clippy -p galleon-fleet-core --all-targets --locked -- -D warnings && cargo nextest run -p galleon-fleet-core --locked\n\nBRANCH: testing -> feat/fleet-core-policies.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-071 (PR merged ke testing).",
+  "acceptance": [
+    "no_duplicate_risk_tier gagal bila root tidak ada (tidak lagi lolos diam-diam)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

@@ -1,0 +1,25 @@
+{
+  "id": "TASK-057",
+  "type": "task",
+  "title": "Terapkan RULES/TEMPLATES amendment ke board",
+  "status": "todo",
+  "assignee": "kirocrew",
+  "role": "backend",
+  "tags": [
+    "Docs",
+    "Board"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. Terapkan board/RULES-amendment-2026-10-29.md ke RULES.md dan board/TEMPLATES-amendment-2026-10-29.md ke TEMPLATES.md (sisipkan pada bagian yang ditunjuk, jangan menghapus aturan lain).\n2. Verifikasi: python3 validate.py --all; jumlah file invalid tidak bertambah dari baseline 10 (RPT-108).\n\nBRANCH: testing -> feat/docs-board-rules-rust-only.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "RULES.md memuat aturan Rust-only, task <= 1 jam, status sprint planning",
+    "TEMPLATES.md memuat field BRANCH/Alokasi/PRASYARAT",
+    "validate.py --all tidak menambah error"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

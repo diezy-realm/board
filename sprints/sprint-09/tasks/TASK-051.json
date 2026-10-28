@@ -1,0 +1,24 @@
+{
+  "id": "TASK-051",
+  "type": "task",
+  "title": "Audit baseline fakta Go/Rust pada testing@3f3a729",
+  "status": "done",
+  "assignee": "kirocrew",
+  "role": "backend",
+  "tags": [
+    "Audit",
+    "Docs"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. Audit statis codebase galleon-fleet (branch testing) dan board: inventaris Go, rute Go vs konsumen web/Tauri, router Rust, lint, CI.\n2. Hasil: board/research/RES-2026-10-29-rust-single-language-baseline.md, RES-2026-10-29-rust-engineering-standards.md, RES-2026-10-29-go-reference-inventory.txt.\n\nBRANCH: testing -> feat/docs-rust-only-baseline-audit.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "RES baseline memuat file:line untuk setiap temuan",
+    "Keterbatasan dicatat jujur (tidak ada cargo/go/npm yang dijalankan)"
+  ],
+  "report": "RPT-108",
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": "Dikerjakan KiroCrew sebagai audit statis. Lihat RPT-108."
+}

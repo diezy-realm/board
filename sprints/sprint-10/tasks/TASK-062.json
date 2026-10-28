@@ -1,0 +1,24 @@
+{
+  "id": "TASK-062",
+  "type": "task",
+  "title": "Gateway: rute channel opsional + webhook SOP",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Gateway",
+    "Channels"
+  ],
+  "source_spec": "SPEC-012",
+  "source_backlog": "BL-087",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-012 · Backlog: BL-087.\n\n1. Merge optional_channel_routes() (lib.rs:514) ke router dan pasang /sop/{*rest} (api_sop_webhook.rs) bila tercantum di consumer-inventory.md.\n2. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/gateway-channel-routes.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-061 (PR merged ke testing).",
+  "acceptance": [
+    "Webhook channel yang terkonfigurasi merespons (bukan 404)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

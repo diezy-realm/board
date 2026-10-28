@@ -1,0 +1,25 @@
+{
+  "id": "TASK-105",
+  "type": "task",
+  "title": "Ekstraksi crates/galleon-tunnel + aturan dependency_direction",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Modularity",
+    "Refactor"
+  ],
+  "source_spec": "SPEC-017",
+  "source_backlog": "BL-092",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-017 · Backlog: BL-092.\n\n1. git mv crates/galleon-runtime/src/tunnel crates/galleon-tunnel/src; Cargo.toml baru ([lints] workspace = true, #![forbid(unsafe_code)], deps: galleon-config, galleon-log, galleon-spawn, anyhow, tokio); galleon-runtime/src/lib.rs:55 -> pub use galleon_tunnel as tunnel; gateway memanggil galleon_tunnel langsung.\n2. Perluas tests/architecture/dependency_direction.rs: galleon-tunnel tidak bergantung pada galleon-runtime/gateway/channels; galleon-fleet-core tidak bergantung pada galleon-gateway/channels/providers.\n3. Verifikasi: cargo nextest run -p galleon-tunnel --locked && cargo test --test architecture --locked && cargo tree -p galleon-tunnel --edges normal --depth 1\n\nBRANCH: testing -> feat/refactor-extract-galleon-tunnel.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-104 (PR merged ke testing).",
+  "acceptance": [
+    "Test tunnel lama pindah dan hijau",
+    "dependency_direction memuat dua aturan baru",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

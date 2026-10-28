@@ -1,0 +1,25 @@
+{
+  "id": "TASK-066",
+  "type": "task",
+  "title": "Scaffold crate galleon-fleet-core",
+  "status": "todo",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. Buat crates/galleon-fleet-core (lib) sesuai SPEC-013: #![forbid(unsafe_code)], [lints] workspace = true, deps hanya yang sudah ada di workspace (serde, serde_json, thiserror, tempfile, regex, sha2, tokio fitur sync) — sesuai SPEC-013 §Struktur.\n2. Tambahkan ke members root Cargo.toml dan sebagai dependency galleon-gateway (belum dipasang ke router).\n3. Verifikasi: cargo clippy -p galleon-fleet-core --all-targets --locked -- -D warnings && cargo nextest run -p galleon-fleet-core --locked\n\nBRANCH: testing -> feat/fleet-core-scaffold.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-065 (PR merged ke testing).",
+  "acceptance": [
+    "Crate terkompilasi dan kosong dari logika bisnis",
+    "cargo tree -p galleon-fleet-core tidak menarik galleon-gateway/channels/providers",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

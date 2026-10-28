@@ -1,0 +1,23 @@
+{
+  "id": "TASK-092",
+  "type": "task",
+  "title": "Dokumen: banner/arsip dokumen Go",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Docs"
+  ],
+  "source_spec": "SPEC-015",
+  "source_backlog": "BL-090",
+  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-015 · Backlog: BL-090.\n\n1. Beri banner Superseded dan/atau pindahkan ke standard-docs/archive/go-engine/ dokumen di SUPERSESSION-INDEX-2026-10-29.md §3; http-engine-api.md -> banner + rujukan consumer-inventory.md.\n2. Verifikasi: rg -n -i 'go engine|agent-engine' standard-docs --glob '!archive/**' hanya rujukan historis berbanner\n\nBRANCH: testing -> feat/docs-archive-go-docs.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-091 (PR merged ke testing).",
+  "acceptance": [
+    "Semua dokumen §3 berbanner atau diarsip",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

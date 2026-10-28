@@ -1,0 +1,25 @@
+{
+  "id": "TASK-061",
+  "type": "task",
+  "title": "Gateway: pulihkan rute admin (localhost-only)",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Gateway",
+    "Admin"
+  ],
+  "source_spec": "SPEC-012",
+  "source_backlog": "BL-087",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-012 · Backlog: BL-087.\n\n1. Pulihkan require_localhost, /admin/shutdown, /admin/reload, /admin/paircode, /admin/paircode/new dari OLD (4619/4675/4758/4805).\n2. Pasang /admin/sop/pending, /admin/sop/approve, /admin/sop/deny dari api_sop.rs (131/160/171), path persis mengikuti CLI src/main.rs:8328,8390,8394.\n3. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked\n\nBRANCH: testing -> feat/gateway-admin-routes.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-060 (PR merged ke testing).",
+  "acceptance": [
+    "Request admin dari non-loopback -> 403",
+    "CLI 'galleon gateway get-paircode' dan shutdown bekerja (tes integrasi atau manual dicatat)",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

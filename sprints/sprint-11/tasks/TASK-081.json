@@ -1,0 +1,25 @@
+{
+  "id": "TASK-081",
+  "type": "task",
+  "title": "Mount router fleet + test bentuk kontrak",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "FleetCore",
+    "Migration"
+  ],
+  "source_spec": "SPEC-013",
+  "source_backlog": "BL-088",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-013 · Backlog: BL-088.\n\n1. Merge router api_fleet di build_gateway_router di bawah require_auth dengan RequestBodyLimitLayer::new(FLEET_MAX_BODY) sendiri (bukan di bawah batas 64 KB router inti); test PUT koleksi 500 KB -> 200, 2 MiB -> 413; test kontrak membandingkan respons Rust dengan tests/fixtures/go-fleet/*.json (abaikan kunci di VOLATILE.md). Perbarui snapshot route_table (TASK-064).\n2. Verifikasi: cargo clippy -p galleon-gateway --all-targets --locked -- -D warnings && cargo nextest run -p galleon-gateway --locked && cargo clippy -p galleon-fleet-core --all-targets --locked -- -D warnings && cargo nextest run -p galleon-fleet-core --locked\n\nBRANCH: testing -> feat/fleet-core-mount-contract-tests.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-080 (PR merged ke testing).",
+  "acceptance": [
+    "Semua endpoint berstatus port lulus test bentuk",
+    "Matriks 401 diperbarui",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

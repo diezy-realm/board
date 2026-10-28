@@ -1,0 +1,24 @@
+{
+  "id": "TASK-084",
+  "type": "task",
+  "title": "Web: devices, sembunyikan learning/remedy, tipe null",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "frontend",
+  "tags": [
+    "Frontend"
+  ],
+  "source_spec": "SPEC-014",
+  "source_backlog": "BL-089",
+  "description": "Gunakan skill squad-frontend.\n\nSpec: SPEC-014 · Backlog: BL-089.\n\n1. ConnectedDevicesView.tsx: GET /api/devices, DELETE /api/devices/{id}, POST /api/pairing/initiate. Sembunyikan UI learning proposals (Q1) dan remedy; hapus approveToolExecution dan pemanggilannya di fleetStore.handleApproval.\n2. Tipe TS field yang kini null -> number | null / string | null, render '—'.\n3. Verifikasi: cd web && npm run typecheck && npm run build\n\nBRANCH: testing -> feat/web-fleet-endpoints-align.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-083 (PR merged ke testing).",
+  "acceptance": [
+    "Tidak ada pemanggilan /api/v1/tool-executions atau /api/v1/learning di web/src",
+    "Build TS tanpa error",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

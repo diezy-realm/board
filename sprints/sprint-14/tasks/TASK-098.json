@@ -1,0 +1,24 @@
+{
+  "id": "TASK-098",
+  "type": "task",
+  "title": "sccache kondisional + CARGO_INCREMENTAL=0",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "CI",
+    "Performance"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. Hapus rustc-wrapper = \"sccache\" dari .cargo/config.toml (:14-17). Set RUSTC_WRAPPER=sccache dan CARGO_INCREMENTAL=0 hanya di env yang memasang sccache (ci.yml job Rust, dev/ci.sh).\n2. Verifikasi: env -u RUSTC_WRAPPER cargo check -p galleon-api --locked\n\nBRANCH: testing -> feat/chore-sccache-conditional.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-097 (PR merged ke testing).",
+  "acceptance": [
+    "cargo berjalan di mesin tanpa sccache",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

@@ -1,0 +1,25 @@
+{
+  "id": "TASK-095",
+  "type": "task",
+  "title": "Lint batch B: crate menengah",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Lint",
+    "Hygiene"
+  ],
+  "source_spec": "SPEC-016",
+  "source_backlog": "BL-091",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-016 · Backlog: BL-091.\n\n1. Sama dengan TASK-094 untuk 18 crate batch B (daftar eksplisit di SPEC-016 §Solusi).\n2. Verifikasi: satu invokasi cargo clippy -p <a> -p <b> ... --all-targets --locked -- -D warnings && cargo nextest run -p <a> -p <b> ... --locked untuk seluruh crate batch\n\nBRANCH: testing -> feat/chore-lint-inherit-batch-b.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-094 (PR merged ke testing).",
+  "acceptance": [
+    "Setiap crate batch B punya [lints] workspace = true",
+    "Tabel N ratchet per crate di RPT",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}

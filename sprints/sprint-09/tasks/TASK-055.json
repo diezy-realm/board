@@ -1,0 +1,27 @@
+{
+  "id": "TASK-055",
+  "type": "task",
+  "title": "Kontainmen Go: bind 127.0.0.1 + Bearer fail-closed pada eksekusi terminal",
+  "status": "blocked",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Security",
+    "Go",
+    "Containment"
+  ],
+  "source_spec": "SPEC-011",
+  "source_backlog": "BL-086",
+  "description": "Gunakan skill squad-backend.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. engine/core/metrics/metrics.go:108 dan engine/app/app.go:110: alamat listen menjadi fmt.Sprintf(\"127.0.0.1:%d\", port). Tidak menambah env baru.\n2. Bungkus handler /api/terminal/exec dan /api/engine/execute: header Authorization: Bearer dibandingkan constant-time (crypto/subtle.ConstantTimeCompare) dengan env GALLEON_ENGINE_TOKEN; env kosong -> selalu 401.\n3. Field approved/approved_by dari klien tetap ada di Go (dihapus bersama Go di Sprint 13); kontainmen hanya menutup akses tanpa token.\n4. Verifikasi: cd engine && go vet ./... && go test ./... (bila toolchain ada); bila tidak ada, catat di RPT dan sertakan curl manual: tanpa token -> 401.\n\nBRANCH: testing -> feat/fix-go-engine-containment.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.\nPRASYARAT (DEPENDENCY): TASK-054 (PR merged ke testing).",
+  "acceptance": [
+    "Port metrics & gRPC Go hanya listen di 127.0.0.1",
+    "Terminal Go tanpa token / token salah -> 401; env kosong -> 401",
+    "Tidak ada file .go baru",
+    "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
+  ],
+  "report": null,
+  "author": "kirocrew",
+  "created": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-29T10:00:00Z",
+  "notes": ""
+}
