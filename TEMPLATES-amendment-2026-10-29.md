@@ -57,3 +57,9 @@ Di bagian `## Bukti (Evidence)` tambahkan baris:
 ## T4. Template keputusan di `galleon-fleet`
 - `standard-docs/templates/template-odr.md`: bagian Tier menjadi 3 tier (Desktop shell / Rust Core / UI Web) + baris "Add-on Go/bahasa lain (repo terpisah)". Versi siap pakai ada di paket: `galleon-fleet/standard-docs/templates/template-odr.md`.
 - `standard-docs/templates/template-adr.md`: Konteks "3-tier architecture … Rust bahasa tunggal (ADR-0018)". Versi siap pakai: `galleon-fleet/standard-docs/templates/template-adr.md`.
+
+## T5. Task yang tidak muat 1 jam
+```text
+Jangan berhenti tanpa PR. Push bagian yang sudah hijau, buka PR, tulis 'Sisa pekerjaan' di deskripsi PR;
+test yang belum beres: #[ignore = "TASK-xxx sisa"]. Lead membuat task lanjutan.   # lihat RULES amandemen A2
+```

@@ -14,7 +14,9 @@ ExecStart=/usr/bin/env python3 %h/Apps/board/tools/agy-bridge/run_standalone.py
 TimeoutStartSec=14400
 # agy needs HOME + PATH for ~/.local/bin/agy and gh.
 Environment=HOME=%h
-Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+# linuxbrew is APPENDED (lowest priority) so verification commands in task descriptions can use
+# rg/node/npm without shadowing system tools (rg, node, npm exist only there).
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin:/home/linuxbrew/.linuxbrew/bin
 
 [Install]
 WantedBy=default.target

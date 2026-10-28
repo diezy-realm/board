@@ -47,9 +47,49 @@ LIMIT_PATTERNS = [
     r"\bRESOURCE_EXHAUSTED\b", r"\b429\b", r"\btoo many requests\b",
     r"\btry again (later|in)\b", r"\bupgrade your plan\b",
 ]
+# Account-level failures that are NOT a usage/quota limit but still mean "this
+# account cannot do the work right now, skip to the next one": e.g. "Eligibility
+# Check failed: Your current account is not eligible for Antigravity. Verify
+# your account to continue." (seen in production on a freshly-added account).
+# Routed through the same is_limit_error()/rotation path as a real limit — the
+# caller's response (rotate to next account) is identical either way — but kept
+# as a separate pattern list since it is semantically a different failure, not
+# a time-based reset.
+INELIGIBLE_PATTERNS = [
+    r"\beligibility check failed\b", r"\bnot eligible\b", r"\bverify your account\b",
+    r"\baccount (is )?(suspended|disabled|restricted)\b",
+]
 # Lines that look limit-ish enough to LOG for review even if not matched above.
 _MAYBE = re.compile(r"limit|quota|credit|exhaust|429|resource|rate|resets?", re.I)
 _LIMIT_RE = re.compile("|".join(LIMIT_PATTERNS), re.I)
+_INELIGIBLE_RE = re.compile("|".join(INELIGIBLE_PATTERNS), re.I)
+
+# No reset timer applies to an ineligible account — it is not a quota that heals
+# with time, it needs the human to verify/fix the account. Cool it down for a
+# long, bounded window so rotation keeps skipping it without retrying forever,
+# but still re-offers it eventually in case the user fixed it in the meantime.
+INELIGIBLE_COOLDOWN_SECS = 24 * 3600
+
+# "Resets in 18h30m20s" / "Resets in 54m" / "Resets in 2h" — agy's own quota
+# messages vary (5-hour PRO window vs. a longer daily/weekly individual quota).
+# Parse it when present instead of always assuming the 5-hour window, or an
+# account marked limited for only 5h gets retried while its real quota is
+# still exhausted (seen in production: "Individual quota reached ... Resets
+# in 18h30m20s" — every account cooled down 5h, then failed again on retry).
+_RESET_IN_RE = re.compile(r"resets?\s+in\s+(?:(\d+)h)?\s*(?:(\d+)m)?\s*(?:(\d+)s)?", re.I)
+
+
+def _parse_reset_secs(text: str) -> int | None:
+    """Seconds until reset, parsed from a 'Resets in ...' phrase in agy's error
+    output. None if no such phrase is found (caller falls back to COOLDOWN_SECS)."""
+    if not text:
+        return None
+    m = _RESET_IN_RE.search(text)
+    if not m or not any(m.groups()):
+        return None
+    h, mi, s = (int(g) if g else 0 for g in m.groups())
+    secs = h * 3600 + mi * 60 + s
+    return secs if secs > 0 else None
 
 
 def _now() -> int:
@@ -81,12 +121,14 @@ def _save_state(st: dict) -> None:
 
 
 def is_limit_error(text: str) -> bool:
-    """True if agy output signals a usage/credit/rate limit. Auto-learn: an
-    error that smells limit-ish but doesn't match is appended to UNMATCHED_LOG
-    so the patterns can be tightened from real data."""
+    """True if agy output signals a usage/credit/rate limit, OR an account-level
+    failure that also means 'skip this account, try the next one' (eligibility
+    check failed, account suspended/disabled). Auto-learn: an error that smells
+    limit-ish but doesn't match either is appended to UNMATCHED_LOG so the
+    patterns can be tightened from real data."""
     if not text:
         return False
-    if _LIMIT_RE.search(text):
+    if _LIMIT_RE.search(text) or _INELIGIBLE_RE.search(text):
         return True
     if _MAYBE.search(text):
         try:
@@ -120,10 +162,18 @@ def activate(idx: int) -> tuple[bool, str]:
     return True, f"akun {idx} aktif"
 
 
-def mark_limited(idx: int) -> None:
-    """Record that account idx hit its limit now (start its cooldown)."""
+def mark_limited(idx: int, error_text: str = "") -> None:
+    """Record that account idx hit its limit now (start its cooldown).
+    Priority: (1) an explicit 'Resets in ...' duration from agy's error text
+    (e.g. an 18.5h individual-quota message); (2) an account-ineligible failure
+    (eligibility check failed / suspended) gets the long INELIGIBLE_COOLDOWN_SECS
+    instead of the short 5h usage-limit assumption, since that is not a quota
+    that heals in 5h — retrying it that soon just fails again for the same
+    account-level reason; (3) fallback to the 5-hour PRO window (COOLDOWN_SECS)."""
+    if (secs := _parse_reset_secs(error_text)) is None:
+        secs = INELIGIBLE_COOLDOWN_SECS if _INELIGIBLE_RE.search(error_text or "") else COOLDOWN_SECS
     st = _load_state()
-    st.setdefault("cooldown", {})[str(idx)] = _now() + COOLDOWN_SECS
+    st.setdefault("cooldown", {})[str(idx)] = _now() + secs
     _save_state(st)
 
 

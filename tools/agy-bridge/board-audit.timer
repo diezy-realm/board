@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the board consistency + bridge-health audit
+
+[Timer]
+# Reboot-safe wall-clock schedule (see agy-bridge.timer for why not OnUnitActiveSec).
+OnCalendar=*:0/15
+Persistent=true
+Unit=board-audit.service
+
+[Install]
+WantedBy=timers.target

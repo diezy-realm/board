@@ -2,7 +2,7 @@
   "id": "TASK-052",
   "type": "task",
   "title": "Commit dokumen keputusan Rust-only + banner Superseded",
-  "status": "todo",
+  "status": "review",
   "assignee": "agy",
   "role": "backend",
   "tags": [
@@ -11,16 +11,16 @@
   ],
   "source_spec": "SPEC-011",
   "source_backlog": "BL-086",
-  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. Salin dari paket (sumber: /home/diezy/Apps/board/research/rust-single-language/package/galleon-fleet/standard-docs/, tujuan: standard-docs/ di repo galleon-fleet): standard-docs/decisions/owner-decisions/ODR-2026-10-29-rust-single-language.md, decisions/0018-rust-single-language-architecture.md, decisions/SUPERSESSION-INDEX-2026-10-29.md, tech-standart/architecture/01-boundary-policy.md (ganti v1), tech-standart/tech-stack/rust-conventions-amendment-2026-10-29.md, templates/template-odr.md dan templates/template-adr.md (ganti; Tier Go dihapus -> 3 tier).\n2. Tambahkan banner '> Superseded by ODR-2026-10-29 / ADR-0018' di baris pertama setiap dokumen yang terdaftar di SUPERSESSION-INDEX §1–§2, tanpa mengubah isi lain.\n3. Verifikasi: rg -n 'Superseded by ODR-2026-10-29' standard-docs | wc -l sama dengan jumlah baris index; git diff --stat hanya standard-docs/.\n\nBRANCH: testing -> feat/docs-rust-only-governance-docs.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "description": "Gunakan skill squad-lead.\n\nSpec: SPEC-011 · Backlog: BL-086.\n\n1. Salin dari paket (sumber: /home/diezy/Apps/board/research/rust-single-language/package/galleon-fleet/standard-docs/, tujuan: standard-docs/ di repo galleon-fleet): standard-docs/decisions/owner-decisions/ODR-2026-10-29-rust-single-language.md, decisions/0018-rust-single-language-architecture.md, decisions/SUPERSESSION-INDEX-2026-10-29.md, tech-standart/architecture/01-boundary-policy.md (ganti v1), tech-standart/tech-stack/rust-conventions-amendment-2026-10-29.md, templates/template-odr.md dan templates/template-adr.md (ganti; Tier Go dihapus -> 3 tier).\n2. Banner HANYA untuk dokumen yang berstatus Superseded di SUPERSESSION-INDEX §2 (`decisions/finalize/ADR-005-persistence-store-design.md`: banner §3). `decisions/0002-web2-backend-policy.md` (Diamandemen): satu catatan amandemen di bawah judul. ODR lama (§1) IMMUTABLE: tidak diedit dan tidak diberi banner; status dibaca dari indeks. ADR berstatus Tetap (0001, 0003, adr-wasm-plugin-vs-mcp) tidak diubah. Dokumen normatif Go (§3) dibanner oleh TASK-092.\n3. Verifikasi: `rg -l 'Superseded oleh ODR-2026-10-29' standard-docs` = 2 file (ADR-005 dan SUPERSESSION-INDEX yang memuat teks banner); `git diff --stat` hanya standard-docs/ dan tidak menyentuh owner-decisions/ODR-2026-10-0*.\n\nBRANCH: testing -> feat/docs-rust-only-governance-docs.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
   "acceptance": [
     "Tujuh dokumen paket ada di standard-docs/ apa adanya",
-    "Setiap dokumen di SUPERSESSION-INDEX §1–§2 berbanner",
+    "Hanya ADR-005 berbanner Superseded, 0002 bercatatan amandemen; ODR lama dan ADR berstatus Tetap tidak berubah",
     "Tidak ada perubahan kode",
     "PR dibuka ke branch testing, CI dev-ci (gates.sh) hijau, RPT memuat output perintah verifikasi apa adanya"
   ],
   "report": null,
   "author": "kirocrew",
   "created": "2026-10-29T10:00:00Z",
-  "updated": "2026-10-29T10:00:00Z",
-  "notes": ""
+  "updated": "2026-10-28T19:29:45.748270+00:00",
+  "notes": " | 2026-10-29 KiroCrew: diambil alih Lead. Instruksi banner di langkah 2 bertentangan dengan ODR immutable dan menandai dokumen berstatus Tetap; dikoreksi lalu PR dibuka dari branch feat/docs-rust-only-governance-docs, status dipindah ke review. | 2026-10-29 PR #96 dibuka Lead (feat/docs-rust-only-governance-docs); board-review menutup saat merged"
 }

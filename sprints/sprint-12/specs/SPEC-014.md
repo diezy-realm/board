@@ -3,7 +3,7 @@ id: SPEC-014
 type: spec
 spec_kind: api
 title: Cutover Web, Desktop (Tauri), Nginx ke gateway Rust dengan alur pairing
-status: draft
+status: approved
 source_prd: PRD-002
 author: kirocrew
 created: 2026-10-29
@@ -74,4 +74,4 @@ Pemetaan path web lama → baru:
 - Cek statis: `rg -n ':9090|ENGINE_URL' web apps/tauri nginx` kosong; `rg -n "fetch\(" web/src -g '!**/__tests__/**'` hanya di `request`.
 
 ## Rollout / Migrasi
-074 → 075 → 076 → 077 → 078 → 079. Setelah TASK-082 merged, dashboard dev butuh token (TASK-083 menyusul di sprint yang sama; sementara itu developer mengisi `localStorage` manual — dicatat di RPT TASK-082). Rollback: revert PR; Go masih ada sampai Sprint 13.
+082 → 083 → 084 → 085 → 086 → 087. Setelah TASK-082 merged, dashboard dev butuh token (TASK-083 menyusul di sprint yang sama; sementara itu developer mengisi `localStorage` manual — dicatat di RPT TASK-082). Rollback: revert PR; Go masih ada sampai Sprint 13.

@@ -109,10 +109,12 @@ try:
 except Exception:
     _agy_rotate = None  # rotation unavailable → bridge still works, just no rotate
 
-# agy runs ONE task per wake, serially (systemd timer never overlaps). We let agy
-# finish on its own (`--print-timeout 0`); no per-task wall. The only safety net is
-# systemd TimeoutStartSec, which kills a genuinely WEDGED run — not normal long work.
+# agy runs ONE task per wake, serially (systemd timer never overlaps). One _run_agy
+# call is bounded by AGY_CALL_TIMEOUT_SEC (fix #2 below) so a wedged/slow call can
+# never block the whole bridge indefinitely; a task that needs more time resumes
+# via -c on the next wake. systemd TimeoutStartSec remains the outer safety net.
 MAX_TASKS_PER_WAKE = 1       # serialize: one agy run per poll, avoids parallel writers
+AGY_CALL_TIMEOUT_SEC = 90 * 60   # fix #2: wall-clock bound per single agy call (90 min)
 _LAST_CONV_ID = None         # set by _run_agy from the JSON envelope each run
 
 
@@ -233,8 +235,9 @@ def _run_agy(description, conversation_id=None):
     (candidate for account rotation), not a real task error.
     conversation_id: when set, resume that agy conversation (-c continuation for a
     task spanning several wakes) instead of a clean session.
-    No per-task timeout: agy finishes on its own (`--print-timeout 0`); systemd
-    TimeoutStartSec is the only safety net against a genuinely wedged run."""
+    Fix #2: bounded by AGY_CALL_TIMEOUT_SEC instead of waiting forever — a call that
+    overruns is killed and reported as a (recoverable) failure; the task resumes via
+    -c on the next wake instead of wedging the whole bridge for hours."""
     if not AGY.exists():
         return False, f"agy CLI tidak ditemukan di {AGY}", False
     cmd = [
@@ -247,10 +250,16 @@ def _run_agy(description, conversation_id=None):
     cmd += [
         "-p", description,
         "--output-format", "json",
-        "--print-timeout", "0s",   # 0 = wait until the turn completes
+        "--print-timeout", "0s",   # 0 = let agy's own turn run to completion;
+                                    # AGY_CALL_TIMEOUT_SEC below is OUR outer bound.
     ]
     try:
-        p = subprocess.run(cmd, cwd=str(BOARD), capture_output=True, text=True)
+        p = subprocess.run(cmd, cwd=str(BOARD), capture_output=True, text=True,
+                           timeout=AGY_CALL_TIMEOUT_SEC)
+    except subprocess.TimeoutExpired:
+        mins = AGY_CALL_TIMEOUT_SEC // 60
+        return (False, f"agy call timeout setelah {mins} menit — proses dihentikan, "
+                       f"task akan resume (-c) pada wake berikutnya jika belum closed.", False)
     except Exception as e:
         return False, f"agy gagal dijalankan: {e}", False
     out = (p.stdout or "").strip()
@@ -328,10 +337,28 @@ def _verify_agy_delivered(task: dict, agy_text: str = "") -> tuple:
         return False, f"verifikasi PR gagal: {e}"
 
 
-def _run_agy_with_rotation(description, max_rotations=5, conversation_id=None):
+def _task_still_ours(task_file: Path, task_id: str) -> bool:
+    """Fix #1: re-read the task from disk and confirm it is still 'in-progress'.
+    board_switch.py review() runs independently (polls GitHub, not this process)
+    and can close a task (done/review/blocked) WHILE this bridge is still waiting
+    on a slow/retrying agy call for the very same task. Without this check the
+    bridge keeps burning an agy retry/rotation loop on a task someone else already
+    finished — exactly the 'stale zombie agy process' pattern seen in production."""
+    t = _load(task_file)
+    return bool(t) and t.get("status") == "in-progress"
+
+
+def _run_agy_with_rotation(description, max_rotations=5, conversation_id=None,
+                           task_file=None, task_id=None):
     """Run agy; on a usage-limit failure, mark the account limited, rotate to the
     next available PRO account, and retry the SAME task (idempotent run).
-    Returns (ok, text). Falls back to blocked when every account is cooling down."""
+    Returns (ok, text). Falls back to blocked when every account is cooling down.
+    Fix #1: before EACH attempt (first call and every rotation retry), re-check the
+    task is still ours (status == in-progress) — abort immediately if some other
+    process (board_switch.py review()) already closed it, instead of burning a full
+    agy call/rotation cycle on work that is no longer needed."""
+    if task_file is not None and not _task_still_ours(task_file, task_id):
+        return True, f"dibatalkan: {task_id} sudah diproses/ditutup proses lain sebelum agy dipanggil"
     if _agy_rotate is None:
         ok, text, _ = _run_agy(description, conversation_id)
         return ok, text
@@ -340,12 +367,16 @@ def _run_agy_with_rotation(description, max_rotations=5, conversation_id=None):
         ok, text, is_limit = _run_agy(description, conversation_id)
         if ok or not is_limit:
             return ok, text
+        # limit hit → before paying for a rotation+retry, confirm the task is still
+        # ours; review() may have closed it while this call was running.
+        if task_file is not None and not _task_still_ours(task_file, task_id):
+            return True, f"dibatalkan: {task_id} sudah diproses/ditutup proses lain selama rotasi akun"
         # limit hit → cool down current account, rotate, retry
         try:
             st = _agy_rotate._load_state()
             cur = st.get("active", 0)
             if cur:
-                _agy_rotate.mark_limited(cur)
+                _agy_rotate.mark_limited(cur, text)
             rot_ok, rot_msg = _agy_rotate.rotate_to_next()
         except Exception as e:
             return False, f"{text}\n[rotasi gagal: {e}]"
@@ -389,6 +420,26 @@ def _trigger_ci(pr_number, sha):
                         "/usr/bin/python3", str(_CI_POLLER), "galleon-fleet", "--pr", str(pr_number)],
                        capture_output=True, text=True, timeout=30)
     return r.returncode == 0
+
+
+def _cleanup_stale_ci_poller(pr_number):
+    """Fix #3: once a PR is closed (done/merged/closed), stop any ci-poller process
+    still polling that PR number — it has no more work to do and only wastes CPU/
+    Docker resources (seen in production: ci-poller --pr 83 still running minutes
+    after PR #83 was already merged and its task archived). Best-effort: a poller
+    that already exited is a no-op; `ci-pr<N>-*` systemd-run units are left to
+    self-collect (--collect) once their process ends, so we only need to stop the
+    bare pollers started outside that wrapper (or whose unit already detached)."""
+    if not pr_number:
+        return
+    try:
+        r = subprocess.run(["pgrep", "-f", f"ci-poller galleon-fleet --pr {pr_number}$"],
+                           capture_output=True, text=True, timeout=10)
+        pids = [p for p in (r.stdout or "").split() if p.isdigit()]
+        for pid in pids:
+            subprocess.run(["kill", "-TERM", pid], capture_output=True, timeout=5)
+    except Exception:
+        pass
 
 
 def _ci_state(pr: dict):
@@ -480,7 +531,8 @@ def run(ctx):
         # conversation (-c) so accumulated context carries over across wakes.
         prev_conv = t.get("agy_conversation_id") or None
         globals()["_LAST_CONV_ID"] = None  # reset; _run_agy sets it from the envelope
-        ok, text = _run_agy_with_rotation(prompt, conversation_id=prev_conv)
+        ok, text = _run_agy_with_rotation(prompt, conversation_id=prev_conv,
+                                          task_file=f, task_id=tid)
         # persist the conversation id agy reported (stashed by _run_agy from the raw
         # JSON envelope — the returned text strips it), so next wake resumes it.
         _conv = globals().get("_LAST_CONV_ID") or prev_conv
@@ -507,6 +559,8 @@ def run(ctx):
             _save(f, t)
             processed.append(f"{tid} -> {new_status} ({rpt_id}; {detail})")
             _log_event(new_status, tid, t.get("title", ""), report=rpt_id, detail=detail)
+            if new_status == "done" and pr:
+                _cleanup_stale_ci_poller(pr.get("number"))  # fix #3: no more CI work for this PR
         else:
             _write_report(sprint_dir, rpt_id, t, "failed", "Eksekusi agy gagal.", text)
             t = _load(f) or t

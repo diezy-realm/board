@@ -27,7 +27,7 @@ author: kirocrew
 - [ ] Seluruh PR dibuka ke branch `testing` dengan CI `dev-ci` Required Gate hijau.
 
 ## Langkah Owner
-- Jawab Q8 dan Q9 PRD-002. Sprint ini hanya bergantung pada TASK-059 (Sprint 10). RULES §7 hanya mengizinkan satu sprint aktif; bila TLS ingin lebih cepat, Owner boleh mengaktifkan Sprint 15 tepat setelah Sprint 10 selesai (pengecualian urutan, dicatat di `notes` SPRINT.md sesuai RULES amendment §A4). Bila dikerjakan sebelum Sprint 14, TASK-096 perlu rebase.
+- Jawab Q8 dan Q9 PRD-002. Sprint ini hanya bergantung pada TASK-059 (Sprint 10). RULES §7 hanya mengizinkan satu sprint aktif; bila TLS ingin lebih cepat, Owner boleh mengaktifkan Sprint 15 setelah Sprint 10 selesai, tetapi TIDAK otomatis (sprint-11 harus di-`hold` dulu; prosedur di RULES amandemen A4) (pengecualian urutan, dicatat di `notes` SPRINT.md sesuai RULES amendment §A4). Bila dikerjakan sebelum Sprint 14, TASK-096 perlu rebase.
 
 ## Referensi & Pedoman
 - Spesifikasi Teknis: `specs/SPEC-017.md`

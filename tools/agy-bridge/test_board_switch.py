@@ -49,6 +49,7 @@ for state, want in (("success", "review"), ("pending", "review"), (None, "review
 
 # CI trigger: only a head without a final verdict starts CI; green and red never do.
 task("TASK-2", "done")      # leftover from the loop above; keep this block self-contained
+task("TASK-1", "done")      # _prime_ci() starts CI for any non-review/non-done task with an open PR
 started = []
 B._trigger_ci = lambda n, sha: started.append((n, sha))
 for state, want in (("success", 0), ("failure", 0), (None, 1), ("pending", 1), ("error", 1)):

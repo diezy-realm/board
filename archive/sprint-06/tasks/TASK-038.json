@@ -1,0 +1,30 @@
+{
+  "id": "TASK-038",
+  "type": "task",
+  "title": "T3-08: Audit dan Pemusnahan Sisa Rujukan Legacy Runtime RPC Caller",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "BE",
+    "Rust",
+    "Cleanup",
+    "RPC"
+  ],
+  "source_spec": "SPEC-007",
+  "source_backlog": "BL-007",
+  "description": "Gunakan skill squad-backend.\n\nLakukan audit dan penghapusan menyeluruh terhadap modul legacy RPC subsistem lama yang sudah digantikan oleh arsitektur gRPC / Axum:\n1. Cari dan identifikasi seluruh rujukan peninggalan legacy runtime rpc di crates/clawcrew-gateway dan crates/clawcrew-runtime.\n2. Hapus modul RPC usang dan migrasikan caller ke interface gRPC baru.\n3. Verifikasi 0 referensi legacy RPC tersisa di codebase.\n4. Verifikasi: cargo check --workspace && cargo nextest run --locked lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-037 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-08-cleanup-legacy-rpc.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Seluruh modul legacy RPC runtime lama dihapus",
+    "0 caller tersisa pada subsystem RPC usang",
+    "cargo check --workspace lolos 0 error",
+    "cargo nextest run --locked lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-092",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:55:00Z",
+  "updated": "2026-10-27T16:25:08.828022+00:00",
+  "notes": "PR #88 updated with rustfmt fixes (commit 49a7d033e). Format gate 100% clean. | PR #88 merged (auto-merge) 2026-10-27T16:25",
+  "agy_conversation_id": "def9fcfb-dd1d-498e-a895-ee911d42c59d"
+}

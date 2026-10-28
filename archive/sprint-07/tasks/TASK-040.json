@@ -1,0 +1,30 @@
+{
+  "id": "TASK-040",
+  "type": "task",
+  "title": "T3-20: Pembuatan Subcommand galleon service install/status/uninstall Non-Root",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "CLI",
+    "DevOps",
+    "Systemd",
+    "Packaging"
+  ],
+  "source_spec": "SPEC-008",
+  "source_backlog": "BL-008",
+  "description": "Gunakan skill squad-backend.\n\nImplementasikan command instalasi daemon service OS non-root (SPEC-008):\n1. Buat subcommand CLI `galleon service install/status/uninstall`.\n2. Untuk Linux: generate file unit systemd user di ~/.config/systemd/user/galleon.service.\n3. Untuk macOS: generate plist launchd setara di ~/Library/LaunchAgents/.\n4. Pastikan daemon berjalan murni dengan user privilege (non-root).\n5. Verifikasi: unit file tervalidasi dan command status/uninstall bekerja simetris.\n\nPRASYARAT (DEPENDENCY): TASK-039 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-20-service-installer-cli.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Subcommand CLI service install/status/uninstall berfungsi baik",
+    "Unit systemd user dihasilkan di path ~/.config/systemd/user/ tanpa root",
+    "Daemon berjalan sebagai user biasa",
+    "cargo check -p clawcrew-commands --tests lolos 0 error",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-093",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:55:00Z",
+  "updated": "2026-10-27T19:10:50.910679+00:00",
+  "notes": "auto-retry 1/3 2026-10-27T18:00 | PR #89 merged to testing 2026-10-27T19:09:31Z with all required gates green.",
+  "agy_conversation_id": "d1fa2beb-e8b5-437a-bb49-e4d53274a8f6"
+}

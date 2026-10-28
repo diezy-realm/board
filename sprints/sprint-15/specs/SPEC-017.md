@@ -3,7 +3,7 @@ id: SPEC-017
 type: spec
 spec_kind: tech
 title: Pemulihan wiring serve gateway (TLS, public-bind, path_prefix, tunnel) + ekstraksi crate galleon-tunnel
-status: draft
+status: approved
 source_prd: PRD-002
 author: kirocrew
 created: 2026-10-29
@@ -19,7 +19,7 @@ Commit `db18a3745` ("feat: refactoring rust") menulis ulang `run_gateway_with_pl
 4. **Tunnel** (`[tunnel]`): OLD memanggil `galleon_runtime::tunnel::create_tunnel` lalu `start(host, port)` (OLD:1574–1605). Sekarang `create_tunnel` hanya dipanggil test (`src/tunnel/mod.rs`) → modul 1.828 LOC tidak pernah dijalankan.
 5. Modularitas: `tunnel` hanya bergantung pada `galleon_config`, `galleon_log`, `galleon_spawn`, `anyhow`, `tokio` dan tidak punya pemakai `crate::tunnel` lain di runtime → kandidat ekstraksi paling aman (MOD-03).
 
-Catatan prioritas: masalah 1–3 ada **hari ini** dan tidak bergantung pada penghapusan Go. Sprint ini hanya bergantung pada BL-087 (layer + ConnectInfo, TASK-059), sehingga Owner boleh mengaktifkannya tepat setelah Sprint 10 (pengecualian urutan, RULES amendment §A4).
+Catatan prioritas: masalah 1–3 ada **hari ini** dan tidak bergantung pada penghapusan Go. Sprint ini hanya bergantung pada BL-087 (layer + ConnectInfo, TASK-059), sehingga Owner boleh mengaktifkannya setelah Sprint 10 (pengecualian urutan, bukan otomatis: sprint-11 harus di-`hold` dulu, RULES amendment §A4).
 
 ## Solusi yang Diusulkan (Proposed Solution)
 Prinsip sama dengan SPEC-012: **pulihkan dari OLD, jangan rancang ulang**; ganti `clawcrew_*`→`galleon_*`, `println!` → `::galleon_log::record!` (`clippy.toml` melarang `println!`).
@@ -53,4 +53,4 @@ Tidak ada rute baru. Perubahan perilaku yang disengaja: (a) bila `tls.enabled`, 
 - TASK-105: `cargo nextest run -p galleon-tunnel` (test pindah dari `src/tunnel/mod.rs`), `cargo test --test architecture`, `cargo tree -p galleon-tunnel --edges normal --depth 1`.
 
 ## Rollout / Migrasi
-094 → 095 → 096 → 097. Tiap task satu PR. Rollback: revert PR (konfigurasi pengguna tidak berubah).
+102 → 103 → 104 → 105. Tiap task satu PR. Rollback: revert PR (konfigurasi pengguna tidak berubah).

@@ -1,0 +1,29 @@
+{
+  "id": "TASK-035",
+  "type": "task",
+  "title": "T3-05b: Ekstraksi Turn Execution & Context Assembly ke Engine Go (engine/domain/crew)",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "BE",
+    "Go",
+    "Turn",
+    "Orchestration"
+  ],
+  "source_spec": "SPEC-006",
+  "source_backlog": "BL-006",
+  "description": "Gunakan skill squad-backend.\n\nPindahkan logika perakitan prompt context, eksekusi giliran turn, dan token counting ke domain engine Go (engine/domain/crew):\n1. Implementasikan context resolution dan turn lifecycle loop di Go engine.\n2. Delegasikan pemanggilan tool execution dan model LLM provider melalui Go runtime pipeline.\n3. Pertahankan kompatibilitas output turn dengan test fixture yang ada.\n4. Verifikasi: go test -v ./engine/domain/crew/... lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-034 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-05b-turn-extraction-go.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "Turn execution berhasil dieksekusi secara native di engine Go",
+    "Context prompt assembly dan token calculation terbukti akurat",
+    "go test -v ./engine/domain/crew/... lolos 0 error",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-081",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:55:00Z",
+  "updated": "2026-10-27T03:52:19.227012+00:00",
+  "notes": "Selesai. PR #84 (feat/t3-05b-turn-extraction-go) hijau pada CI dev-ci (Required Gate passed). Seluruh pengujian go test -v -race ./engine/domain/crew/... dan ./engine/src/crew/... lulus 100%. Siap di-review dan di-merge oleh Owner/KiroCrew.",
+  "agy_conversation_id": "8a4412f6-0c70-42c6-a41d-20384e88f8d1"
+}

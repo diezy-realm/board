@@ -2,7 +2,7 @@
   "id": "TASK-057",
   "type": "task",
   "title": "Terapkan RULES/TEMPLATES amendment ke board",
-  "status": "todo",
+  "status": "done",
   "assignee": "kirocrew",
   "role": "backend",
   "tags": [
@@ -17,9 +17,9 @@
     "TEMPLATES.md memuat field BRANCH/Alokasi/PRASYARAT",
     "validate.py --all tidak menambah error"
   ],
-  "report": null,
+  "report": "RPT-109",
   "author": "kirocrew",
   "created": "2026-10-29T10:00:00Z",
-  "updated": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-28T19:27:04.968443+00:00",
   "notes": ""
 }

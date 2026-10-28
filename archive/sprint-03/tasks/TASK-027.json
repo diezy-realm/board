@@ -5,7 +5,11 @@
   "status": "done",
   "assignee": "agy",
   "role": "backend",
-  "tags": ["BE", "Rust", "Gateway"],
+  "tags": [
+    "BE",
+    "Rust",
+    "Gateway"
+  ],
   "source_spec": "SPEC-004",
   "source_backlog": "BL-004",
   "description": "Gunakan skill squad-backend.\n\nEksekusi pemecahan file crates/clawcrew-gateway/src/api_config.rs (4.940 baris) menjadi direktori modul api_config/ sesuai pola SAFE RF-A (SPEC-004):\n1. Buat direktori crates/clawcrew-gateway/src/api_config/\n2. Pisahkan unit test mod tests (baris 2626-4940) ke crates/clawcrew-gateway/src/api_config/tests.rs\n3. Ekstrak logika patch & persist_and_swap ke patch.rs, drift detection ke drift.rs, dan DTO/route entry ke mod.rs\n4. Pertahankan semua public re-export agar caller eksternal (src/main.rs, handlers, test_state) tidak terpengaruh\n5. Verifikasi: cargo check -p clawcrew-gateway && cargo nextest run -p clawcrew-gateway --locked lulus 100%.\n\nBRANCH: testing -> feat/t3-04-split-gateway-api-config.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
@@ -17,8 +21,10 @@
     "cargo nextest run -p clawcrew-gateway --locked lulus 100%",
     "PR dibuka ke branch testing dan CI dev-ci hijau"
   ],
-  "report": "RPT-027",
+  "report": "RPT-063",
   "author": "kirocrew",
   "created": "2026-10-22T09:58:00Z",
-  "updated": "2026-10-22T03:22:00Z"
+  "updated": "2026-10-22T06:00:16.652873+00:00",
+  "agy_conversation_id": "1be80941-3d60-4772-b24c-cf8235337102",
+  "notes": "CI merah PR #72 (Principle), perbaikan 1/3 2026-10-22T03:30 | PR #72 merged 2026-10-22T06:00"
 }

@@ -3,9 +3,9 @@ id: sprint-01
 type: sprint
 goal: Fondasi — setup board, konvensi kerja, dan koordinasi KiroCrew ⇄ agy
 category: Foundation
-status: active
+status: done
 start: 2026-10-12
-end:
+end: 2026-10-17
 author: kirocrew
 ---
 # Sprint 01 — Foundation

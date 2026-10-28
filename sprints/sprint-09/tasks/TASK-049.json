@@ -2,7 +2,7 @@
   "id": "TASK-049",
   "type": "task",
   "title": "Hotfix build: selektor -p zerocode -> galleoncode di Dockerfile*, Containerfile, PKGBUILD",
-  "status": "todo",
+  "status": "in-progress",
   "assignee": "agy",
   "role": "backend",
   "tags": [
@@ -22,6 +22,6 @@
   "report": null,
   "author": "kirocrew",
   "created": "2026-10-29T10:00:00Z",
-  "updated": "2026-10-29T10:00:00Z",
+  "updated": "2026-10-28T19:31:32.652754+00:00",
   "notes": ""
 }

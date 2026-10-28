@@ -11,7 +11,7 @@
 ## A2. Ukuran task (perketat §3 dan §7)
 - Satu task = satu PR = **≤ 1 jam** kerja agent. Deskripsi task memuat `BRANCH: testing -> feat/<unik>`, `Alokasi pengerjaan: <= 1 jam`, dan (bila ada) `PRASYARAT (DEPENDENCY): TASK-xxx`.
 - Branch **wajib** diawali `feat/` — `tools/agy-bridge/board_agy_bridge.py::_expected_branch` hanya mengenali `feat/...`; tanpa itu auto-unblock (`board_switch.py`) tidak pernah terpicu.
-- Bila pelaksana menilai task > 1 jam, ia berhenti, menulis RPT `partial` berisi sisa pekerjaan, dan KiroCrew memecah task (bukan memperpanjang).
+- Bila pelaksana menilai task > 1 jam, ia **tidak berhenti tanpa PR**: bridge hanya menerima hasil bila branch ter-push dan PR terbuka (`board_agy_bridge.py::_verify_agy_delivered`); tanpa itu task jatuh ke `blocked` dan hanya di-retry `MAX_AUTO_RETRY=3` kali (`board_switch.py::unblock`), lalu menunggu tombol retry manual. Pelaksana mem-push bagian yang sudah hijau, membuka PR, menulis bagian 'Sisa pekerjaan' di deskripsi PR, dan menandai test yang belum beres `#[ignore = "<TASK-id> sisa"]`. Lead membuat task lanjutan dari deskripsi PR itu (bukan memperpanjang task).
 - `PRASYARAT` hanya efektif bila task prasyarat berada di **sprint aktif yang sama** (`board_switch.py::unblock` hanya membaca sprint aktif). Task pertama sebuah sprint dibuat `todo`; prasyarat lintas-sprint ditegakkan oleh aktivasi sprint (A3).
 
 ## A3. Status sprint `planning` dan aktivasi (tambahan §5 dan §7)
@@ -25,7 +25,8 @@
   5. Isi `start:` dan `end:` di front-matter.
 
 ## A4. Pengecualian urutan sprint (tambahan §7)
-- Aturan "sekuensial, tidak melompat" tetap berlaku untuk **nomor** sprint. Owner boleh mengaktifkan sprint `planning` bernomor lebih besar lebih dulu bila semua prasyaratnya sudah `done`; keputusan dicatat satu baris di bagian "Langkah Owner" `SPRINT.md` (tanggal + alasan). Contoh yang diizinkan: Sprint 15 (TLS) setelah Sprint 10.
+- Aturan "sekuensial, tidak melompat" tetap berlaku untuk **nomor** sprint, dan itu juga perilaku otomatis: `sprint-manager.py auto` (timer `board-sprint`) menutup sprint yang semua task-nya `done` lalu mengaktifkan sprint-NN+1 yang berstatus `planning`, **tanpa** memeriksa §A3 (PRD/SPEC `approved`). Karena itu SPEC sprint berikutnya sudah harus `approved` sebelum sprint berjalan selesai.
+- Mendahulukan sprint bernomor lebih besar (mis. Sprint 15 setelah Sprint 10) **tidak otomatis**. Prosedur: sebelum Sprint 10 ditutup, ubah `status: planning` pada `sprints/sprint-11/SPRINT.md` menjadi `status: hold` (hanya `planning` yang diaktifkan otomatis, `hold` dilewati); setelah Sprint 10 tertutup, Owner mengubah Sprint 15 menjadi `active` dan mengisi `start`/`end`, dengan satu baris alasan di "Langkah Owner"; setelah Sprint 15 tertutup, Owner mengembalikan sprint-11 menjadi `active` secara manual. Default program ini tetap berurutan 09 → 15.
 - Tetap hanya satu sprint `active` pada satu waktu.
 
 ## A5. Bukti di Report (perketat §4)
@@ -34,3 +35,11 @@
 
 ## A6. CI lokal Owner
 - GitHub Actions dinonaktifkan; gate nyata adalah `~/Apps/dev-ci` (`.github/workflows/ci.yml:3–5`). Script gate baru yang ditambahkan task (`check_no_go.sh`, `check_production_unwrap.py`, `brand_gate.sh`) harus juga didaftarkan Owner di `gates.sh`; task mencatat langkah ini di RPT.
+- **Gate `Test` berstatus advisory** (`~/Apps/dev-ci/repos/galleon-fleet/gates.sh`, daftar `LIST`: `Test|heavy|none|25|1`; keputusan Owner 2026-10-17). Akibatnya test yang gagal **tidak** memblokir auto-merge ke `testing`, sehingga janji ODR-29 ("kontrak berubah tanpa snapshot = CI merah") belum ditegakkan. Disarankan sebelum TASK-059 merged: tambahkan gate non-advisory `Contract` yang menjalankan `cargo nextest run --locked -p galleon-gateway -p galleon-fleet-core` (cakupan sempit, bukan seluruh workspace).
+- **Tidak ada lane Go di `gates.sh`** (tidak ada `go test`/`go vet`), dan `has_rust_changes` hanya melihat `*.rs`/`Cargo.toml`/`Cargo.lock`. PR yang hanya mengubah `engine/*.go` (TASK-055) lolos Required Gate tanpa satu pun test Go. Karena itu RPT TASK-055 wajib memuat output `go test` asli (A5).
+- PR yang hanya mengubah Dockerfile/workflow (TASK-049, TASK-050) juga tidak menjalankan gate Rust; bukti berasal dari RPT (`cargo check -p galleoncode -p galleonrelay`).
+- `agy-bridge.service` memakai `PATH` sendiri. `rg`, `node`, `npm` hanya ada di linuxbrew, jadi `/home/linuxbrew/.linuxbrew/bin` **ditambahkan di akhir** `PATH` unit tersebut (2026-10-29); perintah verifikasi di task boleh memakai `rg`. `cargo-nextest` ditemukan lewat `$CARGO_HOME/bin`.
+
+## A7. Penutupan sprint
+- `sprint-manager.py auto` menutup sebuah sprint hanya bila **semua** task-nya `done`, termasuk task berassignee `kirocrew`. Task milik KiroCrew tidak diambil bridge; Lead wajib menandainya `done` (dengan RPT) agar sprint tidak berhenti diam-diam.
+- Setelah sprint ditutup, sprint-NN+1 `planning` otomatis menjadi `active` (lihat A4); pastikan PRD/SPEC-nya `approved` dan Owner sudah menjawab pertanyaan terbuka yang relevan sebelum itu.

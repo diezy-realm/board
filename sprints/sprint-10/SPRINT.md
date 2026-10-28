@@ -31,6 +31,7 @@ author: kirocrew
 - [ ] Seluruh PR dibuka ke branch `testing` dengan CI `dev-ci` Required Gate hijau.
 
 ## Langkah Owner
+- Sebelum TASK-059 merged: tambahkan gate non-advisory `Contract` (`cargo nextest run --locked -p galleon-gateway -p galleon-fleet-core`) ke `~/Apps/dev-ci/repos/galleon-fleet/gates.sh`; gate `Test` advisory tidak memblokir auto-merge (RULES amandemen A6).
 - Bila toolchain Go tidak ada di mesin agent, jalankan `scripts/contract/record_go_fixtures.sh` di mesin lokal (TASK-065).
 
 ## Referensi & Pedoman

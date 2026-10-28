@@ -4,15 +4,24 @@
 Commands:
   status [NN]           show task done/total per sprint (default: all active sprints)
   close NN              close sprint-NN: carry over unfinished tasks to next sprint,
-                        then move the whole sprint folder to archive/.
+                        move the whole sprint folder to archive/, then activate the
+                        next sprint (sprint-NN+1) if it exists and is still 'planning'.
   new NN [category]     scaffold sprints/sprint-NN with SPRINT.md + specs/tasks/reports.
   carryover NN          only move unfinished tasks of sprint-NN to the next sprint.
+  auto                  scan all active (non-archived) sprints; close+advance every
+                        one that is ALL DONE. Generic — no sprint number hardcoded.
+                        Safe to run repeatedly (idempotent: nothing left in sprints/
+                        that is ALL DONE after a run is closed again).
 
 Rules enforced (see RULES.md):
   - A sprint is CLOSE-ABLE only when every task is 'done'. Unfinished tasks are
     carried over FIRST (so the sprint ends empty of open work), THEN archived.
   - Carry-over copies the task JSON into the next sprint, resets status to 'todo',
     stamps carried_from, and keeps the original in the archived sprint for history.
+  - Closing sprint-NN ACTIVATES sprint-NN+1 automatically (status: planning -> active,
+    stamps start:) so the board never sits with zero active sprint. This only flips
+    the flag — it never invents tasks/specs; sprint-NN+1 must already exist on disk
+    (scaffold it with `new` ahead of time, e.g. during sprint planning).
 Zero deps. Run from anywhere; paths are absolute to the board.
 """
 import json
@@ -102,6 +111,27 @@ def carryover(nn):
     print(f"carry-over {len(moved)} task ke sprint-{nxt:02d}:", ", ".join(moved))
     return moved
 
+def activate_next(nn):
+    """Flip sprint-NN+1 from 'planning' to 'active' and stamp start:, if it exists
+    and isn't already active/closed. Generic: works for any NN, no number hardcoded.
+    Never creates the next sprint folder — it must already be scaffolded (via `new`)."""
+    nxt = next_sprint_num(nn)
+    nd = sprint_dir(nxt)
+    sp = nd / "SPRINT.md"
+    if not sp.is_file():
+        print(f"ℹ sprint-{nxt:02d} belum di-scaffold — tidak ada sprint untuk diaktifkan otomatis.")
+        return False
+    txt = sp.read_text(encoding="utf-8")
+    if "status: planning" not in txt:
+        return False  # already active/closed/done — nothing to do, idempotent
+    txt = txt.replace("status: planning", "status: active", 1)
+    import re
+    txt = re.sub(r"^start:.*$", f"start: {now()[:10]}", txt, count=1, flags=re.M)
+    sp.write_text(txt, encoding="utf-8")
+    print(f"▶ sprint-{nxt:02d} diaktifkan (planning -> active)")
+    return True
+
+
 def close(nn):
     d = sprint_dir(nn)
     if not d.is_dir():
@@ -129,6 +159,29 @@ def close(nn):
     shutil.move(str(d), str(dest))
     print(f"✅ sprint-{int(nn):02d} ditutup & diarsipkan -> {dest.relative_to(BOARD)}")
     print("   (task yang belum done sudah di-carry-over sebelum diarsip)")
+    activate_next(nn)
+
+
+def auto():
+    """Scan every sprint under sprints/ (any number); close+advance each that is
+    ALL DONE. Generic — iterates whatever is on disk, no sprint number hardcoded.
+    Returns the list of sprint numbers closed this run."""
+    closed = []
+    # sorted so lower sprint numbers close first if several are done at once
+    dirs = sorted([d for d in SPRINTS.glob("sprint-*") if d.is_dir()],
+                   key=lambda p: p.name)
+    for d in dirs:
+        ts = tasks_of(d)
+        if not ts:
+            continue  # empty sprint (e.g. just scaffolded) — not "done", skip
+        if all((load_task(p) or {}).get("status") == "done" for p in ts):
+            nn = int(d.name.split("-")[1])
+            print(f"— sprint-{nn:02d} ALL DONE, menutup otomatis —")
+            close(nn)
+            closed.append(nn)
+    if not closed:
+        print("Tidak ada sprint yang siap ditutup otomatis.")
+    return closed
 
 def main():
     if len(sys.argv) < 2:
@@ -142,6 +195,8 @@ def main():
         new_sprint(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else "(tentukan)")
     elif cmd == "carryover":
         carryover(sys.argv[2])
+    elif cmd == "auto":
+        auto()
     else:
         print("perintah tidak dikenal:", cmd); print(__doc__); sys.exit(2)
 
