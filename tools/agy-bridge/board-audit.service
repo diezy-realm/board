@@ -1,0 +1,12 @@
+[Unit]
+Description=Board consistency + agy bridge-health audit (flags only, never auto-closes an EPIC)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env python3 %h/Apps/board/tools/agy-bridge/board_switch.py audit
+# Cheap gh/ps/git calls only; this is just an anti-wedge net.
+TimeoutStartSec=600
+Environment=HOME=%h
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin

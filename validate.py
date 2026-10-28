@@ -57,7 +57,8 @@ def _ref_exists(stage, prefix, value):
     # stage folders now live under product-backlog/<stage> or sprints/<sprint>/<stage>;
     # a referenced ID may live in any sprint, the product backlog, or archive -> search board-wide.
     for f in BOARD.rglob(f"{value}*{ext}"):
-        if f.parent.name == stage:
+        # Exact match on stem (filename without extension), not prefix
+        if f.stem == value and f.parent.name == stage:
             return True
     return False
 
@@ -100,6 +101,11 @@ def validate_text(stage, text, filename=""):
         val = meta.get(field)
         if val and not _ref_exists(refstage, refprefix, val):
             errs.append(f"{field}={val} merujuk file yang TIDAK ADA di {refstage}/")
+    # Optional field validation: notes, carried_from, report (only if present, no required check)
+    if meta.get("report") and not re.match(r"^RPT-\d{3,}$", str(meta["report"])):
+        errs.append(f"report format salah: '{meta['report']}' (harus RPT-NNN)")
+    if meta.get("carried_from") and not re.match(r"^sprint-\d{2}$", str(meta["carried_from"])):
+        errs.append(f"carried_from format salah: '{meta['carried_from']}' (harus sprint-NN)")
     return (len(errs) == 0), errs
 
 def validate_file(path):

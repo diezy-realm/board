@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the sprint lifecycle (close ALL-DONE sprint, activate next)
+
+[Timer]
+# Reboot-safe wall-clock schedule (see agy-bridge.timer for why not OnUnitActiveSec).
+OnCalendar=*:0/15
+Persistent=true
+Unit=board-sprint.service
+
+[Install]
+WantedBy=timers.target
