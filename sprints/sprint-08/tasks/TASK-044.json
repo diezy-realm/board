@@ -1,0 +1,29 @@
+{
+  "id": "TASK-044",
+  "type": "task",
+  "title": "T3-17: Rename Massal Berseri 27 Crate Rust Bawah-ke-Atas (clawcrew-runtime Terakhir)",
+  "status": "done",
+  "assignee": "agy",
+  "role": "backend",
+  "tags": [
+    "Rebranding",
+    "Rust",
+    "Crates",
+    "Cargo"
+  ],
+  "source_spec": "SPEC-009",
+  "source_backlog": "BL-009",
+  "description": "Gunakan skill squad-lead dan squad-backend.\n\nEksekusi pemindahan nama 27 crate Rust dari clawcrew-* menjadi galleon-* secara bertahap berseri bawah-ke-atas dependency graph (SPEC-009):\n1. Urutkan berdasarkan dependency graph cargo metadata (leaf crates duluan, api/config berikutnya, dan runtime paling terakhir).\n2. Setiap crate: lakukan git mv, perbarui Cargo.toml nama package dan seluruh dependency pemanggilnya.\n3. Jalankan cargo check --workspace di setiap crate yang selesai di-rename untuk mendeteksi import yang patah.\n4. Rename crate clawcrew-runtime menjadi galleon-runtime sebagai langkah penutup.\n5. Verifikasi: cargo check --workspace && cargo nextest run --locked lulus 100%.\n\nPRASYARAT (DEPENDENCY): TASK-043 selesai & PR merged ke testing.\nBRANCH: testing -> feat/t3-17-rename-crates-bottom-up.\nTarget PR ke branch testing. Alokasi pengerjaan: <= 1 jam.",
+  "acceptance": [
+    "27 crate Rust berhasil di-rename menjadi galleon-*",
+    "clawcrew-runtime adalah crate terakhir yang di-rename menjadi galleon-runtime",
+    "cargo check --workspace lolos 0 error setelah seluruh crate termigrasi",
+    "cargo nextest run --locked lulus 100%",
+    "PR dibuka ke branch testing dan CI dev-ci hijau"
+  ],
+  "report": "RPT-101",
+  "author": "kirocrew",
+  "created": "2026-10-22T12:55:00Z",
+  "updated": "2026-10-28T06:58:30.000000+00:00",
+  "notes": "PR #93 merged to testing (commit a413dd8a4). CI Required Gate passed on head 2ed2af0a. 27 crates successfully renamed to galleon-*."
+}
